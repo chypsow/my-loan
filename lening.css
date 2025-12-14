@@ -23,8 +23,10 @@ fieldset{
     gap: .5rem;
     height: 11rem;
     /*font-size: 1.15rem;*/
-    background: var(--glass);
-    padding:.8rem;
+    /*background: var(--glass);*/
+    border-top: 1px solid rgba(221, 221, 221, 0.205);
+    padding-top: 1rem;
+    /*padding:.8rem;*/
     border-radius:4px;
     /*color:#ffffff;*/
 }

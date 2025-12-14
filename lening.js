@@ -4,7 +4,7 @@ const fmtCurrency = new Intl.NumberFormat("nl-BE", { style: "currency", currency
 const fmtNumber = (n, digits = 2) => Number.isFinite(n) ? n.toFixed(digits) : "0.00";
 
 // UI Elements
-const leningDOM = {};
+//const DOM.app01 = {};
 export function renderApp02() {
     const root = DOM.app02;
     root.style.display = "block";
@@ -43,19 +43,19 @@ export function renderApp04() {
 }
 
 const assignElts = () => {
-    leningDOM.pmtEl = $("#pmt");
-    leningDOM.renteEl = $("#rente");
-    leningDOM.periodeJaarEl = $("#periodeJaar");
-    leningDOM.interestenEl = $("#interesten");
-    leningDOM.renteType = $("#renteType");
-    leningDOM.datumEl = $("#startDatum");
-    leningDOM.aflossingBtn = $("#aflossingBtn");
-    leningDOM.afdrukkenBtn = $("#afdrukken");
-    leningDOM.aflossingTable = $("#aflossingstabel");
-    leningDOM.tableInhoud = $("#tableInhoud");
-    leningDOM.leningOverzicht = $("#leningOverzicht");
-    leningDOM.inputsNumber = $all(".invoer");
-    leningDOM.outputsText = [leningDOM.pmtEl, leningDOM.renteEl, leningDOM.periodeJaarEl, leningDOM.interestenEl];
+    DOM.app01.pmtEl = $("#pmt");
+    DOM.app01.renteEl = $("#rente");
+    DOM.app01.periodeJaarEl = $("#periodeJaar");
+    DOM.app01.interestenEl = $("#interesten");
+    DOM.app01.renteType = $("#renteType");
+    DOM.app01.datumEl = $("#startDatum");
+    DOM.app01.aflossingBtn = $("#aflossingBtn");
+    DOM.app01.afdrukkenBtn = $("#afdrukken");
+    DOM.app01.aflossingTable = $("#aflossingstabel");
+    DOM.app01.tableInhoud = $("#tableInhoud");
+    DOM.app01.leningOverzicht = $("#leningOverzicht");
+    DOM.app01.inputsNumber = $all(".invoer");
+    DOM.app01.outputsText = [DOM.app01.pmtEl, DOM.app01.renteEl, DOM.app01.periodeJaarEl, DOM.app01.interestenEl];
 }
 
 // Main function to create the app01 and initialize the calculator
@@ -80,30 +80,30 @@ export function renderApp01() {
     updateSummary();
 
     // Event listeners/* Events */
-    leningDOM.inputsNumber.forEach(inp => inp.addEventListener("input", () => {
+    DOM.app01.inputsNumber.forEach(inp => inp.addEventListener("input", () => {
         updateSummary();
         // regenerate table only if visible
-        if (!leningDOM.aflossingTable.hidden) generateSchedule();
+        if (!DOM.app01.aflossingTable.hidden) generateSchedule();
     }));
 
-    leningDOM.renteType.addEventListener("change", () => {
+    DOM.app01.renteType.addEventListener("change", () => {
         updateSummary();
-        if (!leningDOM.aflossingTable.hidden) generateSchedule();
+        if (!DOM.app01.aflossingTable.hidden) generateSchedule();
     });
 
-    leningDOM.datumEl.addEventListener("change", () => {
-        if (!leningDOM.aflossingTable.hidden) generateSchedule();
+    DOM.app01.datumEl.addEventListener("change", () => {
+        if (!DOM.app01.aflossingTable.hidden) generateSchedule();
     });
 
-    leningDOM.aflossingBtn.addEventListener("click", () => {
-        if (leningDOM.aflossingTable.hidden) {
+    DOM.app01.aflossingBtn.addEventListener("click", () => {
+        if (DOM.app01.aflossingTable.hidden) {
             generateSchedule();
         } else {
-            leningDOM.aflossingTable.hidden = true;
-            leningDOM.afdrukkenBtn.style.visibility = "hidden";
+            DOM.app01.aflossingTable.hidden = true;
+            DOM.app01.afdrukkenBtn.style.visibility = "hidden";
         }
     });
-    leningDOM.afdrukkenBtn.addEventListener("click", printData);
+    DOM.app01.afdrukkenBtn.addEventListener("click", printData);
 }
 
 
@@ -235,10 +235,10 @@ function parseInputs() {
 }
 
 function resetOutputs() {
-    leningDOM.outputsText.forEach(o => o.value = "");
-    leningDOM.afdrukkenBtn.style.visibility = "hidden";
-    leningDOM.aflossingTable.hidden = true;
-    leningDOM.aflossingBtn.disabled = true;
+    DOM.app01.outputsText.forEach(o => o.value = "");
+    DOM.app01.afdrukkenBtn.style.visibility = "hidden";
+    DOM.app01.aflossingTable.hidden = true;
+    DOM.app01.aflossingBtn.disabled = true;
 }
 
 function monthlyRate(jkp, type) {
@@ -264,11 +264,11 @@ function updateSummary() {
     const { bedrag, jkp, periode, renteType: type } = inputs;
     const i = monthlyRate(jkp, type);
     const betaling = computePayment(bedrag, i, periode);
-    leningDOM.pmtEl.value = fmtCurrency.format(+betaling.toFixed(2));
-    leningDOM.renteEl.value = (i * 100).toFixed(4) + " %";
-    leningDOM.periodeJaarEl.value = (periode / 12).toFixed(2) + " jaar";
-    leningDOM.interestenEl.value = fmtCurrency.format((betaling * periode - bedrag));
-    leningDOM.aflossingBtn.disabled = false;
+    DOM.app01.pmtEl.value = fmtCurrency.format(+betaling.toFixed(2));
+    DOM.app01.renteEl.value = (i * 100).toFixed(4) + " %";
+    DOM.app01.periodeJaarEl.value = (periode / 12).toFixed(2) + " jaar";
+    DOM.app01.interestenEl.value = fmtCurrency.format((betaling * periode - bedrag));
+    DOM.app01.aflossingBtn.disabled = false;
 }
 
 function generateSchedule() {
@@ -277,12 +277,12 @@ function generateSchedule() {
     const { bedrag, jkp, periode, renteType: type } = inputs;
     const i = monthlyRate(jkp, type);
     const betaling = computePayment(bedrag, i, periode);
-    leningDOM.tableInhoud.innerHTML = "";
-    leningDOM.aflossingTable.hidden = false;
-    leningDOM.afdrukkenBtn.style.visibility = "visible";
+    DOM.app01.tableInhoud.innerHTML = "";
+    DOM.app01.aflossingTable.hidden = false;
+    DOM.app01.afdrukkenBtn.style.visibility = "visible";
 
     // Start date
-    let currentDate = leningDOM.datumEl.valueAsDate ? new Date(leningDOM.datumEl.valueAsDate) : new Date();
+    let currentDate = DOM.app01.datumEl.valueAsDate ? new Date(DOM.app01.datumEl.valueAsDate) : new Date();
     // Ensure we show the starting month as provided (don't move before first row)
     const fmtDate = d => new Date(d).toLocaleDateString("nl-BE");
 
@@ -323,25 +323,25 @@ function generateSchedule() {
             tr.appendChild(td);
         }
 
-        leningDOM.tableInhoud.appendChild(tr);
+        DOM.app01.tableInhoud.appendChild(tr);
         balance = newBalance;
         if (balance <= 0) break;
     }
 }
 
 function preparePrintOverview() {
-    leningDOM.leningOverzicht.innerHTML = "";
+    DOM.app01.leningOverzicht.innerHTML = "";
     const inputs = parseInputs();
     const li = (text) => {
         const el = document.createElement("li");
         el.textContent = text;
-        leningDOM.leningOverzicht.appendChild(el);
+        DOM.app01.leningOverzicht.appendChild(el);
     };
     li("Te lenen bedrag: " + fmtCurrency.format(inputs.bedrag));
-    li("Maandelijkse aflossing: " + (leningDOM.pmtEl.value || "-"));
+    li("Maandelijkse aflossing: " + (DOM.app01.pmtEl.value || "-"));
     li("JKP: " + (inputs.jkp || "-") + " %");
     li("Periode: " + (inputs.periode || "-") + " maanden");
-    li("Totaal interesten: " + (leningDOM.interestenEl.value || "-"));
+    li("Totaal interesten: " + (DOM.app01.interestenEl.value || "-"));
 }
 
 function printData() {

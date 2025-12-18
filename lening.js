@@ -1,80 +1,41 @@
-import { DOM, $, $all, el } from './main.js';
+import { DOM, $, $all, el, showApp } from './main.js';
 
 const fmtCurrency = new Intl.NumberFormat("nl-BE", { style: "currency", currency: "EUR",maximumFractionDigits: 2 });
 const fmtDecimal = (digits = 2) => new Intl.NumberFormat("nl-BE", { style: "decimal", maximumFractionDigits: digits });
+const fmtDate = d => new Date(d).toLocaleDateString("nl-BE");
 //const fmtPercent = new Intl.NumberFormat("nl-BE", { style: "percent", maximumFractionDigits: 4 });
 
-export const renderApp = {
-    0: () => renderApp01(),
-    1: () => renderApp02(),
-    2: () => renderApp03(),
-    3: () => renderApp04()
-};
-// UI Elements
-export function renderApp02() {
-    const root = DOM.app02;
-    root.style.display = "block";
-    DOM.app01.style.display = "none";
-    DOM.app03.style.display = "none";
-    DOM.app04.style.display = "none";
-    if (root.innerHTML.trim() !== "") return; // Prevent re-initialization
 
-    root.classList.add("wrapper");
+// UI Elements
+
+export function renderApp02() {
+    showApp(2);
+    const root = DOM.app02;
+    if (root.innerHTML.trim() !== "") return; // Prevent re-initialization
     root.append(createHeader('CALCULATOR 1'));
     // Placeholder for future calculator 1 implementation
 }
 export function renderApp03() {
+    showApp(3);
     const root = DOM.app03;
-    root.style.display = "block";
-    DOM.app01.style.display = "none";
-    DOM.app02.style.display = "none";
-    DOM.app04.style.display = "none";
     if (root.innerHTML.trim() !== "") return; // Prevent re-initialization
-
-    root.classList.add("wrapper");
     root.append(createHeader('CALCULATOR 2'));
     // Placeholder for future calculator 2 implementation
 }
 export function renderApp04() {
+    showApp(4);
     const root = DOM.app04;
-    root.style.display = "block";
-    DOM.app01.style.display = "none";
-    DOM.app02.style.display = "none";
-    DOM.app03.style.display = "none";
     if (root.innerHTML.trim() !== "") return; // Prevent re-initialization
-
-    root.classList.add("wrapper");
     root.append(createHeader('CALCULATOR 3'));
     // Placeholder for future calculator 3 implementation
 }
 
-const assignElts = () => {
-    DOM.app01.pmtEl = $("#pmt");
-    DOM.app01.renteEl = $("#rente");
-    DOM.app01.periodeJaarEl = $("#periodeJaar");
-    DOM.app01.interestenEl = $("#interesten");
-    DOM.app01.renteType = $("#renteType");
-    DOM.app01.datumEl = $("#startDatum");
-    DOM.app01.aflossingBtn = $("#aflossingBtn");
-    DOM.app01.afdrukkenBtn = $("#afdrukken");
-    DOM.app01.aflossingTable = $("#aflossingstabel");
-    DOM.app01.tableInhoud = $("#tableInhoud");
-    DOM.app01.leningOverzicht = $("#leningOverzicht");
-    DOM.app01.inputsNumber = $all(".invoer");
-    DOM.app01.outputsText = [DOM.app01.pmtEl, DOM.app01.renteEl, DOM.app01.periodeJaarEl, DOM.app01.interestenEl];
-}
-
 // Main function to create the app01 and initialize the calculator
 export function renderApp01() {
+    showApp(1);
     const root = DOM.app01;
-    root.style.display = "block";
-    DOM.app02.style.display = "none";
-    DOM.app03.style.display = "none";
-    DOM.app04.style.display = "none";
-    if (root.innerHTML.trim() !== "") return; // Prevent re-initialization
+    if (root.innerHTML.trim() !== "") return; // Prevent re-initialization  
 
-    // Build UI
-    root.classList.add("wrapper");
     root.append(
         createHeader(),
         createHeading(),
@@ -82,40 +43,38 @@ export function renderApp01() {
         createButtons(),
         createTable()
     );
-    assignElts();
+    
     updateSummary();
 
     // Event listeners/* Events */
-    DOM.app01.inputsNumber.forEach(inp => inp.addEventListener("input", () => {
+    $all(".invoer").forEach(inp => inp.addEventListener("input", () => {
         inp.value = inp.value.replace(/\./g, ',');
         updateSummary();
         // regenerate table only if visible
-        if (!DOM.app01.aflossingTable.hidden) generateSchedule();
+        if (!$("#aflossingstabel").hidden) generateSchedule();
     }));
 
-    DOM.app01.renteType.addEventListener("change", () => {
+    $("#renteType").addEventListener("change", () => {
         updateSummary();
-        if (!DOM.app01.aflossingTable.hidden) generateSchedule();
+        if (!$("#aflossingstabel").hidden) generateSchedule();
     });
 
-    DOM.app01.datumEl.addEventListener("change", () => {
-        if (!DOM.app01.aflossingTable.hidden) generateSchedule();
+    $("#startDatum").addEventListener("change", () => {
+        if (!$("#aflossingstabel").hidden) generateSchedule();
     });
 
-    DOM.app01.aflossingBtn.addEventListener("click", () => {
-        if (DOM.app01.aflossingTable.hidden) {
+    $("#aflossingBtn").addEventListener("click", () => {
+        if ($("#aflossingstabel").hidden) {
             generateSchedule();
         } else {
-            DOM.app01.aflossingTable.hidden = true;
-            DOM.app01.afdrukkenBtn.style.visibility = "hidden";
+            $("#aflossingstabel").hidden = true;
+            $("#afdrukken").style.visibility = "hidden";
         }
     });
-    DOM.app01.afdrukkenBtn.addEventListener("click", printData);
+    $("#afdrukken").addEventListener("click", printData);
     $("#importBtn").addEventListener("click", importData);
     $("#exportBtn").addEventListener("click", exportData);
 }
-
-
 
 // Create Elements
 function createHeader(tekst = "LENING AFLOSSINGSSCHEMA") {
@@ -256,11 +215,11 @@ function updateSummary() {
     const { bedrag, jkp, periode, renteType: type } = inputs;
     const i = monthlyRate(jkp, type);
     const betaling = computePayment(bedrag, i, periode);
-    DOM.app01.pmtEl.value = fmtCurrency.format(betaling);
-    DOM.app01.renteEl.value = fmtDecimal(4).format(i * 100) + " %";
-    DOM.app01.periodeJaarEl.value = fmtDecimal(1).format(periode / 12) + " jaar";
-    DOM.app01.interestenEl.value = fmtCurrency.format((betaling * periode - bedrag));
-    DOM.app01.aflossingBtn.disabled = false;
+    $("#pmt").value = fmtCurrency.format(betaling);
+    $("#rente").value = fmtDecimal(4).format(i * 100) + " %";
+    $("#periodeJaar").value = fmtDecimal(1).format(periode / 12) + " jaar";
+    $("#interesten").value = fmtCurrency.format((betaling * periode - bedrag));
+    $("#aflossingBtn").disabled = false;
 }
 
 function parseInputs() {
@@ -272,10 +231,11 @@ function parseInputs() {
 }
 
 function resetOutputs() {
-    DOM.app01.outputsText.forEach(o => o.value = "");
-    DOM.app01.afdrukkenBtn.style.visibility = "hidden";
-    DOM.app01.aflossingTable.hidden = true;
-    DOM.app01.aflossingBtn.disabled = true;
+    const outputsText = [$("#pmt"), $("#rente"), $("#periodeJaar"), $("#interesten")];
+    outputsText.forEach(o => o.value = "");
+    $("#afdrukken").style.visibility = "hidden";
+    $("#aflossingstabel").hidden = true;
+    $("#aflossingBtn").disabled = true;
 }
 
 function monthlyRate(jkp, type) {
@@ -298,15 +258,16 @@ function generateSchedule() {
     const { bedrag, jkp, periode, renteType: type } = inputs;
     const i = monthlyRate(jkp, type);
     const betaling = computePayment(bedrag, i, periode);
-    DOM.app01.tableInhoud.innerHTML = "";
-    DOM.app01.aflossingTable.hidden = false;
-    DOM.app01.afdrukkenBtn.style.visibility = "visible";
+
+    $("#tableInhoud").innerHTML = "";
+    $("#aflossingstabel").hidden = false;
+    $("#afdrukken").style.visibility = "visible";
 
     // Start date
-    let currentDate = DOM.app01.datumEl.valueAsDate ? new Date(DOM.app01.datumEl.valueAsDate) : new Date();
+    // startDateValue = $("#startDatum").valueAsDate;
+    let currentDate = $("#startDatum").valueAsDate ? new Date($("#startDatum").valueAsDate) : new Date();
     // Ensure we show the starting month as provided (don't move before first row)
-    const fmtDate = d => new Date(d).toLocaleDateString("nl-BE");
-
+    
     let balance = bedrag;
     let cumInterest = 0;
     let cumPrincipal = 0;
@@ -344,26 +305,25 @@ function generateSchedule() {
             tr.appendChild(td);
         }
 
-        DOM.app01.tableInhoud.appendChild(tr);
+        $("#tableInhoud").appendChild(tr);
         balance = newBalance;
         if (balance <= 0) break;
     }
 }
 
 function preparePrintOverview() {
-    DOM.app01.leningOverzicht.innerHTML = "";
+    $("#leningOverzicht").innerHTML = "";
     const inputs = parseInputs();
-    console.log(inputs.jkp);
     const li = (text) => {
         const el = document.createElement("li");
         el.textContent = text;
-        DOM.app01.leningOverzicht.appendChild(el);
+        $("#leningOverzicht").appendChild(el);
     };
     li("Te lenen bedrag: " + fmtCurrency.format(inputs.bedrag));
-    li("Maandelijkse aflossing: " + (DOM.app01.pmtEl.value || "-"));
+    li("Maandelijkse aflossing: " + ($("#pmt").value || "-"));
     li("JKP: " + (inputs.jkp.toString().replace('.', ',') || "-") + " %");
     li("Periode: " + (inputs.periode || "-") + " maanden");
-    li("Totaal interesten: " + (DOM.app01.interestenEl.value || "-"));
+    li("Totaal interesten: " + ($("#interesten").value || "-"));
 }
 
 function printData() {
@@ -387,10 +347,9 @@ function importData() {
             $("#periode").value = data.periode || "";
             $("#renteType").value = data.renteType || "1";
             $("#startDatum").value = data.startDatum || "";
-            //const jkpValue = data.jkp || "";
-            //$("#jkp").value = jkpValue ? jkpValue.toString().replace('.', ',') : "";
+            
             updateSummary();
-            if (!DOM.app01.aflossingTable.hidden) {
+            if (!$("#aflossingstabel").hidden) {
                 generateSchedule();
             }
         };
@@ -411,7 +370,7 @@ function exportData() {
         jkp: inputs.jkp,
         periode: inputs.periode,
         renteType: inputs.renteType,
-        startDatum: DOM.app01.datumEl.value
+        startDatum: $("#startDatum").value
     };
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
     const downloadAnchorNode = document.createElement('a');

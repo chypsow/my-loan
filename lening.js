@@ -6,13 +6,7 @@ const fmtDate = d => new Date(d).toLocaleDateString("nl-BE");
 //const fmtPercent = new Intl.NumberFormat("nl-BE", { style: "percent", maximumFractionDigits: 4 });
 
 // UI Elements
-export function renderApp02() {
-    showApp(2);
-    const root = $('#app02');
-    if (root.innerHTML.trim() !== "") return; // Prevent re-initialization
-    root.append(createHeader('CALCULATOR 1'));
-    // Placeholder for future calculator 1 implementation
-}
+
 export function renderApp03() {
     showApp(3);
     const root = $('#app03');
@@ -93,7 +87,7 @@ export function renderApp01() {
 }
 
 // Create Elements
-function createHeader(tekst = "LENING AFLOSSINGSSCHEMA") {
+export function createHeader(tekst = "LENING AFLOSSINGSSCHEMA") {
     return el("header", { class: "no-print" }, [
         el("h1", { text: tekst })
     ]);
@@ -246,7 +240,7 @@ function updateSummary() {
     $("#aflossingBtn").disabled = false;
 }
 
-function parseInputs() {
+export function parseInputs() {
     const bedrag = parseFloat($("#teLenenBedrag").value.replace(',', '.'));
     const jkp = parseFloat($("#jkp").value.replace(',', '.'));
     const periode = parseInt($("#periode").value.replace(',', '.'), 10);

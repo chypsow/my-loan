@@ -1,5 +1,6 @@
 
-import { renderApp01, renderApp02, renderApp03, renderApp04 } from './lening.js';
+import { renderApp01, renderApp03, renderApp04 } from './lening.js';
+import { renderApp02 } from './calculator.js';
 
 export let activePage = localStorage.getItem('activePage') ? parseInt(localStorage.getItem('activePage')) : 0;
 export const $ = selector => document.querySelector(selector);
@@ -39,7 +40,7 @@ const renderApp = {
 
 function makeSideBar() {
     const sidebar = $('#sidebar');
-    const tabArray = ['AFLOSSINGSTABEL', 'CALCULATOR 1', 'CALCULATOR 2', 'CALCULATOR 3'];
+    const tabArray = ['AFLOSSINGSTABEL', 'LENING STATUS'];
     sidebar.setAttribute('role', 'tablist');
     tabArray.forEach((tab, i) => {
         const hyperlink = document.createElement('a');
@@ -64,8 +65,9 @@ function makeSideBar() {
 };
 
 $('#menuBtn').addEventListener('click', () => {
-   $('#sidebar').classList.toggle('closed');
+    $('#sidebar').classList.toggle('closed');
     $('#menuBtn').classList.toggle('open');
+    $('.overlay').classList.toggle('active');
 });
 
 // Close sidebar when clicking outside (optional)
@@ -73,6 +75,7 @@ $('#menuBtn').addEventListener('click', () => {
     if (!$('#sidebar').contains(e.target) && !$('#menuBtn').contains(e.target)) {
         $('#sidebar').classList.add('closed');
         $('#menuBtn').classList.remove('open');
+        $('.overlay').classList.remove('active');
     }
 });*/
 

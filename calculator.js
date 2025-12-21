@@ -26,10 +26,12 @@ export function renderApp02() {
 }
 
 function overzichtInvullen() {
+    const bedragElement = $('#teLenenBedrag');
     const pmtElement = $('#pmt');
     const renteElement = $('#rente');
     const periodeElement = $('#periodeJaar');
     const interestenElement = $('#interesten');
+    if (bedragElement) $('#bedrag').textContent = fmtCurrency.format(bedragElement.value);
     if (pmtElement) $('#pmt2').textContent = pmtElement.value;
     if (renteElement) $('#rente2').textContent = renteElement.value;
     if (periodeElement) $('#periodeJaar2').textContent = periodeElement.value;
@@ -92,6 +94,9 @@ function createOverzicht() {
     return el("div", { class: "overzicht" }, [
         el("h2", { text: "Overzicht lening :", class: "overzicht-titel" }),
         el("div", { html: `
+            <p> Lening bedrag:
+                <span id="bedrag"></span>
+            </p>
             <p> Maandelijkse betaling:
                 <span id="pmt2"></span>
             </p>

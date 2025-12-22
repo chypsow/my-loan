@@ -32,6 +32,7 @@ function overzichtInvullen() {
     const periodeElement = $('#periodeJaar');
     const interestenElement = $('#interesten');
     const startdatumElement = $('#startDatum');
+    //const enddatumElement = $('#endDatum');
     if (bedragElement) $('#bedrag').textContent = fmtCurrency.format(bedragElement.value);
     if (pmtElement) $('#pmt2').textContent = pmtElement.value;
     if (renteElement) $('#rente2').textContent = renteElement.value;
@@ -46,20 +47,40 @@ function overzichtInvullen() {
                 day: 'numeric'
             });
             $('#startDatumDisplay').textContent = formattedDate;
+            //calcultae end date
+            const periodeJaarElement = $('#periodeJaar');
+            const periodeMaanden = periodeJaarElement ? parseInt(periodeJaarElement.value) * 12 : 0;
+            const endDate = new Date(startDate);
+            endDate.setMonth(endDate.getMonth() + periodeMaanden);
+            const formattedEndDate = endDate.toLocaleDateString('nl-NL', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            $('#endDatumDisplay').textContent = formattedEndDate;
         }
     }
 }
 
 function calculteTotals() {
     const inputs = parseInputs();
-    if (!inputs) return;
+    if (!inputs) {
+        alert('Ongeldige invoer. Controleer de leninggegevens.');
+        return;
+    }
     const { bedrag, jkp, periode, renteType: type } = inputs;
-    const currentDate = new Date($('.datum-status').value);
-    if (isNaN(currentDate.getTime())) return;
-    const startDate = new Date($('#startDatum').value);
-    if (isNaN(startDate.getTime())) return;
 
-    console.log('Calculating totals for date: ' + currentDate.toDateString());
+    const startDate = new Date($('#startDatum').value);
+    if (isNaN(startDate.getTime())) {
+        alert('Er is geen geldige startdatum voor de lening gevonden.');
+        return;
+    }
+    const currentDate = new Date($('.datum-status').value);
+    if (isNaN(currentDate.getTime())) {
+        alert('Kies een datum.');
+        return;
+    }
+    
     const paymentDate = new Date(startDate);
     const maandRentePercentage = monthlyRate(jkp, type);
     const betaling = computePayment(bedrag, maandRentePercentage, periode);
@@ -67,7 +88,6 @@ function calculteTotals() {
     let totaalRente = 0;
     const totalInterestAll = betaling * periode - bedrag;
     let restantRente = totalInterestAll;
-    //console.log('restantRente init: ' + restantRente);
     let maandRente = 0;
 
     for (let i = 1; i <= periode; i++) {
@@ -81,7 +101,6 @@ function calculteTotals() {
     
     const restantKapitaal = bedrag - totaalKapitaal;
 
-    // The UI uses <span> elements in createSectie3, so update textContent
     $('#totaal-kapitaal').textContent = fmtCurrency.format(totaalKapitaal);
     $('#restant-kapitaal').textContent = fmtCurrency.format(restantKapitaal);
     $('#totaal-rente').textContent = fmtCurrency.format(totaalRente);
@@ -89,7 +108,6 @@ function calculteTotals() {
 }
 
 function createCalculator() {
-    // Implementation for calculator 1 goes here
     return el('div', { class: 'calculator' }, [
         createOverzicht(),
         createSectie1(),
@@ -120,6 +138,9 @@ function createOverzicht() {
             <p> Startdatum lening:
                 <span id="startDatumDisplay"></span>
             </p>
+            <p> Einddatum lening:
+                <span id="endDatumDisplay"></span>
+            </p>
         `})
     ]);
 }
@@ -137,31 +158,27 @@ function createSectie1() {
     ]);
 }
 function createSectie2() {
-    return el('div', { class: 'sectie2' }, [
-        el('button', { id: 'berekenBtn', class: 'bereken-btn', text: 'Bereken' })
-           
-    ]);
+    return el('button', { id: 'berekenBtn', class: 'bereken-btn', text: 'Bereken' });   
 }
-
 function createSectie3() {
     return el('div', { class: 'sectie-wrapper' }, [
         el('div', { class: 'kapitaal-groep' , html:`
             <div class="sectie-header">Kapitaal</div>
             <p> Totaal afbetaald kapitaal: 
-                <span id="totaal-kapitaal"></span>
+                <span id="totaal-kapitaal" class="uitkomst"></span>
             </p>
             <p> Restant kapitaal: 
-                <span id="restant-kapitaal"></span>
+                <span id="restant-kapitaal" class="uitkomst"></span>
             </p>
             `
         }),
         el('div', { class: 'rente-groep' , html:`
             <div class="sectie-header">Interesten</div>
             <p> Totaal afbetaalde interesten: 
-                <span id="totaal-rente"></span>
+                <span id="totaal-rente" class="uitkomst"></span>
             </p>
             <p> Restant interesten: 
-                <span id="restant-rente"></span>
+                <span id="restant-rente" class="uitkomst"></span>
             </p>
             `
         }),

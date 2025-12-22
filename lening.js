@@ -47,11 +47,13 @@ export function renderApp01() {
         updateSummary();
         // regenerate table only if visible
         if (!$("#aflossingstabel").hidden) generateSchedule();
+        $all(".uitkomst").forEach(el => el.textContent = "");
     }));
 
     $("#renteType").addEventListener("change", () => {
         updateSummary();
         if (!$("#aflossingstabel").hidden) generateSchedule();
+        $all(".uitkomst").forEach(el => el.textContent = "");
     });
 
     $("#startDatum").addEventListener("change", () => {
@@ -65,6 +67,7 @@ export function renderApp01() {
         }
         
         if (!$("#aflossingstabel").hidden) generateSchedule();
+        $all(".uitkomst").forEach(el => el.textContent = "");
     });
 
     $("#aflossingBtn").addEventListener("click", () => {

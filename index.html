@@ -44,6 +44,7 @@
         </footer>
         <script type="module" src="main.js"></script>
         <script>
+            /* Service Worker uitgeschakeld tijdens development
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
                     navigator.serviceWorker.register('./sw.js')
@@ -51,6 +52,7 @@
                         .catch(err => console.warn('ServiceWorker registration failed', err));
                 });
             }
+            */
         </script>
     </body>
 </html>

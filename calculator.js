@@ -80,11 +80,7 @@ function calculteTotals() {
     }
     
     const restantKapitaal = bedrag - totaalKapitaal;
-    //const restantPeriode = periode - Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24 * 30.44));
-    console.log('Totaal Kapitaal: ' + totaalKapitaal);
-    console.log('Restant Kapitaal: ' + restantKapitaal);
-    console.log('Totaal Rente: ' + totaalRente);
-    console.log('Restant Rente: ' + restantRente);
+
     // The UI uses <span> elements in createSectie3, so update textContent
     $('#totaal-kapitaal').textContent = fmtCurrency.format(totaalKapitaal);
     $('#restant-kapitaal').textContent = fmtCurrency.format(restantKapitaal);
@@ -104,7 +100,7 @@ function createCalculator() {
 }
 function createOverzicht() {
     return el("div", { class: "overzicht" }, [
-        el("h2", { text: "Overzicht lening :", class: "overzicht-titel" }),
+        el("h2", { text: "Leningsgegevens :", class: "overzicht-titel" }),
         el("div", { html: `
             <p> Lening bedrag:
                 <span id="bedrag"></span>

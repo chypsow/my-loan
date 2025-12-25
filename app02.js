@@ -21,7 +21,7 @@ export function buildApp02() {
     //$('#vandaag').addEventListener('click', setDatumInput);
 
     const handleChangeDatum = () => {
-        const gekozenDatumSpan = $all('#gekozen-datum');
+        /*const gekozenDatumSpan = $all('#gekozen-datum');
         const datumInput = $('.datum-status').value;
         const gekozenDatum = new Date(datumInput);
         if (!isNaN(gekozenDatum.getTime())) {
@@ -33,7 +33,7 @@ export function buildApp02() {
             gekozenDatumSpan.forEach(span => {
                 span.textContent = '';
             });
-        }
+        }*/
         $all('.uitkomst').forEach(el => el.textContent = '');
     };
     $('.datum-status').addEventListener('change', handleChangeDatum);

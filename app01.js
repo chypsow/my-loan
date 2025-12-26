@@ -5,8 +5,6 @@ export function buildApp01() {
         createHeader('LENING - OVERZICHT EN STATUS'),
         createTopRow(),
         createMainSection(),
-        //createButtons(),
-        //createTable()
     );
     
     // Event listeners/* Events */
@@ -27,16 +25,10 @@ export function buildApp01() {
             return;
         }
         resetOutputs();
-        //updateSummary();
-        // regenerate table only if visible
-        //if (!$("#aflossingstabel").hidden) generateSchedule();
-        //$all(".uitkomst").forEach(el => el.textContent = "");
     }));
 
     $("#renteType").addEventListener("change", () => {
         updateSummary();
-        //if (!$("#aflossingstabel").hidden) generateSchedule();
-        //$all(".uitkomst").forEach(el => el.textContent = "");
     });
 
     $("#startDatum").addEventListener("change", () => {
@@ -47,21 +39,16 @@ export function buildApp01() {
             const newEndDateStr = fmtDate(endDate);
             const day = startDate.getDate();
             let currentEndDateStr = $("#eindDatum").textContent.replace("Einddatum: ", "");
-            //console.log('currentEndDateStr : ', currentEndDateStr);
             // convert currentEndDateStr to Date object to adjust day
             if (currentEndDateStr) {
                 const parts = currentEndDateStr.split('/');
                 if (parts.length === 3) {
                     const currentEndDate = new Date(parts[2], parts[1] - 1, day);
-                    //console.log('currentEndDate before : ', currentEndDate);
                     currentEndDateStr = fmtDate(currentEndDate);
                 }
             }
-            //console.log('newEndDateStr : ', newEndDateStr);
-            //console.log('currentEndDateStr after : ', currentEndDateStr);
             // Return if month and year haven't changed
             if (newEndDateStr === currentEndDateStr) {
-                //console.log('no change in month or year');
                 // handle eindDatum update
                 $("#eindDatum").textContent = `Einddatum: ${newEndDateStr}`;
                 return;
@@ -69,15 +56,11 @@ export function buildApp01() {
             
             $("#eindDatum").textContent = `Einddatum: ${newEndDateStr}`;
             $("#eindDatum").classList.remove("eind-datum-hidden");
-            //updateSummary();
             resetOutputs();
         } else {
             $("#eindDatum").classList.add("eind-datum-hidden");
             resetOutputs();
         }
-        
-        //if (!$("#aflossingstabel").hidden) generateSchedule();
-        //$all(".uitkomst").forEach(el => el.textContent = "");
     });
 
     $("#currentDate").addEventListener("change", () => {
@@ -93,30 +76,14 @@ export function buildApp01() {
             $("#currentDate").setAttribute("data-prev-date", newDateStr);
         }
         resetStatusOutputs();
-        
-
-
-        //updateSummary();
-        //resetOutputs();
-        //if (!$("#aflossingstabel").hidden) generateSchedule();
-        //$all(".uitkomst").forEach(el => el.textContent = "");
     });
-    /*$("#aflossingBtn").addEventListener("click", () => {
-        if ($("#aflossingstabel").hidden) {
-            generateSchedule();
-        } else {
-            $("#aflossingstabel").hidden = true;
-            $("#afdrukken").style.visibility = "hidden";
-        }
-    });*/
-    //$("#afdrukken").addEventListener("click", printData);
+
     $("#berekenBtn1").addEventListener("click", updateSummary);
     $("#importBtn").addEventListener("click", importData);
     $("#exportBtn").addEventListener("click", exportData);
 }
 
 // Create Elements
-
 function createTopRow() {
     function createBankName() {
     return el("label", { class: "bank-name" }, [
@@ -181,7 +148,7 @@ function createInputFieldset() {
         ]);
     };
     return el("div", { class: "input-fields card-light" }, [
-        el("h2", { text: "In te vullen :" }),
+        el("div", { class: "header-row-inputs", html: `<h2>In te vullen :</h2><span> Vandaag: ${new Date().toLocaleDateString('nl-BE')}</span>` }),
         el("div", { class: "form-inhoud" }, [
             createBedragInput(),
             createRenteInput(),
@@ -230,7 +197,7 @@ function createRightSummaryFieldset() {
             <p> Uitstaand kapitaal:
                 <span id="uitstaandKapitaal" class="output-status-app01"></span>
             </p>
-            <p> Resterende interesten:
+            <p> Resterende rente:
                 <span id="resterendeInteresten" class="output-status-app01"></span>
             </p>
             <p> Afbetaald kapitaal:
@@ -247,9 +214,6 @@ function createRightSummaryFieldset() {
         })
     ]);
 }
-
-
-
 
 // Lening calculator logic
 export function updateSummary() {
@@ -334,9 +298,6 @@ export function computeRemaining(bedrag, jkp, periode, type, startDate, currentD
 }
 
 export function parseInputs() {
-    //const bedragElement = $("#teLenenBedrag"); // first check of app01 is loaded
-    //if (!bedragElement) return null;
-
     const bedrag = parseFloat($("#teLenenBedrag").value.replace(',', '.'));
     const jkp = parseFloat($("#jkp").value.replace(',', '.'));
     const periode = parseInt($("#periode").value.replace(',', '.'), 10);
@@ -358,12 +319,9 @@ function resetOutputs() {
     $("#aflossingstabel").hidden = true;
     $("#aflossingBtn").style.visibility = "hidden";
 }
+
 function resetStatusOutputs() {
     $all(".output-status-app01").forEach(o => o.textContent = "");
-    //$all(".uitkomst").forEach(o => o.textContent = "");
-    //$("#afdrukken").style.visibility = "hidden";
-    //$("#aflossingstabel").hidden = true;
-    //$("#aflossingBtn").style.visibility = "hidden";
 }
 
 export function monthlyRate(jkp, type) {
@@ -402,12 +360,7 @@ function importData() {
                 $("#eindDatum").textContent = `Einddatum: ${fmtDate(endDate)}`;
                 $("#eindDatum").classList.remove("eind-datum-hidden");
             }
-            //updateSummary();
             resetOutputs();
-            /*if (!$("#aflossingstabel").hidden) {
-                generateSchedule();
-            }
-            $all(".uitkomst").forEach(el => el.textContent = "");*/
         };
         reader.readAsText(file);
     };
@@ -431,10 +384,6 @@ function exportData() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
     const downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
-    //filename format: bank_bedragk_periodem_startDatum.txt
-    //const safeBankName = data.bank.replace(/[^a-z0-9]/gi, '_').toUpperCase() || "bank";
-    //als datum niet ingevuld is, gebruik dan 'nodate'
-    //if (!data.startDatum) data.startDatum = "nodate";
     const filename = `${data.bank}_${data.bedrag/1000}k_${data.periode}m_${data.startDatum}.txt`;
     downloadAnchorNode.setAttribute("download", filename);
     document.body.appendChild(downloadAnchorNode);

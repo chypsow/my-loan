@@ -41,15 +41,11 @@ export const showApp = (index) => {
     }
 };
 
-
 export function createHeader(tekst) {
-    //const tekst = $('#topHeader').querySelector('.active').textContent;
-    //console.log(tekst);
     return el("header", { class: "no-print" }, [
         el("h1", { text: tekst })
     ]);
-}
-
+};
 
 function makeTopHeader() {
     const header = $('#topHeader');
@@ -65,10 +61,6 @@ function makeTopHeader() {
         hyperlink.addEventListener('click', () => {
             if (hyperlink.classList.contains("active")) return;
             const activeLink = header.querySelector('.active');
-            /*if (activeLink.textContent === tabArray[0] && $('#startDatum').value === '') {
-                alert('Gelieve eerst een startdatum in te vullen in aflossingstabel sectie.');
-                return;
-            }*/
             activeLink.classList.remove("active");
             activeLink.setAttribute('aria-selected', 'false');
             hyperlink.classList.add("active");
@@ -88,21 +80,7 @@ function makeCircleContainer() {
         container.appendChild(el('div', { class: 'circle' }));
     }
     return container;
-}
-/*$('#menuBtn').addEventListener('click', () => {
-    $('#sidebar').classList.toggle('closed');
-    $('#menuBtn').classList.toggle('open');
-    $('.overlay').classList.toggle('active');
-});*/
-
-// Close sidebar when clicking outside (optional)
-/*document.addEventListener('click', (e) => {
-    if (!$('#sidebar').contains(e.target) && !$('#menuBtn').contains(e.target)) {
-        $('#sidebar').classList.add('closed');
-        $('#menuBtn').classList.remove('open');
-        $('.overlay').classList.remove('active');
-    }
-});*/
+};
 
 /* Initialize */
 document.addEventListener("DOMContentLoaded", () => {

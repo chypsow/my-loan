@@ -188,6 +188,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-weight: bold;
     color: var(--accent);
 }
+.header-row-inputs{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   /* margin-bottom: 1rem;*/
+}
+.header-row-inputs span{
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: #e4e4e4;
+}
 /* Buttons */
 .import-export-buttons{
     display: flex;

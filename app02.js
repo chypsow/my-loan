@@ -1,4 +1,4 @@
-import { $, el, createHeader, fmtCurrency, $all } from './main.js';
+import { $, el, formatLocalDate, createHeader, fmtCurrency, $all } from './main.js';
 import { parseInputs, computeRemaining, updateSummary } from './app01.js';
 
 export function buildApp02() {
@@ -7,10 +7,30 @@ export function buildApp02() {
         createCalculator()
     );
 
-    $all('.datum-status').forEach(input => {
-        input.addEventListener('change', () => {
-            $all('.output-app02').forEach(el => el.textContent = '');
-        });
+    const startDateInput = $('#startdatum-status');
+    startDateInput.addEventListener('change', () => {
+        const currentDate = startDateInput.valueAsDate;
+        if (currentDate) {
+            const prevDateStr = startDateInput.getAttribute("data-prev-date");
+            const newDateStr = formatLocalDate(currentDate);
+            if (prevDateStr && prevDateStr.slice(0,7) === newDateStr.slice(0,7)) return;
+            startDateInput.setAttribute("data-prev-date", newDateStr);
+        }
+        $all('.output-app02').forEach(el => el.textContent = '');
+    });
+
+    const endDateInput = $('#einddatum-status');
+    endDateInput.addEventListener('change', () => {
+        const currentDate = endDateInput.valueAsDate;
+        if (currentDate) {
+            const prevDateStr = endDateInput.getAttribute("data-prev-date");
+            const newDateStr = formatLocalDate(currentDate);
+            console.log('endDateInput change - newDateStr:', newDateStr);
+            console.log('endDateInput change - prevDateStr:', prevDateStr);
+            if (prevDateStr && prevDateStr.slice(0,7) === newDateStr.slice(0,7)) return;
+            endDateInput.setAttribute("data-prev-date", newDateStr);
+        }
+        $all('.output-app02').forEach(el => el.textContent = '');
     });
     $('#berekenBtn2').addEventListener('click', calculteTotals);
 }
@@ -32,19 +52,23 @@ function calculteTotals() {
     }
     // ensure datum1 en datum2 are between startDate and endDate of the loan
     const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + periode, startDate.getDate());
-    if (datum1 < startDate || datum1 > endDate || datum2 < startDate || datum2 > endDate) {
-        alert('Beide datums moeten tussen de start- en einddatum van de lening liggen.');
-        //$all('.output-app02').forEach(el => el.textContent = '');
-        return;
-    }
-
-    const lastDate = datum1 < datum2 ? new Date(datum2) : new Date(datum1);
-    if (lastDate > new Date(startDate.getFullYear(), startDate.getMonth() + periode, startDate.getDate())) {
-        alert('De gekozen datum ligt na de einddatum van de lening.');
-        $all('.output-app02').forEach(el => el.textContent = '');
-        return;
-    }
     const firstDate = datum1 < datum2 ? new Date(datum1) : new Date(datum2);
+    const lastDate = datum1 < datum2 ? new Date(datum2) : new Date(datum1);
+    if (firstDate < startDate) {
+        firstDate.setTime(startDate.getTime());
+        //adjust input field to reflect change
+        $('#startdatum-status').value = formatLocalDate(firstDate);
+        //attribute to avoid triggering change event
+        $('#startdatum-status').setAttribute("data-prev-date", formatLocalDate(firstDate));
+    }
+    if (lastDate > endDate) {
+        lastDate.setTime(endDate.getTime());
+        //adjust input field to reflect change
+        $('#einddatum-status').value = formatLocalDate(lastDate);
+        //attribute to avoid triggering change event
+        $('#einddatum-status').setAttribute("data-prev-date", formatLocalDate(lastDate));
+    }
+   
     updateSummary();
     // deduct one month from first date to include correct month in calculation
     if(firstDate > startDate) firstDate.setMonth(firstDate.getMonth() - 1);
@@ -141,6 +165,7 @@ function createOutputSectie() {
             </div>
             `
         }),
+        el('hr' , { class: 'output-sectie-separator' }),
         el('div', { class: 'totaal-groep' , html:`
             <div class="sectie-header">
                 <p> Totaal Afbetaald:

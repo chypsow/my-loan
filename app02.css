@@ -101,6 +101,7 @@
     margin: 0;
     font-size: 1rem;
     font-weight: bold;
+    padding: .5rem 0;
     /*color: var(--accent);*/
 }
 .sectie-header span {
@@ -110,13 +111,24 @@
     color: var(--accent);
     padding-left: 0.5rem;
 }
+.output-sectie-separator {
+    border: none;
+    border-top: 1px dashed rgba(221, 221, 221, 0.5);
+    margin: 0;
+}
+.output-sectie  {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 1rem;
+    
+}
 .kapitaal-groep, .rente-groep, .totaal-groep {
     display: flex;
     width: 100%;
     /*flex-direction: column;
     gap: 1.5rem;*/
-    padding: 1rem;
-    background: var(--card-bg);
-    border-radius: var(--radius);
+    /*padding: 1rem;
+    
+    border-radius: var(--radius);*/
 }
 

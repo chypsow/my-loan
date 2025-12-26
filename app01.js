@@ -1,4 +1,4 @@
-import { $, $all, el, createHeader,  fmtCurrency, fmtDate, fmtDecimal } from './main.js';
+import { $, $all, el,formatLocalDate, createHeader,  fmtCurrency, fmtDate, fmtDecimal } from './main.js';
 
 export function buildApp01() {
     $('#app01').append(
@@ -69,10 +69,10 @@ export function buildApp01() {
         if (currentDate) {
             // check if month/year changed
             const prevDateStr = $("#currentDate").getAttribute("data-prev-date");
-            const newDateStr = currentDate.toISOString().split('T')[0];
-            //console.log('prevDateStr day: ', prevDateStr.slice(0,7));
-            //console.log('newDateStr day: ', newDateStr.slice(0,7));
-            if (prevDateStr.slice(0,7) === newDateStr.slice(0,7)) return;
+            const newDateStr = formatLocalDate(currentDate);
+            console.log('newDateStr:', newDateStr);
+            console.log('prevDateStr:', prevDateStr);
+            if (prevDateStr && prevDateStr.slice(0,7) === newDateStr.slice(0,7)) return;
             $("#currentDate").setAttribute("data-prev-date", newDateStr);
         }
         resetStatusOutputs();
@@ -168,7 +168,7 @@ function createLeftSummaryFieldset() {
     return el("div", { class: "output-fields card-dark" }, [
         el("h2", { text: "Overzicht lening :" }),
         el("div", { class: "info-box", html: `
-            <p> Geleend bedrag:
+            <p> Lening bedrag:
                 <span id="bedrag-1" class="output-app01"></span>
             </p>
             <p> Maandelijkse aflossing:
@@ -200,14 +200,15 @@ function createRightSummaryFieldset() {
             <p> Resterende rente:
                 <span id="resterendeInteresten" class="output-status-app01"></span>
             </p>
+            <br>
             <p> Afbetaald kapitaal:
                 <span id="afbetaaldKapitaal-1" class="output-status-app01"></span>
             </p>
             <p> Afbetaalde rente:
                 <span id="afbetaaldeRente-1" class="output-status-app01"></span>
             </p>
-            <p><span id="spacer">&nbsp;------------------------------------------&nbsp;</span></p>
-            <p> Totaal betaald:
+            <hr class="output-sectie-separator">
+            <p> Totaal afbetaald:
                 <span id="totaalBetaald-1" class="output-status-app01"></span>
             </p>
          `
@@ -247,8 +248,12 @@ export function updateSummary() {
     // Calculate remaining capital and interest up to currentDate
     const currentDateInput = $("#currentDate").value;
     const currentDate = currentDateInput ? new Date(currentDateInput) : new Date();
+    // ensure currentDate is not before startDate
+    /*if (currentDate < startDate) {
+        currentDate.setTime(startDate.getTime());
+    }*/
     if (!currentDateInput) {
-        const currentDateStr = currentDate.toISOString().split('T')[0];
+        const currentDateStr = formatLocalDate(currentDate);
         $("#currentDate").value = currentDateStr;
         $("#currentDate").setAttribute("data-prev-date", currentDateStr);
     }

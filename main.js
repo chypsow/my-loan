@@ -9,6 +9,13 @@ export const $all = selector => Array.from(document.querySelectorAll(selector));
 export const fmtCurrency = new Intl.NumberFormat("nl-BE", { style: "currency", currency: "EUR",maximumFractionDigits: 2 });
 export const fmtDecimal = (digits = 2) => new Intl.NumberFormat("nl-BE", { style: "decimal", maximumFractionDigits: digits });
 export const fmtDate = d => new Date(d).toLocaleDateString("nl-BE");
+// Format date to local ISO string (YYYY-MM-DD) instead of UTC
+export function formatLocalDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 //export const fmtPercent = new Intl.NumberFormat("nl-BE", { style: "percent", maximumFractionDigits: 4 });
 
 export const  el = (tag, options = {}, children = []) => {

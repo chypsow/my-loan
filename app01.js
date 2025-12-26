@@ -202,19 +202,22 @@ function createLeftSummaryFieldset() {
         el("h2", { text: "Overzicht lening :" }),
         el("div", { class: "info-box", html: `
             <p> Geleend bedrag:
-                <span id="bedrag-1" class="resultaat"></span>
+                <span id="bedrag-1" class="output-app01"></span>
             </p>
             <p> Maandelijkse aflossing:
-                <span id="pmt-1" class="resultaat"></span>
+                <span id="pmt-1" class="output-app01"></span>
             </p>
             <p> Maandelijkse rentevoet:
-                <span id="rente-1" class="resultaat"></span>
+                <span id="rente-1" class="output-app01"></span>
             </p>
             <p> Totaal te betalen interesten:
-                <span id="interesten-1" class="resultaat"></span>
+                <span id="interesten-1" class="output-app01"></span>
             </p>
             <p> Lening periode:
-                <span id="periodeJaar-1" class="resultaat"></span>
+                <span id="periodeJaar-1" class="output-app01"></span>
+            </p>
+            <p> Resterende looptijd:
+                <span id="resterendeLooptijd-1" class="output-app01"></span>
             </p>
         `})
     ]);
@@ -223,21 +226,22 @@ function createRightSummaryFieldset() {
     return el("div", { class: "output-fields card-dark" }, [
         el("div", { class: "header-row", html: `<h2>Lening status op :</h2><input type="date" id="currentDate" class="invoer" }">` }),
         el("div", { class: "info-box", html: `
-            <p> Resterende looptijd:
-                <span id="resterendeLooptijd-1" class="resultaat-status"></span>
-            </p>
+            
             <p> Uitstaand kapitaal:
-                <span id="uitstaandKapitaal" class="resultaat-status"></span>
+                <span id="uitstaandKapitaal" class="output-status-app01"></span>
+            </p>
+            <p> Resterende interesten:
+                <span id="resterendeInteresten" class="output-status-app01"></span>
             </p>
             <p> Afbetaald kapitaal:
-                <span id="afbetaaldKapitaal-1" class="resultaat-status"></span>
+                <span id="afbetaaldKapitaal-1" class="output-status-app01"></span>
             </p>
             <p> Afbetaalde rente:
-                <span id="afbetaaldeRente-1" class="resultaat-status"></span>
+                <span id="afbetaaldeRente-1" class="output-status-app01"></span>
             </p>
             <p><span id="spacer">&nbsp;------------------------------------------&nbsp;</span></p>
             <p> Totaal betaald:
-                <span id="totaalBetaald-1" class="resultaat-status"></span>
+                <span id="totaalBetaald-1" class="output-status-app01"></span>
             </p>
          `
         })
@@ -262,6 +266,21 @@ export function updateSummary() {
     $("#rente-1").textContent = fmtDecimal(4).format(i * 100) + " %";
     $("#interesten-1").textContent = fmtCurrency.format((betaling * periode - bedrag));
     $("#periodeJaar-1").textContent = fmtDecimal(1).format(periode / 12) + " jaar";
+    
+    // Calculate remaining duration from today to end date
+    const today = new Date();
+    const endDate = new Date(startDate);
+    endDate.setMonth(endDate.getMonth() + periode);
+    let resterendeMaanden = 0;
+    if (today < endDate) {
+        resterendeMaanden = (endDate.getFullYear() - today.getFullYear()) * 12 + (endDate.getMonth() - today.getMonth());
+    }
+    const jaren = Math.floor(resterendeMaanden / 12);
+    const maanden = resterendeMaanden % 12;
+    const display = jaren > 0 ? `${jaren} jaar${maanden > 0 ? ` ${maanden} maanden` : ''}` : `${maanden} maanden`;
+    $('#resterendeLooptijd-1').textContent = resterendeMaanden ? display : '0 maanden';
+
+    // Calculate remaining capital and interest up to currentDate
     const currentDateInput = $("#currentDate").value;
     const currentDate = currentDateInput ? new Date(currentDateInput) : new Date();
     if (!currentDateInput) {
@@ -270,45 +289,21 @@ export function updateSummary() {
         $("#currentDate").setAttribute("data-prev-date", currentDateStr);
     }
     const remaining = computeRemaining(bedrag, jkp, periode, type, startDate, currentDate);
-    const resterendeMaanden = remaining.period;
-    const jaren = Math.floor(resterendeMaanden / 12);
-    const maanden = resterendeMaanden % 12;
-    const display = jaren > 0 ? `${jaren} jaar${maanden > 0 ? ` ${maanden} maanden` : ''}` : `${maanden} maanden`;
-    $('#resterendeLooptijd-1').textContent = resterendeMaanden ? display : '0 maanden';
     $("#uitstaandKapitaal").textContent = fmtCurrency.format(remaining.capital);
+    $("#resterendeInteresten").textContent = fmtCurrency.format(remaining.interest);
     $("#afbetaaldKapitaal-1").textContent = fmtCurrency.format(bedrag - remaining.capital);
     $("#afbetaaldeRente-1").textContent = fmtCurrency.format((betaling * periode - bedrag) - remaining.interest);
     $("#totaalBetaald-1").textContent = fmtCurrency.format(betaling * (periode - remaining.period));
-    //$("#aflossingBtn").disabled = false;
    
     // Fill overview section
     $('#bedrag-2').textContent = fmtCurrency.format(bedrag);
     $('#pmt-2').textContent = fmtCurrency.format(betaling);
     $('#rente-2').textContent = fmtDecimal(4).format(i * 100) + " %";
     $('#interesten-2').textContent = fmtCurrency.format((betaling * periode - bedrag));
-
-    //const startDate = new Date($("#startDatum").value);
-    //if (!isNaN(startDate.getTime())) {
     $('#startDatumDisplay').textContent = fmtDate(startDate);
-    //const periodeMaanden = periode ? parseInt(periode) : 0;
-    const endDate = new Date(startDate);
-    endDate.setMonth(endDate.getMonth() + periode);
     $('#endDatumDisplay').textContent = fmtDate(endDate);
-    //}
     $('#periodeJaar-2').textContent = $("#periodeJaar-1").textContent;
-    // Calculate remaining duration
-    //const today = new Date();
-    //const endDate = new Date(startDate);
-    //endDate.setMonth(endDate.getMonth() + periode);
-    //let resterendeMaanden = 0;
-    //if (today < endDate) {
-        //resterendeMaanden = (endDate.getFullYear() - today.getFullYear()) * 12 + (endDate.getMonth() - today.getMonth());
-    //}
-    //const jaren = Math.floor(resterendeMaanden / 12);
-    
     $('#resterendeLooptijd-2').textContent = $('#resterendeLooptijd-1').textContent;
-
-    //$(".summary-output").style.visibility = "visible";
 }
 
 export function computeRemaining(bedrag, jkp, periode, type, startDate, currentDate = new Date()) {
@@ -355,16 +350,16 @@ export function parseInputs() {
 }
 
 function resetOutputs() {
-    $all(".resultaat").forEach(o => o.textContent = "");
+    $all(".output-app01").forEach(o => o.textContent = "");
     resetStatusOutputs();
     //
-    $all(".uitkomst").forEach(o => o.textContent = "");
+    $all(".output-app02").forEach(o => o.textContent = "");
     $("#afdrukken").style.visibility = "hidden";
     $("#aflossingstabel").hidden = true;
     $("#aflossingBtn").style.visibility = "hidden";
 }
 function resetStatusOutputs() {
-    $all(".resultaat-status").forEach(o => o.textContent = "");
+    $all(".output-status-app01").forEach(o => o.textContent = "");
     //$all(".uitkomst").forEach(o => o.textContent = "");
     //$("#afdrukken").style.visibility = "hidden";
     //$("#aflossingstabel").hidden = true;

@@ -82,6 +82,13 @@ function makeTopHeader() {
     });
 };
 
+function makeCircleContainer() {
+    const container = $(".circles-wrapper");
+    for (let i = 0; i < 7; i++) {
+        container.appendChild(el('div', { class: 'circle' }));
+    }
+    return container;
+}
 /*$('#menuBtn').addEventListener('click', () => {
     $('#sidebar').classList.toggle('closed');
     $('#menuBtn').classList.toggle('open');
@@ -99,11 +106,11 @@ function makeTopHeader() {
 
 /* Initialize */
 document.addEventListener("DOMContentLoaded", () => {
+    makeCircleContainer();
     makeTopHeader();
     buildApp01();
     buildApp02();
     buildApp03();
     showApp(activePage + 1);
-    //renderApps();
 });
 

@@ -1,7 +1,7 @@
 
-import { buildtab01 } from './tab01.js';
-import { buildtab02 } from './tab02.js';
-import { buildtab03, preparePrintOverview } from './tab03.js';
+import { createTab01 } from './tab01.js';
+import { createTab02 } from './tab02.js';
+import { createTab03, preparePrintOverview } from './tab03.js';
 
 export let activePage = localStorage.getItem('activePage') ? parseInt(localStorage.getItem('activePage')) : 0;
 export const $ = selector => document.querySelector(selector);
@@ -9,6 +9,7 @@ export const $all = selector => Array.from(document.querySelectorAll(selector));
 export const fmtCurrency = new Intl.NumberFormat("nl-BE", { style: "currency", currency: "EUR",maximumFractionDigits: 2 });
 export const fmtDecimal = (digits = 2) => new Intl.NumberFormat("nl-BE", { style: "decimal", maximumFractionDigits: digits });
 export const fmtDate = d => new Date(d).toLocaleDateString("nl-BE");
+
 // Format date to local ISO string (YYYY-MM-DD) instead of UTC
 export function formatLocalDate(date) {
     const year = date.getFullYear();
@@ -39,7 +40,14 @@ export function createHeader(tekst) {
     ]);
 };
 
-function makeTopHeader() {
+function createCircles() {
+    const container = $(".circles-wrapper");
+    for (let i = 0; i < 7; i++) {
+        container.appendChild(el('div', { class: 'circle' }));
+    }
+    return container;
+};
+function createTopHeader() {
     const header = $('#topHeader');
     const tabArray = ['LENING CALCULATOR 1', 'LENING CALCULATOR 2', 'AFLOSSINGSTABEL'];
     header.setAttribute('role', 'tablist');
@@ -77,21 +85,13 @@ export function renderTab(tabNumber) {
     });
 }
 
-function makeCircleContainer() {
-    const container = $(".circles-wrapper");
-    for (let i = 0; i < 7; i++) {
-        container.appendChild(el('div', { class: 'circle' }));
-    }
-    return container;
-};
-
 /* Initialize */
 document.addEventListener("DOMContentLoaded", () => {
-    makeCircleContainer();
-    makeTopHeader();
-    buildtab01();
-    buildtab02();
-    buildtab03();
+    createCircles();
+    createTopHeader();
+    createTab01();
+    createTab02();
+    createTab03();
     renderTab(activePage + 1);
 });
 

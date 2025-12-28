@@ -1,7 +1,7 @@
 import { $, el, createHeader, fmtCurrency, fmtDate } from './main.js';
 import { parseInputs, monthlyRate, computePayment, updateSummary } from './tab01.js';
 
-export function buildtab03() {
+export function createTab03() {
     $('#tab03').append(
         createHeader('LENING - AFLOSSINGSTABEL'),
         createTable()

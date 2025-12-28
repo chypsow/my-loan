@@ -1,7 +1,7 @@
 import { $, el, formatLocalDate, createHeader, fmtCurrency, $all } from './main.js';
 import { parseInputs, computeRemaining, updateSummary, hasMonthYearChanged } from './tab01.js';
 
-export function buildtab02() {
+export function createTab02() {
     $('#tab02').append(
         createHeader('LENING - STATUS TUSSEN 2 DATUMS'),
         createCalculator()

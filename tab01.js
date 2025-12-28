@@ -1,6 +1,6 @@
 import { $, $all, el,formatLocalDate, createHeader,  fmtCurrency, fmtDate, fmtDecimal } from './main.js';
 
-export function buildtab01() {
+export function createTab01() {
     $('#tab01').append(
         createHeader('LENING - OVERZICHT EN STATUS'),
         createTopRow(),

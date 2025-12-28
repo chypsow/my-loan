@@ -19,7 +19,8 @@ export const translations = {
     "label.period-months": "Loan period (months):",
     "label.start-date": "Start date:",
     "label.end-date": "End date:",
-    "label.bank-name": "Bank name...",
+    "label.bank-name": "Bank name:",
+    "placeholder.bank-name": "bank...",
     "label.today": "Today:",
 
     // Tab01 - Section titles
@@ -109,7 +110,8 @@ export const translations = {
     "label.period-months": "Durée du prêt (mois):",
     "label.start-date": "Date de début:",
     "label.end-date": "Date de fin:",
-    "label.bank-name": "banque...",
+    "label.bank-name": "Nom de la banque:",
+    "placeholder.bank-name": "banque...",
     "label.today": "Aujourd'hui:",
 
     // Tab01 - Section titles
@@ -199,7 +201,8 @@ export const translations = {
     "label.period-months": "Lening periode (maand):",
     "label.start-date": "Startdatum:",
     "label.end-date": "Einddatum:",
-    "label.bank-name": "Naam bank...",
+    "label.bank-name": "Naam bank:",
+    "placeholder.bank-name": "Naam bank...",
     "label.today": "Vandaag:",
 
     // Tab01 - Section titles

@@ -98,7 +98,7 @@ function createTopRow() {
     function createBankName() {
     return el("label", { class: "bank-name" }, [
         el("span", { text: t('label.bank-name') }),
-        el("input", { type: "text", id: "bankName", placeholder: t('label.bank-name') })
+        el("input", { type: "text", id: "bankName", placeholder: t('placeholder.bank-name') })
     ]);
     }
     function createImportExportButtons() {

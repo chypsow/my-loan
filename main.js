@@ -115,9 +115,9 @@ export function renderTab(tabNumber) {
 
 /* Initialize */
 document.addEventListener("DOMContentLoaded", () => {
-    createLangSwitcher();
     createCircles();
     createTopHeader();
+    createLangSwitcher();
     createTab01();
     createTab02();
     createTab03();

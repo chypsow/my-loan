@@ -195,7 +195,7 @@ input , select{
 }
 .invoer {
     width: 8rem;
-    margin-left: 1rem;
+    margin-left: .5rem;
 }
 input[type="date"] {
     width: 9rem;
@@ -209,7 +209,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 .datums p{
     margin:0;

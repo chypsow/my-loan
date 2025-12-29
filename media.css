@@ -55,6 +55,10 @@
     .overzicht-header h2{ font-size:1.1rem; }
     .overzicht-inhoud p span:first-child { font-size:.75rem; }
     .overzicht-inhoud p span:nth-child(2) { font-size:.85rem; }
+    .uitleg-tekst{ font-size:.75rem; }
+    .kies-datum { font-size: 1.1rem; }
+    .sectie-header p span:first-child { font-size: .8rem; }
+    .sectie-header p span:nth-child(2) { font-size: .9rem; }
     header h1{ font-size: 1.5rem; }
     :root {
         --ht-top-header: 2.5rem;

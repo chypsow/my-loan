@@ -42,8 +42,8 @@ export const translations = {
     "output.total-paid": "Total paid:",
 
     // Tab02 - Labels
-    "label.date1": "First date",
-    "label.date2": "Second date",
+    "label.date1": "First date:",
+    "label.date2": "Second date:",
     "label.years": "years",
     "label.months": "months",
     "section.explanation": "Calculate the paid capital and paid interests between two dates based on the entered loan data.",

@@ -263,8 +263,10 @@ export function updateSummary() {
         return;
     }
     const { bedrag, jkp, periode, type, startDate } = inputs;
+    console.log('Inputs:', inputs);
     const i = monthlyRate(jkp, type);
     const betaling = computePayment(bedrag, i, periode);
+    console.log('Computed values:', { i, betaling });
     $('#bedrag-1').textContent = fmtCurrency.format(bedrag);
     $("#pmt-1").textContent = fmtCurrency.format(betaling);
     $("#rente-1").textContent = fmtDecimal(4).format(i * 100) + " %";
@@ -350,11 +352,11 @@ export function parseInputs() {
     const bedrag = parseFloat($("#teLenenBedrag").value.replace(',', '.'));
     const jkp = parseFloat($("#jkp").value.replace(',', '.'));
     const renteType = $("#renteType").value;
-    const periode = parseInt($("#periode").value, 10);
+    let periode = parseInt($("#periode").value, 10);
     const periodeEenheid = $("#periodeEenheid").value;
-    let adjustedPeriode = periode;
+    //let adjustedPeriode = periode;
     if (periodeEenheid === "years") {
-        adjustedPeriode = periode * 12;
+        periode = periode * 12;
     }
     const startdatumValue = $("#startDatum").value;
     const startDate = new Date(startdatumValue);
@@ -362,7 +364,7 @@ export function parseInputs() {
     if (!isFinite(bedrag) || !isFinite(jkp) || !isFinite(periode) || periode <= 0 || isNaN(startDate.getTime())) {
         return null;
     }
-    return { bedrag, jkp, periode: adjustedPeriode, renteType, startDate };
+    return { bedrag, jkp, periode, renteType, startDate };
 }
 
 function resetOutputs() {
@@ -409,16 +411,16 @@ function importData() {
             $("#jkp").value = (data["annual-rate"] || data.jkp) ? fmtDecimal(4).format(data["annual-rate"] || data.jkp) : "";
             $("#renteType").value = data["rate-type"] || data.renteType || "1";
             $("#periode").value = data.period || data.periode || "";
-            $("#periodeEenheid").value = data["period-unit"] || data.periodeEenheid || "months";
+            //$("#periodeEenheid").value = data["period-unit"] || data.periodeEenheid || "months";
             if (data["start-date"] || data.startDatum) {
                 const dateStr = (data["start-date"] || data.startDatum).includes('-') ? (data["start-date"] || data.startDatum) : (data["start-date"] || data.startDatum).split('/').reverse().join('-');
                 $("#startDatum").value = dateStr;
                 const startDate = new Date(dateStr);
-                let adjustedPeriode = parseInt(data.period || data.periode || "0", 10);
+                /*let adjustedPeriode = parseInt(data.period || data.periode || "0", 10);
                 if ((data["period-unit"] || data.periodeEenheid) === "years") {
                     adjustedPeriode = adjustedPeriode * 12;
-                }
-                const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + adjustedPeriode, startDate.getDate());
+                }*/
+                const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + (parseInt(data.period || data.periode || "0", 10)), startDate.getDate());
                 $("#eindDatum").textContent = fmtDate(endDate);
                 $("#eindDatum").setAttribute("data-prev-date", formatLocalDate(endDate));
                 $("#eindDatum-container").classList.remove("eind-datum-hidden");
@@ -445,13 +447,12 @@ function exportData() {
         "annual-rate": inputs.jkp,
         "rate-type": inputs.renteType,
         "period": inputs.periode,
-        "period-unit": $("#periodeEenheid").value,
         "start-date": formatLocalDate(inputs.startDate)
     };
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
     const downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
-    const filename = `${data["bank-name"]}_${data["loan-amount"]/1000}k_${data["period"]}${data["period-unit"][0]}_${data["start-date"]}.txt`;
+    const filename = `${data["bank-name"]}_${data["loan-amount"]/1000}k_${data["period"]}m_${data["start-date"]}.txt`;
     downloadAnchorNode.setAttribute("download", filename);
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();

@@ -31,7 +31,7 @@ export const translations = {
     "section.input-fields": "Input Fields:",
     "section.loan-overview": "Loan Overview:",
     "section.loan-status-on": "Loan status on:",
-    "section.report-header": "Please select the type of report.",
+    "section.report-header": "Select the report type to generate:",
 
     // Tab01 - Output labels
     "output.loan-amount": "Loan amount:",
@@ -128,7 +128,7 @@ export const translations = {
     "section.input-fields": "À remplir:",
     "section.loan-overview": "Aperçu du prêt:",
     "section.loan-status-on": "Statut du prêt le:",
-    "section.report-header": "Veuillez sélectionner le type de rapport.",
+    "section.report-header": "Veuillez sélectionner le type de rapport à générer:",
 
     // Tab01 - Output labels
     "output.loan-amount": "Montant emprunté:",
@@ -225,7 +225,7 @@ export const translations = {
     "section.input-fields": "In te vullen:",
     "section.loan-overview": "Overzicht lening:",
     "section.loan-status-on": "Lening status op:",
-    "section.report-header": "Gelieve het type rapport te selecteren.",
+    "section.report-header": "Selecteer het type rapport om te genereren:",
 
     // Tab01 - Output labels
     "output.loan-amount": "Lening bedrag:",

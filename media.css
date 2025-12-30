@@ -24,7 +24,7 @@
     header h1{ font-size: 2rem;}
     .datum-sectie{ flex-direction:column; gap: 0;}
     .invoer{ width:6rem; }
-    .rente-type{ font-size:.8rem; }
+    .rente-type, .periode-eenheid{ font-size:.8rem; }
     .top-row{ flex-direction:column; align-items:flex-start; gap:1.5rem; }
     .sectie-wrapper {
         flex-direction: column;
@@ -64,7 +64,7 @@
         --ht-top-header: 2.5rem;
     }
     .invoer{ width:5rem; font-size:.9rem; }
-    .rente-type{ font-size:.7rem; }
+    .rente-type, .periode-eenheid{ font-size:.7rem; }
 }   
 
 /* Print styles */

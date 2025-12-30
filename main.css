@@ -93,7 +93,7 @@ h1{
 .wrapper{
     max-width:var(--max-width);
     width:clamp(320px, 60%, 900px);
-    margin:2rem auto;
+    margin:3rem auto;
     padding:1.25rem;
     background: var(--glass);
     opacity: .98;

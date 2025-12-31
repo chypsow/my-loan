@@ -1,5 +1,5 @@
 import { $, el, formatLocalDate, createHeader, fmtCurrency, $all, fmtDate, t } from './main.js';
-import { parseInputs, computeRemaining, updateSummary, hasMonthYearChanged } from './tab01_Main.js';
+import { parseInputs, computeRemaining, updateSummary, hasMonthYearChanged } from './tab01_main.js';
 
 export function createTab02() {
     //$('#tab02').innerHTML = '';

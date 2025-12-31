@@ -1,5 +1,5 @@
 import { $, el, createHeader, fmtCurrency, fmtDate, t } from './main.js';
-import { parseInputs, computeRemaining, updateSummary, hasMonthYearChanged } from './tab01_Main.js';
+import { parseInputs, computeRemaining, updateSummary, hasMonthYearChanged, monthlyRate, computePayment } from './tab01_main.js';
 
 export function createTab03() {
     $('#tab03').append(
@@ -7,15 +7,136 @@ export function createTab03() {
         createReportContainer()
     );
 
-    /*$('#startdatum-status').addEventListener('change', function() {
-        if (hasMonthYearChanged(this)) $all('.output-tab02').forEach(el => el.textContent = '');
+    // Event Listener for Execute Button
+    $('#executeBtn').addEventListener('click', () => {
+        generateReport();
     });
+}
 
-    $('#einddatum-status').addEventListener('change', function() {
-        if (hasMonthYearChanged(this)) $all('.output-tab02').forEach(el => el.textContent = '');
-    });
+function generateReport() {
+    // Placeholder function for report generation logic
+    //alert(t('label.report-generated'));
+    const inputs = parseInputs();
+    if (!inputs) return;
 
-    $('#berekenBtn2').addEventListener('click', calculteTotals);*/
+    updateSummary();
+    const reportType = document.querySelector('input[name="reportDescription"]:checked').value;
+    //const remaining = computeRemaining(inputs, new Date());
+    if (reportType === 'annual-overview') {
+        // Generate annual overview report
+        generateAnnualOverviewReport(inputs);
+        
+    } else if (reportType === 'detailed') {
+        // Generate detailed report
+        console.log('Generating Detailed Report...');
+        // Add logic for generating detailed report
+    }
+
+    alert(t('label.report-generated') + ` (${reportType})`);
+}
+
+function generateAnnualOverviewReport(inputs) {
+    const { bedrag, jkp, periode, renteType: type, startDate } = inputs;
+    
+    // Calculate monthly interest rate and payment
+    const i = monthlyRate(jkp, type);
+    const betaling = computePayment(bedrag, i, periode);
+    
+    // Create report container
+    const reportContainer = el('div', { class: 'annual-report-container' }, [
+        createAnnualReportTable(bedrag, betaling, i, periode, startDate)
+    ]);
+    
+    // Insert report into page
+    const existingReport = $('#annualReportOutput');
+    if (existingReport) {
+        existingReport.innerHTML = '';
+        existingReport.appendChild(reportContainer);
+    } else {
+        // If container doesn't exist, create it
+        const reportOutput = el('div', { id: 'annualReportOutput', class: 'report-output' }, [reportContainer]);
+        $('#tab03').appendChild(reportOutput);
+    }
+}
+
+function createAnnualReportTable(bedrag, betaling, monthlyRate, totalMonths, startDate) {
+    const table = el('table', { class: 'annual-report-table' });
+    
+    // Create table header
+    const thead = el('thead');
+    const headerRow = el('tr');
+    headerRow.appendChild(el('th', { text: 'Interval' }));
+    headerRow.appendChild(el('th', { text: 'Afbetaald Kapitaal' }));
+    headerRow.appendChild(el('th', { text: 'Afbetaalde Rente' }));
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    
+    // Create table body
+    const tbody = el('tbody');
+    
+    let balance = bedrag;
+    let i = monthlyRate;
+    
+    // Determine number of year intervals
+    const numYears = Math.ceil(totalMonths / 12);
+    
+    for (let year = 1; year <= numYears; year++) {
+        let yearStartDate = new Date(startDate);
+        yearStartDate = new Date(yearStartDate.getFullYear() + year - 1, yearStartDate.getMonth(), yearStartDate.getDate());
+        let yearEndDate = new Date(startDate);
+        yearEndDate = new Date(yearEndDate.getFullYear() + year, yearEndDate.getMonth(), yearEndDate.getDate());
+        
+        // Calculate cumulative principal and interest for this year
+        let yearPrincipal = 0;
+        let yearInterest = 0;
+        let tempBalance = balance;
+        
+        // Calculate payments for this year interval
+        const yearStartMonth = (year - 1) * 12 + 1;
+        const yearEndMonth = Math.min(year * 12, totalMonths);
+        
+        for (let month = yearStartMonth; month <= yearEndMonth; month++) {
+            const monthlyInterest = tempBalance * i;
+            const monthlyPrincipal = Math.min(betaling - monthlyInterest, tempBalance);
+            
+            yearPrincipal += monthlyPrincipal;
+            yearInterest += monthlyInterest;
+            tempBalance -= monthlyPrincipal;
+            
+            if (tempBalance <= 0) break;
+        }
+        
+        balance -= yearPrincipal;
+        
+        const row = el('tr');
+        
+        // Interval column
+        const intervalCell = el('td', { 
+            text: `${fmtDate(yearStartDate)} - ${fmtDate(yearEndDate)}`
+        });
+        row.appendChild(intervalCell);
+        
+        // Principal column
+        const principalCell = el('td', { 
+            text: fmtCurrency.format(yearPrincipal),
+            class: 'currency-cell'
+        });
+        row.appendChild(principalCell);
+        
+        // Interest column
+        const interestCell = el('td', { 
+            text: fmtCurrency.format(yearInterest),
+            class: 'currency-cell'
+        });
+        row.appendChild(interestCell);
+        
+        tbody.appendChild(row);
+        
+        if (balance <= 0) break;
+    }
+    
+    table.appendChild(tbody);
+    return table;
 }
 
 function createReportContainer() {

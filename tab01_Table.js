@@ -1,5 +1,5 @@
 import { $, el, fmtCurrency, fmtDate, t } from './main.js';
-import { parseInputs, monthlyRate, computePayment } from './tab01_Main.js';
+import { parseInputs, monthlyRate, computePayment } from './tab01_main.js';
 
 export function createTable() {
     return el("div", { id: "managerTable", class: "print-container" }, [

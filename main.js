@@ -1,7 +1,7 @@
 
 import { createTab01 } from './tab01.js';
 import { createTab02 } from './tab02.js';
-import { createTab03, generateReport } from './tab03.js';
+import { createTab03 } from './tab03.js';
 import { translations } from './i18n.js';
 
 // Current language
@@ -66,6 +66,10 @@ function applyLang(lang) {
       el.textContent = text;
     }
   });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    el.placeholder = t(key);
+  });
 
   // Update all elements with data-i18n-placeholder
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
@@ -99,7 +103,7 @@ function createCircles() {
 
 function createTopHeader() {
     const header = $('#topHeader');
-    const tabLabels = {'tab.simulator': t('tab.simulator'), 'tab.calculator': t('tab.calculator'), 'tab.reports': t('tab.reports')};
+    const tabLabels = {'tab.simulator': t('tab.simulator'), 'tab.calculator': t('tab.calculator'), 'tab.table': t('tab.table')};
     header.setAttribute('role', 'tablist');
     Object.entries(tabLabels).forEach(([key, label], index) => {
         const tab = el('a', { href: '#', 'data-i18n': key, text: label, role: 'tab', 'aria-selected': index === activePage ? 'true' : 'false' });
@@ -168,7 +172,6 @@ function autoFillSimulator() {
     $('#periode').value = '300';
     $('#periodeEenheid').value = 'months';
     $('#startDatum').value = '2020-11-01';
-    generateReport();
 }
 
 /* Initialize */
@@ -180,5 +183,5 @@ document.addEventListener("DOMContentLoaded", () => {
     createTab02();
     createTab03();
     renderTab(activePage + 1);
-    //autoFillSimulator();
+    autoFillSimulator();
 });

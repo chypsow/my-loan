@@ -1,6 +1,5 @@
 .keuze-container {
-    margin: 1.5rem 0px;
-    padding: 1rem;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -10,25 +9,94 @@
     font-family: var(--font-sans);
     font-size: 1.4rem;
 }
-.radio-keuze {
+.keuze-container .instruction-text {
+    margin: 0;
+    font-size: .9rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #ffffff;
+}
+.configuration-container {
     margin-bottom: 1rem;
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: 2.5rem;
 }
-.radio-keuze label {
+.configuration-container .interval-input {
+    width: 6rem;
+    margin-left: 0.5rem;
+    border: 1px solid var(--border);
+    padding: .4rem .5rem;
+}
+.configuration-container .interval-input::-webkit-outer-spin-button,
+.configuration-container .interval-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    /*margin: 0;*/
+}
+/*.configuration-container .interval-input[type=number] {
+    -moz-appearance: textfield;
+}*/
+.columns-container p {
+    font-size: 1rem;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+.select-columns-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 2rem;
+}
+
+.select-columns-header p {
+    margin: 0;
+}
+
+.select-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.select-btn {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.85rem;
+    font-family: var(--font-sans);
+    background-color: #c9c9c9;
+    color: #000000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-family: var(--font-sans);
+}
+
+.select-btn:hover {
+    background-color: #c9c9c9;
+    color: #000000;
+}
+
+/*.select-btn:active {
+    background-color: #0d47a1;
+}*/
+.checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+.checkbox-group label {
     font-family: var(--font-mono);
     font-size: 1rem;
     color: #e4e4e4;
 }
-.radio-keuze input {
-    width: auto;
-    margin-right: 10px;
+.checkbox-group input {
+    margin: 0;
+    width: 1rem;
 }
 
 /* Annual Report Table Styles */
 .report-output {
-    padding: 1rem;
+    padding: 1rem 0;
 }
 
 /*.annual-report-container {
@@ -42,8 +110,8 @@
     width: 100%;
     margin: 0;
     border-collapse: collapse;
-    background: var(--card-bg);
-    color: #e4e4e4;
+    background:#fff;
+    color:#222;
     /*font-family: var(--font-mono);*/
     font-size: 0.95rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -55,34 +123,34 @@
 }
 
 .annual-report-table thead th, .annual-report-table tbody td {
-    padding:.75rem .2rem; font-size:.9rem; text-align:center; border-bottom:1px solid #525252; overflow:hidden; text-overflow:ellipsis; white-space:normal;
+    padding:.2rem; font-size:.9rem; text-align:center; border-bottom:1px solid #dcdcdc; overflow:hidden; text-overflow:ellipsis; white-space:normal;
 }
 
 .annual-report-table tbody tr {
-    border-bottom: 1px solid #444;
+    /*border-bottom: 1px solid #444;*/
     transition: background-color 0.2s ease;
 }
 
 .annual-report-table tbody tr:hover {
-    background-color: #3d3d3d;
+    background-color: #e2e2e2;
 }
 
 /*.annual-report-table tbody td {
     padding: 0.75rem 1rem;
 }*/
 
-/*.annual-report-table td:first-child {
-    color: #90caf9;
+.annual-report-table td:first-child {
+    text-align: right;
+    color: #324555;
     font-weight: 500;
-}*/
+}
 
-.annual-report-table .currency-cell {
-    /*text-align: right;*/
+/*.annual-report-table .currency-cell {
     color: var(--accent);
     font-family: var(--font-mono);
     font-size: 1rem;
     font-weight: bold;
-}
+}*/
 
 /*.annual-report-table tbody tr:last-child {
     border-bottom: 2px solid #1565c0;

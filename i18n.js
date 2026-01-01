@@ -4,11 +4,11 @@ export const translations = {
     // Headers & sections
     "tab.simulator": "LOAN SIMULATOR",
     "tab.calculator": "LOAN CALCULATOR",
-    "tab.reports": "LOAN ANALYSER",
+    "tab.table": "LOAN ANALYSER",
     "tab.amortization": "AMORTIZATION TABLE",
     "header.loan-overview": "LOAN - OVERVIEW AND STATUS",
     "header.loan-status": "LOAN - STATUS BETWEEN 2 DATES",
-    "header.loan-reports": "LOAN - REPORTS",
+    "header.loan-table": "LOAN - TABLE",
     "header.amortization": "LOAN - AMORTIZATION TABLE",
 
     // Tab01 - Input labels
@@ -59,14 +59,20 @@ export const translations = {
     "output.paid-interest": "Paid interests:",
     "output.total-paid": "Total paid:",
 
-    // Tab03 - Table headers
+    // Tab03 - Table headers & Labels
+    "section.table-instructions-header": "Table Configuration:",
+    "section.table-instructions": "Enter the interval in months and select the columns you want to display in the table.",
+    "label.interval": "Interval (months):",
+    "placeholder.interval": "Number of months",
+    "label.select-columns": "Select columns:",
     "table.no": "No",
     "table.date": "Date",
     "table.begin-capital": "Begin capital",
     "table.total-payment": "Total payment",
     "table.principal": "Principal",
     "table.interest": "Interests",
-    "table.outstanding": "Outstanding capital",
+    "table.outstanding-capital": "Outstanding capital",
+    "table.outstanding-interest": "Outstanding interests",
     "table.cumulative-interest": "Cumulative interests",
     "table.cumulative-principal": "Cumulative principal",
     "table.cumulative-payment": "Cumulative payments",
@@ -75,8 +81,8 @@ export const translations = {
     "button.import": "Import",
     "button.export": "Export",
     "button.calculate": "Calculate",
-    "button.execute": "Execute",
-    "button.amortization-table": "Amortization Table",
+    "button.generate": "Generate Table",    "button.select-all": "Select all",
+    "button.deselect-all": "Deselect all",    "button.amortization-table": "Amortization Table",
     "button.print": "Print",
     "button.today": "Today",
 
@@ -101,11 +107,11 @@ export const translations = {
     // Headers & sections
     "tab.simulator": "SIMULATEUR DE PRÊT",
     "tab.calculator": "CALCULATEUR DE PRÊT",
-    "tab.reports": "ANALYSEUR DE PRÊT",
+    "tab.table": "ANALYSEUR DE PRÊT",
     "tab.amortization": "TABLEAU D'AMORTISSEMENT",
     "header.loan-overview": "PRÊT - APERÇU ET STATUT",
     "header.loan-status": "PRÊT - STATUT ENTRE 2 DATES",
-    "header.loan-reports": "PRÊT - RAPPORTS",
+    "header.loan-table": "PRÊT - TABLEAUX",
     "header.amortization": "PRÊT - TABLEAU D'AMORTISSEMENT",
 
     // Tab01 - Input labels
@@ -156,14 +162,20 @@ export const translations = {
     "output.paid-interest": "Intérêts payés:",
     "output.total-paid": "Total payé:",
 
-    // Tab03 - Table headers
+    // Tab03 - Table headers & Labels
+    "section.table-instructions-header": "Configuration du tableau :",
+    "section.table-instructions": "Saisissez l'intervalle en mois et sélectionnez les colonnes que vous souhaitez afficher dans le tableau.",
+    "label.interval": "Intervalle (mois):",
+    "placeholder.interval": "Nombre de mois",
+    "label.select-columns": "Sélectionner les colonnes:",
     "table.no": "No",
     "table.date": "Date",
     "table.begin-capital": "Capital initial",
     "table.total-payment": "Paiement total",
     "table.principal": "Principal",
     "table.interest": "Intérêts",
-    "table.outstanding": "Capital impayé",
+    "table.outstanding-capital": "Capital impayé",
+    "table.outstanding-interest": "Intérêts impayés",
     "table.cumulative-interest": "Intérêts cumulés",
     "table.cumulative-principal": "Principal cumulé",
     "table.cumulative-payment": "Paiements cumulés",
@@ -172,8 +184,8 @@ export const translations = {
     "button.import": "Importer",
     "button.export": "Exporter",
     "button.calculate": "Calculer",
-    "button.execute": "Exécuter",
-    "button.amortization-table": "Tableau d'amortissement",
+    "button.generate": "Générer le tableau",    "button.select-all": "Tout sélectionner",
+    "button.deselect-all": "Tout désélectionner",    "button.amortization-table": "Tableau d'amortissement",
     "button.print": "Imprimer",
     "button.today": "Aujourd'hui",
 
@@ -198,11 +210,11 @@ export const translations = {
     // Headers & sections
     "tab.simulator": "LENING SIMULATOR",
     "tab.calculator": "LENING CALCULATOR",
-    "tab.reports": "LENING ANALYSER",
+    "tab.table": "LENING ANALYSER",
     "tab.amortization": "AFLOSSINGSTABEL",
     "header.loan-overview": "LENING - OVERZICHT EN STATUS",
     "header.loan-status": "LENING - STATUS TUSSEN 2 DATUMS",
-    "header.loan-reports": "LENING - RAPPORTEN",
+    "header.loan-table": "LENING - TABEL",
     "header.amortization": "LENING - AFLOSSINGSTABEL",
 
     // Tab01 - Input labels
@@ -253,14 +265,20 @@ export const translations = {
     "output.paid-interest": "Afbetaalde rente:",
     "output.total-paid": "Totaal afbetaald:",
 
-    // Tab03 - Table headers
+    // Tab03 - Table headers & Labels
+    "section.table-instructions-header": "Tabelconfiguratie:",
+    "section.table-instructions": "Voer het interval in maanden in en selecteer de kolommen die u in de tabel wilt weergeven.",
+    "label.interval": "Interval (maanden):",
+    "placeholder.interval": "Aantal maanden",
+    "label.select-columns": "Selecteer kolommen:",
     "table.no": "No",
     "table.date": "Datum",
     "table.begin-capital": "Begin kapitaal",
     "table.total-payment": "Aflossing totaal",
     "table.principal": "Aflossing kapitaal",
     "table.interest": "Aflossing rente",
-    "table.outstanding": "Uitstaand kapitaal",
+    "table.outstanding-capital": "Uitstaand kapitaal",
+    "table.outstanding-interest": "Uitstaande rente",
     "table.cumulative-interest": "Cumulatieve interesten",
     "table.cumulative-principal": "Cumulatief afbetaald KPT",
     "table.cumulative-payment": "Cumulatief aflossing",
@@ -269,8 +287,8 @@ export const translations = {
     "button.import": "Importeren",
     "button.export": "Exporteren",
     "button.calculate": "Bereken",
-    "button.execute": "Uitvoeren",
-    "button.amortization-table": "Aflossingstabel",
+    "button.generate": "Genereer tabel",    "button.select-all": "Alles selecteren",
+    "button.deselect-all": "Alles deselecteren",    "button.amortization-table": "Aflossingstabel",
     "button.print": "Afdrukken",
     "button.today": "vandaag",
 

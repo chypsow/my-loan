@@ -3,29 +3,45 @@ import { updateSummary, monthlyRate, computePayment } from './tab01.js';
 
 export function createTab03() {
     $('#tab03').append(
-        createHeader('header.loan-reports'),
+        createHeader('header.loan-table'),
         createReportContainer(),
     );
 
-    $('#executeBtn').addEventListener('click', () => {
-        generateReport();
+    $('#generateBtn').addEventListener('click', () => {
+        generateTable();
+    });
+
+    $('#selectAllBtn').addEventListener('click', () => {
+        document.querySelectorAll('.column-checkbox').forEach(checkbox => checkbox.checked = true);
+    });
+
+    $('#deselectAllBtn').addEventListener('click', () => {
+        document.querySelectorAll('.column-checkbox').forEach(checkbox => checkbox.checked = false);
     });
 }
 
-export function generateReport() {
+export function generateTable() {
     const inputs = updateSummary();
     if (!inputs) return;
 
-    const reportType = $('input[name="reportDescription"]:checked').value;
-    if (reportType === 'annual-overview') {
-        createAnnualReportTable(inputs);
-    } else if (reportType === 'detailed') {
-        console.log('Generating Detailed Report...');
-        // Add logic for generating detailed report
+    const interval = parseInt($('#intervalInput').value);
+    if (!interval || interval < 1 || interval > inputs.periode) {
+        alert(`Voer een geldig interval in (1 tot ${inputs.periode})`);
+        return;
     }
+
+    // Get selected columns
+    const selectedColumns = Array.from(document.querySelectorAll('.column-checkbox:checked')).map(checkbox => checkbox.value);
+    
+    if (selectedColumns.length === 0) {
+        alert('Selecteer minsten één kolom');
+        return;
+    }
+
+    createAnnualReportTable(inputs, interval, selectedColumns);
 }
 
-function createAnnualReportTable(inputs) {
+function createAnnualReportTable(inputs, interval, selectedColumns) {
     const { bedrag, jkp, periode: totalMonths, renteType: type, startDate } = inputs;
     
     // Calculate monthly interest rate and payment
@@ -38,8 +54,26 @@ function createAnnualReportTable(inputs) {
     const thead = el('thead');
     const headerRow = el('tr');
     headerRow.appendChild(el('th', { text: 'Interval' }));
-    headerRow.appendChild(el('th', { text: 'Afbetaald Kapitaal' }));
-    headerRow.appendChild(el('th', { text: 'Afbetaalde Rente' }));
+    
+    // Map labels for selected columns only
+    const columnLabelsMap = {
+        'begin-capital': 'table.begin-capital',
+        'total-payment': 'table.total-payment',
+        'principal': 'table.principal',
+        'interest': 'table.interest',
+        'cumulative-principal': 'table.cumulative-principal',
+        'cumulative-interest': 'table.cumulative-interest',
+        'outstanding-capital': 'table.outstanding-capital',
+        'outstanding-interest': 'table.outstanding-interest',
+    };
+    
+    // Add only selected columns to header
+    selectedColumns.forEach(col => {
+        const i18nKey = columnLabelsMap[col];
+        const label = t(i18nKey);
+        headerRow.appendChild(el('th', { 'data-i18n': i18nKey, text: label }));
+    });
+    
     thead.appendChild(headerRow);
     table.appendChild(thead);
     
@@ -47,60 +81,107 @@ function createAnnualReportTable(inputs) {
     const tbody = el('tbody');
     
     let balance = bedrag;
-    //let i = monthlyRate;
+    let cumulativePrincipal = 0;
+    let cumulativeInterest = 0;
     
-    // Determine number of year intervals
-    const numYears = Math.ceil(totalMonths / 12);
+    // Determine number of intervals
+    const numIntervals = Math.ceil(totalMonths / interval);
     
-    for (let year = 1; year <= numYears; year++) {
-        let yearStartDate = new Date(startDate);
-        yearStartDate = new Date(yearStartDate.getFullYear() + year - 1, yearStartDate.getMonth(), yearStartDate.getDate());
-        let yearEndDate = new Date(startDate);
-        yearEndDate = new Date(yearEndDate.getFullYear() + year, yearEndDate.getMonth(), yearEndDate.getDate());
+    for (let intervalNum = 1; intervalNum <= numIntervals; intervalNum++) {
+        const intervalStartMonth = (intervalNum - 1) * interval + 1;
+        const intervalEndMonth = Math.min(intervalNum * interval, totalMonths);
         
-        // Calculate cumulative principal and interest for this year
-        let yearPrincipal = 0;
-        let yearInterest = 0;
+        let intervalStartDate = new Date(startDate);
+        intervalStartDate = new Date(intervalStartDate.getFullYear(), intervalStartDate.getMonth(), intervalStartDate.getDate() + (intervalStartMonth - 1) * 30);
+        
+        let intervalEndDate = new Date(startDate);
+        intervalEndDate = new Date(intervalEndDate.getFullYear(), intervalEndDate.getMonth(), intervalEndDate.getDate() + (intervalEndMonth - 1) * 30 + 30);
+        
+        // Calculate cumulative principal and interest for this interval
+        let intervalPrincipal = 0;
+        let intervalInterest = 0;
         let tempBalance = balance;
         
-        // Calculate payments for this year interval
-        const yearStartMonth = (year - 1) * 12 + 1;
-        const yearEndMonth = Math.min(year * 12, totalMonths);
-        
-        for (let month = yearStartMonth; month <= yearEndMonth; month++) {
+        for (let month = intervalStartMonth; month <= intervalEndMonth; month++) {
             const monthlyInterest = tempBalance * i;
             const monthlyPrincipal = Math.min(betaling - monthlyInterest, tempBalance);
             
-            yearPrincipal += monthlyPrincipal;
-            yearInterest += monthlyInterest;
+            intervalPrincipal += monthlyPrincipal;
+            intervalInterest += monthlyInterest;
             tempBalance -= monthlyPrincipal;
             
             if (tempBalance <= 0) break;
         }
         
-        balance -= yearPrincipal;
+        cumulativePrincipal += intervalPrincipal;
+        cumulativeInterest += intervalInterest;
+        balance -= intervalPrincipal;
         
         const row = el('tr');
         
-        // Interval column
+        // Interval column (always shown)
         const intervalCell = el('td', { 
-            text: `${fmtDate(yearStartDate)} - ${fmtDate(yearEndDate)}`
+            text: `${fmtDate(intervalStartDate)} - ${fmtDate(intervalEndDate)}`
         });
         row.appendChild(intervalCell);
         
-        // Principal column
-        const principalCell = el('td', { 
-            text: fmtCurrency.format(yearPrincipal),
-            class: 'currency-cell'
+        // Add selected columns
+        selectedColumns.forEach(col => {
+            let cellValue = 0;
+            let cellText = '';
+            
+            switch(col) {
+                case 'begin-capital':
+                    // Beginning capital for this interval
+                    cellValue = balance + intervalPrincipal;
+                    cellText = fmtCurrency.format(cellValue);
+                    break;
+                case 'total-payment':
+                    cellValue = betaling * (intervalEndMonth - intervalStartMonth + 1);
+                    cellText = fmtCurrency.format(cellValue);
+                    break;
+                case 'principal':
+                    cellValue = intervalPrincipal;
+                    cellText = fmtCurrency.format(cellValue);
+                    break;
+                case 'interest':
+                    cellValue = intervalInterest;
+                    cellText = fmtCurrency.format(cellValue);
+                    break;
+                case 'cumulative-principal':
+                    cellValue = cumulativePrincipal;
+                    cellText = fmtCurrency.format(cellValue);
+                    break;
+                case 'cumulative-interest':
+                    cellValue = cumulativeInterest;
+                    cellText = fmtCurrency.format(cellValue);
+                    break;
+                case 'outstanding-capital':
+                    cellValue = Math.max(0, balance);
+                    cellText = fmtCurrency.format(cellValue);
+                    break;
+                case 'outstanding-interest':
+                    // Estimate remaining interest based on current balance
+                    let remainingInterest = 0;
+                    let tempBal = balance;
+                    for (let m = intervalEndMonth + 1; m <= totalMonths; m++) {
+                        const monInterest = tempBal * i;
+                        const monPrincipal = Math.min(betaling - monInterest, tempBal);
+                        remainingInterest += monInterest;
+                        tempBal -= monPrincipal;
+                        if (tempBal <= 0) break;
+                    }
+                    cellValue = remainingInterest;
+                    cellText = fmtCurrency.format(cellValue);
+                    break;
+            }
+            
+            const cell = el('td', { 
+                text: cellText,
+                class: 'currency-cell'
+            });
+            row.appendChild(cell);
         });
-        row.appendChild(principalCell);
-        
-        // Interest column
-        const interestCell = el('td', { 
-            text: fmtCurrency.format(yearInterest),
-            class: 'currency-cell'
-        });
-        row.appendChild(interestCell);
         
         tbody.appendChild(row);
         
@@ -165,19 +246,59 @@ function createOverzicht() {
 
 function createKeuzeContainer() {
     return el('div', { class: 'keuze-container' }, [
-        el('h2', { "data-i18n": "section.report-header", text: t('section.report-header') }),
-        createRadioKeuze(),
+        el('h2', { html: `<span data-i18n="section.table-instructions-header">${t('section.table-instructions-header')}</span>` }),
+        el('p', { class: 'instruction-text', 'data-i18n': 'section.table-instructions', text: t('section.table-instructions') }),
+        createCheckboxes(),
         createExecuteButton()
     ]);
 }
 
-function createRadioKeuze() {
-    return el('div', { class: 'radio-keuze' }, [
-        el('label', { html: `<input type="radio" name="reportDescription" value="annual-overview" checked> <span data-i18n="label.annual-report">${t('label.annual-report')}</span>` }),
-        el('label', { html: `<input type="radio" name="reportDescription" value="detailed"> <span data-i18n="label.detailed-report">${t('label.detailed-report')}</span>` })
+function createCheckboxes() {
+    return el('div', { class: 'configuration-container' }, [
+        el('div', { class: 'interval-input-container' }, [
+            el('label', { 'data-i18n': 'label.interval', text: t('label.interval') }),
+            el('input', { 
+                id: 'intervalInput',
+                type: 'number',
+                min: '1',
+                //placeholder: t('placeholder.interval'),
+                class: 'interval-input',
+                //'data-i18n-placeholder': 'placeholder.interval'
+            })
+        ]),
+        el('div', { class: 'columns-container' }, [
+            el('div', { class: 'select-columns-header' }, [
+                el('p', { 'data-i18n': 'label.select-columns', text: t('label.select-columns') }),
+                el('div', { class: 'select-buttons' }, [
+                    el('button', { 
+                        id: 'selectAllBtn', 
+                        class: 'select-btn',
+                        'data-i18n': 'button.select-all',
+                        text: t('button.select-all')
+                    }),
+                    el('button', { 
+                        id: 'deselectAllBtn', 
+                        class: 'select-btn',
+                        'data-i18n': 'button.deselect-all',
+                        text: t('button.deselect-all')
+                    })
+                ])
+            ]),
+            el('div', { class: 'checkbox-group' }, [
+                el('label', { html: `<input type="checkbox" class="column-checkbox" value="begin-capital"> <span data-i18n="table.begin-capital">${t('table.begin-capital')}</span>` }),
+                el('label', { html: `<input type="checkbox" class="column-checkbox" value="total-payment"> <span data-i18n="table.total-payment">${t('table.total-payment')}</span>` }),
+                el('label', { html: `<input type="checkbox" class="column-checkbox" value="principal"> <span data-i18n="table.principal">${t('table.principal')}</span>` }),
+                el('label', { html: `<input type="checkbox" class="column-checkbox" value="interest"> <span data-i18n="table.interest">${t('table.interest')}</span>` }),
+                el('label', { html: `<input type="checkbox" class="column-checkbox" value="cumulative-principal"> <span data-i18n="table.cumulative-principal">${t('table.cumulative-principal')}</span>` }),
+                el('label', { html: `<input type="checkbox" class="column-checkbox" value="cumulative-interest"> <span data-i18n="table.cumulative-interest">${t('table.cumulative-interest')}</span>` }),
+                el('label', { html: `<input type="checkbox" class="column-checkbox" value="outstanding-capital"> <span data-i18n="table.outstanding-capital">${t('table.outstanding-capital')}</span>` }),
+                el('label', { html: `<input type="checkbox" class="column-checkbox" value="outstanding-interest"> <span data-i18n="table.outstanding-interest">${t('table.outstanding-interest')}</span>` }),
+                
+            ])
+        ])
     ]);
 }
 
 function createExecuteButton() {
-    return el('button', { id: 'executeBtn', class: 'accented-btn', "data-i18n": "button.execute", text: t('button.execute') });
+    return el('button', { id: 'generateBtn', class: 'accented-btn', "data-i18n": "button.generate", text: t('button.generate') });
 }

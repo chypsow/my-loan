@@ -1,5 +1,5 @@
 import { $, el, formatLocalDate, createHeader, fmtCurrency, $all, fmtDate, t } from './main.js';
-import { parseInputs, computeRemaining, updateSummary, hasMonthYearChanged } from './tab01.js';
+import { computeRemaining, updateSummary, hasMonthYearChanged } from './tab01.js';
 
 export function createTab02() {
     //$('#tab02').innerHTML = '';
@@ -20,12 +20,6 @@ export function createTab02() {
 }
 
 function calculteTotals() {
-    const inputs = parseInputs();
-    if (!inputs) {
-        alert(t('message.invalid-input'));
-        return;
-    }
-    const { bedrag, jkp, periode, renteType: type, startDate } = inputs;
     const datum1Input = $('#startdatum-status').value;
     const datum2Input = $('#einddatum-status').value;
     const datum1 = new Date(datum1Input);
@@ -34,6 +28,11 @@ function calculteTotals() {
         alert(t('message.valid-dates'));
         return;
     }
+
+    const inputs = updateSummary();
+    if (!inputs) return;
+    const { bedrag, jkp, periode, renteType: type, startDate } = inputs;
+
     // ensure datum1 en datum2 are between startDate and endDate of the loan
     const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + periode, startDate.getDate());
     const firstDate = datum1 < datum2 ? new Date(datum1) : new Date(datum2);
@@ -53,7 +52,6 @@ function calculteTotals() {
         $('#einddatum-status').setAttribute("data-prev-date", formatLocalDate(lastDate));
     }
    
-    updateSummary();
     // deduct one month from first date to include correct month in calculation
     if(firstDate.getMonth() > startDate.getMonth() || firstDate.getFullYear() > startDate.getFullYear()) {
         firstDate.setMonth(firstDate.getMonth() - 1);

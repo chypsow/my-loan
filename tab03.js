@@ -1,5 +1,5 @@
 import { $, el, createHeader, fmtCurrency, fmtDate, t } from './main.js';
-import { parseInputs, updateSummary, monthlyRate, computePayment } from './tab01.js';
+import { updateSummary, monthlyRate, computePayment } from './tab01.js';
 
 export function createTab03() {
     $('#tab03').append(
@@ -13,15 +13,13 @@ export function createTab03() {
 }
 
 function generateReport() {
-    const inputs = parseInputs();
+    const inputs = updateSummary();
     if (!inputs) return;
 
-    updateSummary();
-    const reportType = document.querySelector('input[name="reportDescription"]:checked').value;
+    const reportType = $('input[name="reportDescription"]:checked').value;
     if (reportType === 'annual-overview') {
         generateAnnualOverviewReport(inputs);
     } else if (reportType === 'detailed') {
-        // Generate detailed report
         console.log('Generating Detailed Report...');
         // Add logic for generating detailed report
     }

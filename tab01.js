@@ -135,12 +135,31 @@ export function hasMonthYearChanged(element) {
 }
 
 // Lening calculator logic
+function formatDuration(remainingMonths) {   
+    const jaren = Math.floor(remainingMonths / 12);
+    const maanden = remainingMonths % 12;
+    let html = '';
+    if (jaren > 0) {
+        html += `${jaren} <span class="duration-label" data-i18n="label.years" >${t('label.years')}</span>`;
+        if (maanden > 0) {
+            html += ` ${maanden} <span class="duration-label" data-i18n="label.months">${t('label.months')}</span>`;
+        }
+    } else {
+        html += `${maanden} <span class="duration-label" data-i18n="label.months">${t('label.months')}</span>`;
+    }
+    return html;
+}
+
 export function updateSummary() {
     const inputs = parseInputs();
     if (!inputs) {
         resetOutputs();
+        alert(t('message.invalid-input'));
         return;
     }
+    //if (returnInputs && !updateOutputs) { return inputs; }
+    //console.log("Updating summary with outputs");
+
     $("#aflossingBtn").disabled = false;
 
     const { bedrag, jkp, periode, renteType: type, startDate } = inputs;
@@ -150,13 +169,7 @@ export function updateSummary() {
     $all('.monthly-payment').forEach(elm => elm.textContent = fmtCurrency.format(betaling));
     $all('.monthly-rate').forEach(elm => elm.textContent = fmtDecimal(4).format(i * 100) + " %");
     $all('.total-interest').forEach(elm => elm.textContent = fmtCurrency.format((betaling * periode - bedrag)));
-
-    const formatDuration = (remainingMonths) => {   
-        const jaren = Math.floor(remainingMonths / 12);
-        const maanden = remainingMonths % 12;
-        return jaren > 0 ? `${jaren} ${t('label.years')}${maanden > 0 ? ` ${maanden} ${t('label.months')}` : ''}` : `${maanden} ${t('label.months')}`;
-    }
-    $all('.loan-period').forEach(elm => elm.textContent = formatDuration(periode));
+    $all('.loan-period').forEach(elm => elm.innerHTML = formatDuration(periode));
     
     // Calculate remaining duration from today to end date
     const today = new Date();
@@ -167,7 +180,7 @@ export function updateSummary() {
         resterendeMaanden = (endDate.getFullYear() - today.getFullYear()) * 12 + (endDate.getMonth() - today.getMonth());
     }
     const display = formatDuration(resterendeMaanden);
-    $all('.remaining-duration').forEach(elm => elm.textContent = resterendeMaanden ? display : `0 ${t('label.months')}`);
+    $all('.remaining-duration').forEach(elm => elm.innerHTML = display);
     $all('.startDateDisplay').forEach(elm => elm.textContent = fmtDate(startDate));
     $all('.endDateDisplay').forEach(elm => elm.textContent = fmtDate(endDate));
 
@@ -185,6 +198,8 @@ export function updateSummary() {
     $("#afbetaaldKapitaal-1").textContent = fmtCurrency.format(bedrag - remaining.capital);
     $("#afbetaaldeRente-1").textContent = fmtCurrency.format((betaling * periode - bedrag) - remaining.interest);
     $("#totaalBetaald-1").textContent = fmtCurrency.format(betaling * (periode - remaining.period));
+
+    return inputs;
 }
 
 export function computeRemaining(bedrag, jkp, periode, type, startDate, currentDate = new Date()) {
@@ -301,7 +316,7 @@ function importData() {
 function exportData() {
     const inputs = parseInputs();
     if (!inputs) {
-        alert("Geen geldige gegevens om te exporteren.");
+        alert(t('message.no-data-export'));
         return;
     }
     const data = {

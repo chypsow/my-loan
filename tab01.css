@@ -170,11 +170,11 @@ input , select{
     color:#ffffff; 
     /*outline:none;*/
 }
-.rente-type, .periode-eenheid{ 
-    padding:.35rem .5rem;
+select, .rente-type, .periode-eenheid{ 
+    /*padding:.35rem .5rem;
     border-radius:4px;
     border:1px solid var(--border);
-    background-color: var(--input-bg);
+    background-color: var(--input-bg);*/
     font-size: .9rem;
     width: fit-content;
     appearance: none; /* Verwijder standaard pijl */
@@ -184,15 +184,16 @@ input , select{
     background-size: .8rem;
     padding-right: 2rem; /* Ruimte voor de pijl */
 }
+/* Opties in dropdown (ondersteuning kan verschillen per browser) */
+select option {
+    background-color: #e7e7e7; /* dropdown items achtergrond */
+    color: #000000; 
+}
+
 /*.rente-type:focus{
     outline: none;
 }*/
 
-/* Opties in dropdown (ondersteuning kan verschillen per browser) */
-.rente-type option, .periode-eenheid option {
-    background-color: #e7e7e7; /* dropdown items achtergrond */
-    color: #000000; 
-}
 .invoer {
     width: 8rem;
     margin-left: .5rem;

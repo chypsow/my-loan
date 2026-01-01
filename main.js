@@ -125,24 +125,28 @@ function createTopHeader() {
 }
 
 function createLangSwitcher () {
-    const container = $('#lang-switch');
+    const select = $('#lang-switch');
     const languages = [{ code: 'en', label: 'EN' }, { code: 'fr', label: 'FR' }, { code: 'nl', label: 'NL' }];
+    
+    //const select = el('select', { class: 'lang-select', id: 'lang-select' });
+    
     languages.forEach(lang => {
-        const button = el('button', { class: 'lang-btn', 'data-lang': lang.code, text: lang.label });
-        button.addEventListener('click', () => {
-            if (currentLang === lang.code) return;
-            currentLang = lang.code;
-            localStorage.setItem('lang', lang.code);
-            applyLang(lang.code);
-            // Update active button highlight
-            container.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-        });
-        container.appendChild(button);
+        const option = el('option', { value: lang.code, text: lang.label });
+        if (lang.code === currentLang) {
+            option.selected = true;
+        }
+        select.appendChild(option);
     });
-    // Highlight active language button
-    const activeButton = container.querySelector(`button[data-lang="${currentLang}"]`);
-    if (activeButton) activeButton.classList.add('active');
+    
+    select.addEventListener('change', (e) => {
+        const newLang = e.target.value;
+        if (currentLang === newLang) return;
+        currentLang = newLang;
+        localStorage.setItem('lang', newLang);
+        applyLang(newLang);
+    });
+    
+    //container.appendChild(select);
 }
 
 export function renderTab(tabNumber) {

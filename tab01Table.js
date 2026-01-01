@@ -67,7 +67,7 @@ export function setTableVisibility(visible) {
 
 export function generateSchedule() {
     const inputs = parseInputs();
-    if (!inputs) return;
+    //if (!inputs) return;
     const { bedrag, jkp, periode, renteType: type, startDate } = inputs;
     const i = monthlyRate(jkp, type);
     const betaling = computePayment(bedrag, i, periode);

@@ -169,7 +169,7 @@ function autoFillSimulator() {
     $('#teLenenBedrag').value = '220000';
     $('#jkp').value = '12.116';
     $('#renteType').value = '2';
-    $('#periode').value = '300';
+    $('#periode').value = '180';
     $('#periodeEenheid').value = 'months';
     $('#startDatum').value = '2020-11-01';
 }

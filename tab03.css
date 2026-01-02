@@ -80,14 +80,22 @@
     background-color: #0d47a1;
 }*/
 .checkbox-group {
+    /*display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;*/
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
 }
 .checkbox-group label {
-    font-family: var(--font-mono);
-    font-size: 1rem;
+    /*flex: 0 1 calc(30% - 0.25rem);*/
+    width: 100%;
+    padding: 0.5rem 0.4rem;
+    font-family: var(--font-sans);
+    font-size: .8rem;
     color: #e4e4e4;
+    border-radius: 4px;
+    background: var(--card-bg);
 }
 .checkbox-group input {
     margin: 0;
@@ -96,7 +104,7 @@
 
 /* Annual Report Table Styles */
 .report-output {
-    padding: 1rem 0;
+    margin: 2rem 0;
 }
 
 /*.annual-report-container {
@@ -123,7 +131,7 @@
 }
 
 .annual-report-table thead th, .annual-report-table tbody td {
-    padding:.2rem; font-size:.9rem; text-align:center; border-bottom:1px solid #dcdcdc; overflow:hidden; text-overflow:ellipsis; white-space:normal;
+    padding:.2rem; font-size:.8rem; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:normal;
 }
 
 .annual-report-table tbody tr {
@@ -138,9 +146,11 @@
 /*.annual-report-table tbody td {
     padding: 0.75rem 1rem;
 }*/
-
+.annual-report-table tbody td {
+    border-bottom:1px solid #dcdcdc; 
+}
 .annual-report-table td:first-child {
-    text-align: right;
+    /*text-align: right;*/
     color: #324555;
     font-weight: 500;
 }

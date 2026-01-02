@@ -53,7 +53,7 @@ function createAnnualReportTable(inputs, interval, selectedColumns) {
     // Create table header
     const thead = el('thead');
     const headerRow = el('tr');
-    headerRow.appendChild(el('th', { text: 'Interval' }));
+    headerRow.appendChild(el('th', { text: `${ interval === 1 ? t('table.interval-date') : t('table.interval-month', { interval }) }`, 'data-i18n': interval === 1 ? 'table.interval-date' : 'table.interval-month' }));
     
     // Map labels for selected columns only
     const columnLabelsMap = {
@@ -91,11 +91,14 @@ function createAnnualReportTable(inputs, interval, selectedColumns) {
         const intervalStartMonth = (intervalNum - 1) * interval + 1;
         const intervalEndMonth = Math.min(intervalNum * interval, totalMonths);
         
+        // Calculate accurate interval start date by adding months
         let intervalStartDate = new Date(startDate);
-        intervalStartDate = new Date(intervalStartDate.getFullYear(), intervalStartDate.getMonth(), intervalStartDate.getDate() + (intervalStartMonth - 1) * 30);
+        intervalStartDate.setMonth(intervalStartDate.getMonth() + intervalStartMonth - 1);
         
+        // Calculate accurate interval end date by adding months and getting last day
         let intervalEndDate = new Date(startDate);
-        intervalEndDate = new Date(intervalEndDate.getFullYear(), intervalEndDate.getMonth(), intervalEndDate.getDate() + (intervalEndMonth - 1) * 30 + 30);
+        intervalEndDate.setMonth(intervalEndDate.getMonth() + intervalEndMonth);
+        intervalEndDate.setDate(0); // Set to last day of previous month
         
         // Calculate cumulative principal and interest for this interval
         let intervalPrincipal = 0;
@@ -121,7 +124,7 @@ function createAnnualReportTable(inputs, interval, selectedColumns) {
         
         // Interval column (always shown)
         const intervalCell = el('td', { 
-            text: `${fmtDate(intervalStartDate)} - ${fmtDate(intervalEndDate)}`
+            text: interval === 1 ? fmtDate(intervalStartDate) : `${fmtDate(intervalStartDate)} - ${fmtDate(intervalEndDate)}`
         });
         row.appendChild(intervalCell);
         
@@ -161,17 +164,8 @@ function createAnnualReportTable(inputs, interval, selectedColumns) {
                     cellText = fmtCurrency.format(cellValue);
                     break;
                 case 'outstanding-interest':
-                    // Estimate remaining interest based on current balance
-                    let remainingInterest = 0;
-                    let tempBal = balance;
-                    for (let m = intervalEndMonth + 1; m <= totalMonths; m++) {
-                        const monInterest = tempBal * i;
-                        const monPrincipal = Math.min(betaling - monInterest, tempBal);
-                        remainingInterest += monInterest;
-                        tempBal -= monPrincipal;
-                        if (tempBal <= 0) break;
-                    }
-                    cellValue = remainingInterest;
+                    const totalInterest = (betaling * totalMonths) - bedrag;
+                    cellValue = totalInterest - cumulativeInterest;
                     cellText = fmtCurrency.format(cellValue);
                     break;
             }

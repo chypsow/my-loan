@@ -65,13 +65,21 @@ section{
     gap: var(--gap);
     /*align-items: center;*/
 }
-.header-row{
+.header-row-output{
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 1rem;
 }
-.header-row span{
+.header-row-output h2, 
+.header-row-inputs h2,
+.output-fields h2,
+.overzicht-header h2{
+    font-family: 'cambria', serif;
+    letter-spacing: .1rem;
+    font-size: 1.5rem;
+}
+.header-row-output span{
     font-family: var(--font-mono);
     font-size: 1.2rem;
     font-weight: bold;
@@ -262,19 +270,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* Table styles */
-.managerTable{ width:100%; overflow:auto; }
+/*.managerTable{ width:100%; overflow:auto; }
 table{
     width:100%;
     position: relative;
     border-collapse:collapse;
     background:#fff;
     color:#222;
-    /*font-family:var(--font-mono);*/
     margin:1.5rem 0;
     table-layout:fixed;
 }
 .table-header{ position:sticky; top:var(--ht-top-header); background:var(--bg-table-header) ; color:#000000; }
-.table-header th, .table-inhoud td{ padding:.5rem .2rem; font-size:.8rem; text-align:center; border-bottom:1px solid #dcdcdc; overflow:hidden; text-overflow:ellipsis; white-space:normal; }
+.table-header th, .table-inhoud td{ padding:.5rem .2rem; font-size:.8rem; text-align:center; border-bottom:1px solid #dcdcdc; overflow:hidden; text-overflow:ellipsis; white-space:normal; }*/
 
 /* Misc */
 /*.lening-overzicht{ 

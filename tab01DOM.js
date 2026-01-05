@@ -122,7 +122,7 @@ function createLeftSummaryFieldset() {
 
 function createRightSummaryFieldset() {
     return el("div", { class: "output-fields card-dark" }, [
-        el("div", { class: "header-row", html: `<h2 data-i18n="section.loan-status-on">${t('section.loan-status-on')}</h2><input type="date" id="currentDate" class="invoer" }>` }),
+        el("div", { class: "header-row-output", html: `<h2 data-i18n="section.loan-status-on">${t('section.loan-status-on')}</h2><input type="date" id="currentDate" class="invoer" }>` }),
         el("div", { class: "info-box", html: `
             
             <p> <span data-i18n="output.outstanding-capital">${t('output.outstanding-capital')}</span>

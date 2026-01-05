@@ -3,7 +3,7 @@ export const translations = {
   en: {
     // Headers & sections
     "tab.simulator": "LOAN SIMULATOR",
-    "tab.calculator": "CALCULATIONS",
+    "tab.calculator": "CALCULATOR",
     "tab.table": "LOAN TABLES",
     "tab.amortization": "AMORTIZATION TABLE",
     "header.loan-overview": "LOAN SIMULATOR",
@@ -109,7 +109,7 @@ export const translations = {
   fr: {
     // Headers & sections
     "tab.simulator": "SIMULATEUR DE CRÉDIT",
-    "tab.calculator": "CALCULS",
+    "tab.calculator": "CALCULATEUR",
     "tab.table": "TABLEAUX DE CRÉDIT",
     "tab.amortization": "TABLEAU D'AMORTISSEMENT",
     "header.loan-overview": "SIMULATEUR DE CRÉDIT",
@@ -215,7 +215,7 @@ export const translations = {
   nl: {
     // Headers & sections
     "tab.simulator": "LENING SIMULATOR",
-    "tab.calculator": "BEREKENINGEN",
+    "tab.calculator": "CALCULATOR",
     "tab.table": "LENING TABELLEN",
     "tab.amortization": "AFLOSSINGSTABEL",
     "header.loan-overview": "LENING SIMULATOR",

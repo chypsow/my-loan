@@ -5,7 +5,7 @@ import { createTab03 } from './tab03.js';
 import { translations } from './i18n.js';
 
 // Current language
-let currentLang = localStorage.getItem('lang') || 'en';
+let currentLang = localStorage.getItem('lang') || 'fr';
 export let activePage = localStorage.getItem('activePage') ? parseInt(localStorage.getItem('activePage')) : 0;
 export const $ = selector => document.querySelector(selector);
 export const $all = selector => Array.from(document.querySelectorAll(selector));
@@ -173,13 +173,18 @@ export function renderTab(tabNumber) {
     });
 }
 
-function autoFillSimulator() {
+function autoFillInputs() {
+    $('#bankName').value = 'BTK';
     $('#teLenenBedrag').value = '220000';
     $('#jkp').value = '12.116';
     $('#renteType').value = '2';
     $('#periode').value = '180';
     $('#periodeEenheid').value = 'months';
     $('#startDatum').value = '2020-11-01';
+    $('#currentDate').value = formatLocalDate(new Date());
+    $('#startdatum-status').value = '2020-11-01';
+    $('#einddatum-status').value = '2035-11-01';
+    $('#intervalInput').value = '1';
 }
 
 function createMainContent() {
@@ -197,5 +202,5 @@ document.addEventListener("DOMContentLoaded", () => {
     createTab02();
     createTab03();
     renderTab(activePage + 1);
-    autoFillSimulator();
+    autoFillInputs();
 });

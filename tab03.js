@@ -326,14 +326,14 @@ function createCheckboxes() {
                 ])
             ]),
             el('div', { class: 'checkbox-group' }, [
-                el('label', { html: `<input type="checkbox" class="column-checkbox" value="begin-capital" checked> <span data-i18n="table.begin-capital">${t('table.begin-capital')}</span>` }),
+                el('label', { html: `<input type="checkbox" class="column-checkbox" value="begin-capital"> <span data-i18n="table.begin-capital">${t('table.begin-capital')}</span>` }),
                 el('label', { html: `<input type="checkbox" class="column-checkbox" value="total-payment" checked> <span data-i18n="table.total-payment">${t('table.total-payment')}</span>` }),
                 el('label', { html: `<input type="checkbox" class="column-checkbox" value="principal" checked> <span data-i18n="table.principal">${t('table.principal')}</span>` }),
                 el('label', { html: `<input type="checkbox" class="column-checkbox" value="interest" checked> <span data-i18n="table.interest">${t('table.interest')}</span>` }),
                 el('label', { html: `<input type="checkbox" class="column-checkbox" value="cumulative-principal" checked> <span data-i18n="table.cumulative-principal">${t('table.cumulative-principal')}</span>` }),
                 el('label', { html: `<input type="checkbox" class="column-checkbox" value="cumulative-interest" checked> <span data-i18n="table.cumulative-interest">${t('table.cumulative-interest')}</span>` }),
                 el('label', { html: `<input type="checkbox" class="column-checkbox" value="outstanding-capital" checked> <span data-i18n="table.outstanding-capital">${t('table.outstanding-capital')}</span>` }),
-                el('label', { html: `<input type="checkbox" class="column-checkbox" value="outstanding-interest" checked> <span data-i18n="table.outstanding-interest">${t('table.outstanding-interest')}</span>` }),
+                el('label', { html: `<input type="checkbox" class="column-checkbox" value="outstanding-interest"> <span data-i18n="table.outstanding-interest">${t('table.outstanding-interest')}</span>` }),
                 
             ])
         ])

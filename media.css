@@ -75,5 +75,5 @@
     .annual-report-table thead { position: static; border-bottom: 1px solid #7a7a7a; background: transparent; }
     .annual-report-table tbody tr { border-bottom: 1px solid #d3d3d3; background: transparent; }
     .annual-report-table tbody tr:hover { background: unset; }
-    .annual-report-table tbody td { color: #000; }
+    .annual-report-table tbody td { color: #4e4e4e; }
 }

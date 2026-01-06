@@ -327,7 +327,7 @@ function exportData() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 4));
     const downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
-    const filename = `${data["bank-name"]}_${data["loan-amount"]/1000}k_${data["period-months"]}m_${data["start-date"]}.txt`;
+    const filename = `${currencyState.current}_${inputs.bedrag/1000}k_${inputs.periode}m_${formatLocalDate(inputs.startDate)}.txt`;
     downloadAnchorNode.setAttribute("download", filename);
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();

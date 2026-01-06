@@ -200,6 +200,8 @@ export function renderTab(tabNumber) {
 }
 
 function autoFillInputs() {
+    $('#currencySelect').options.selectedIndex = 6; // TND
+    $('#currencySelect').dispatchEvent(new Event('change'));
     $('#teLenenBedrag').value = '220000';
     $('#jkp').value = '12.116';
     $('#jkp').dispatchEvent(new Event('input'));

@@ -209,7 +209,13 @@ function createThemeMenuButton() {
 function createThemeSelector() {
     const container = el('div', { class: 'theme-popup-overlay', id: 'theme-popup-overlay' });
     const popup = el('div', { class: 'theme-popup' });
-    
+    // button to close
+    const closeBtn = el('button', { class: 'theme-popup-close-btn', 'aria-label': 'Close theme menu' });
+    closeBtn.innerHTML = '&times;';
+    popup.appendChild(closeBtn);
+    closeBtn.addEventListener('click', () => {
+        closeThemePopup();
+    });
     const themes = [
         { id: 'theme-dark-cyan', color: 'rgba(0, 217, 255, 1)' },
         { id: 'theme-dark-purple', color: 'rgba(114, 68, 199, 1)' },

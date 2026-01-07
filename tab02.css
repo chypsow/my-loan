@@ -132,7 +132,7 @@
 }
 .output-sectie-separator {
     border: none;
-    border-top: 1px dashed rgba(221, 221, 221, 0.5);
+    border-top: 1px dashed var(--border);
     margin: 0;
 }
 

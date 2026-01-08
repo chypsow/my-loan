@@ -297,7 +297,7 @@ function setTheme(themeName) {
 
 export function createFooter() {
     const footer = el("footer", { class: "no-print" }, [
-        el("p", { html: `&#169; 2025 My Loan Calculator. All rights reserved. <br> POWERED BY CHYPSOW` })
+        el("p", { text: 'POWERED BY CHYPSOW'})
     ]);
     return footer;
 } 
@@ -311,7 +311,6 @@ function createMainContent() {
     main.appendChild(createThemeSelector());
 }
     
-
 /* Initialize */
 document.addEventListener("DOMContentLoaded", () => {
     createMainContent();

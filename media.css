@@ -4,7 +4,7 @@
     fieldset{ width:100%; }
     footer { display: none; }
     /*.lening-overzicht{ column-count:2; }*/
-    .simulator, .calculator, .generator{ width:85%; padding:.75rem; }
+    .simulator, .calculator, .generator{ width:85%; }
     /*.table-wrapper{ width:85%; padding:.75rem; }*/
     .table-header th, .table-inhoud td{ font-size:.85rem; white-space:nowrap; }
     .circles-wrapper{ width:120px; height:120px; }

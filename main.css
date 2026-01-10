@@ -24,7 +24,7 @@
     --border: rgba(150, 150, 150, 0.5);
     --input-bg: rgba(27, 27, 27, 0.6);
     --input-color: #ebebeb;
-    --ht-top-header: 3rem;
+    --ht-top-header: 3.25rem;
     --table-bg-header: linear-gradient(180deg,#e9e9e9 10%,#1b1b1b 360%);
     --table-bg-row: #0e2b4e;
     --table-color-row: #e4e4e4;
@@ -192,9 +192,8 @@ h1{
 /* Language Switcher Styles */
 .lang-select {
     position: fixed;
-    top: 0px;
-    right: 0px;
-    margin: 8px;
+    top: var(--ht-top-header);
+    right:8px;
     width: auto;
     background-color: var(--accent);
     color: var(--top-header-color);
@@ -250,13 +249,13 @@ h1{
 /* Hamburger menu button - absolute positioning */
 .theme-menu-btn {
     position: fixed;
-    top: 60px;
-    right: 10px;
+    top: var(--ht-top-header);
+    left: 10px;
     width: 2.5rem;
     height: 2.5rem;
     border: 2px solid transparent;
     border-radius: 4px;
-    background-color: var(--input-bg);
+    background: var(--input-bg);
     color: var(--input-color);
     font-size: 1.5rem;
     cursor: pointer;
@@ -264,7 +263,7 @@ h1{
     align-items: center;
     justify-content: center;*/
     transition: all 0.3s ease;
-    z-index: 1110;
+    z-index: 1003;
 }
 
 .theme-menu-btn:hover {
@@ -272,7 +271,11 @@ h1{
     color: var(--top-header-color);
     border-color: var(--accent);
 }
-
+.theme-menu-btn.open:hover {
+    background-color: var(--input-bg);
+    color: var(--input-color);
+    border-color: transparent;
+}
 /* Theme popup overlay */
 .theme-popup-overlay {
     position: fixed;
@@ -281,7 +284,7 @@ h1{
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
-    z-index: 1111;
+    z-index: 1002;
     display: flex;
     justify-content: flex-end;
     opacity: 0;
@@ -298,7 +301,8 @@ h1{
 .theme-popup {
     position: absolute;
     top: var(--ht-top-header);
-    right: 10px;
+    padding-top: .3rem;
+    left: 70px;
     background:transparent;
     border-right: none;
     display: flex;
@@ -311,17 +315,6 @@ h1{
     /*overflow-y: auto;*/
     animation: slideInRight 0.4s ease-out;
     /*box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);*/
-}
-.theme-popup-close-btn {
-    background: transparent;
-    border: none;
-    font-size: 4rem;
-    color: #c9c9c9;
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
-.theme-popup-close-btn:hover {
-    color: #ffffff;
 }
 
 @keyframes slideInRight {
@@ -340,8 +333,8 @@ h1{
 }
 
 .theme-btn-popup {
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     border-radius: 50%;
     border: 3px solid transparent;
     cursor: pointer;

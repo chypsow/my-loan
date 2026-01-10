@@ -243,10 +243,10 @@ function createThemeSelector() {
     });
 
     // button to close
-    const closeBtn = el('button', { class: 'theme-popup-close-btn', 'aria-label': 'Close theme menu' });
+    /*const closeBtn = el('button', { class: 'theme-popup-close-btn', 'aria-label': 'Close theme menu' });
     closeBtn.innerHTML = '&times;';
     popup.appendChild(closeBtn);
-    closeBtn.addEventListener('click', closeThemePopup);
+    closeBtn.addEventListener('click', closeThemePopup);*/
     
     container.appendChild(popup);
     
@@ -274,7 +274,9 @@ function openThemePopup() {
         const btn = document.querySelector('.theme-menu-btn');
         if (btn) {
             btn.setAttribute('aria-expanded', 'true');
-            btn.style.display = 'none';
+            btn.innerHTML = '✕';
+            btn.classList.add('open');
+            //btn.style.display = 'none';
         }
     }
 }
@@ -286,7 +288,9 @@ function closeThemePopup() {
         const btn = document.querySelector('.theme-menu-btn');
         if (btn) {
             btn.setAttribute('aria-expanded', 'false');
-            btn.style.display = '';
+            btn.innerHTML = '☰';
+            btn.classList.remove('open');
+            //btn.style.display = 'block';
         }
     }
 }

@@ -20,7 +20,7 @@ export function createTab04() {
     meterSectionsDiv.appendChild(gasSection);
     
     // Tax section
-    const taxSection = el('div', { class: 'tax-section' });
+    const taxSection = el('div', { class: 'tax-section invoice-section' });
     taxSection.appendChild(el('h3', {
         'data-i18n': 'invoice.taxes',
         text: t('invoice.taxes')

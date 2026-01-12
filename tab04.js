@@ -42,10 +42,12 @@ export function createTab04() {
     // Electricity section
     const elecSection = createMeterSection('electricity', 'kWh', 0.176, 0.07, 4.9);
     meterSectionsDiv.appendChild(elecSection);
+    elecSection.addEventListener('click', isEditableElement);
     
     // Gas section
     const gasSection = createMeterSection('gas', 'm³', 0.231, 0.19, 0.75);
     meterSectionsDiv.appendChild(gasSection);
+    gasSection.addEventListener('click', isEditableElement);
     
     // Tax section
     const taxSection = el('div', { class: 'tax-section invoice-section' });
@@ -98,8 +100,8 @@ export function createTab04() {
         input.addEventListener('change', () => calculateInvoice(tab04));
     });
 
-    const editableContainer = tab04.querySelector('.invoice-content');
-    editableContainer.addEventListener('click', (e) => {
+    // Editable spans for price and TVA
+    function isEditableElement(e) {
         const elt = e.target;
         if (!elt.classList.contains('editable')) return;
         
@@ -124,10 +126,10 @@ export function createTab04() {
             input.replaceWith(newSpan);
             calculateInvoice(tab04);
         });
-    });
+    }
 
     // Billing period input
-    const billingPeriodInput = () => {
+    const createBillingPeriodInput = () => {
         const input =  el('input', {
         type: 'number',
         id: 'billingPeriod',
@@ -138,7 +140,7 @@ export function createTab04() {
         input.addEventListener('change', () => calculateInvoice(tab04));
         return input;
     };
-    const billingPeriodDatesGroup = () => {
+    const createBillingPeriodDatesGroup = () => {
         const datums = el('div', { class: 'billing-period-dates-group' }, [
         el('label', { html: `<span data-i18n="print.start-date">${t('print.start-date')}</span> <input type="date" id="billingStartDate" class="billing-date-input">` }),
         el('label', { html: `<span data-i18n="print.end-date">${t('print.end-date')}</span> <input type="date" id="billingEndDate" class="billing-date-input">` })
@@ -165,9 +167,9 @@ export function createTab04() {
     const savedBillingPeriodType = localStorage.getItem('invoiceBillingPeriodType') || 'months';
     billingPeriodSelect.value = savedBillingPeriodType;
     if (savedBillingPeriodType === 'months') {
-        billingPeriodGroup.appendChild(billingPeriodInput());
+        billingPeriodGroup.appendChild(createBillingPeriodInput());
     } else {
-        billingPeriodGroup.appendChild(billingPeriodDatesGroup());
+        billingPeriodGroup.appendChild(createBillingPeriodDatesGroup());
     }
 
     // select change for billing period type
@@ -175,10 +177,10 @@ export function createTab04() {
         const billingPeriodGroup = tab04.querySelector('.billing-period-group');
         billingPeriodGroup.innerHTML = '';
         if (billingPeriodSelect.value === 'months') {
-            billingPeriodGroup.appendChild(billingPeriodInput());
+            billingPeriodGroup.appendChild(createBillingPeriodInput());
             localStorage.setItem('invoiceBillingPeriodType', 'months');
         } else {
-            billingPeriodGroup.appendChild(billingPeriodDatesGroup());
+            billingPeriodGroup.appendChild(createBillingPeriodDatesGroup());
             localStorage.setItem('invoiceBillingPeriodType', 'dates');
         }
         calculateInvoice(tab04);
@@ -263,6 +265,8 @@ function createMeterSection(meterType, unit, defaultPrice, defaultTVA, defaultFi
     // Store fixed costs value on section
     section.setAttribute('data-fixed', defaultFixed);
     
+    // add event listeners to section 
+
     return section;
 }
 

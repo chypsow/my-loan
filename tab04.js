@@ -7,7 +7,7 @@ export function createTab04() {
     
     const content = el('div', { class: 'invoice-content' });
 
-    // Billing period input + results section
+    // Billing period input + Grand total display
     const resultsSection = el('div', { class: 'results-section' });
     const billingPeriodContainer = el('div', { class: 'billing-period-container' });
     resultsSection.appendChild(billingPeriodContainer);
@@ -131,7 +131,6 @@ export function createTab04() {
         const meterSection = e.currentTarget;
         const meterType = meterSection.getAttribute('data-meter-type');
         const priceOrTVA = elt.classList.contains('price-electricity') || elt.classList.contains('price-gas') ? 'price' : 'tva';
-        //console.log({priceOrTVA, meterType});
 
         const currentValue = meterSection.getAttribute(`data-${priceOrTVA}`);
         const input = el('input', {
@@ -151,21 +150,17 @@ export function createTab04() {
 
         input.addEventListener('change', () => {
             meterSection.setAttribute(`data-${priceOrTVA}`, parseFloat(input.value));
-            //currentValue = parseFloat(input.value);
             calculateInvoice(tab04);
         });
         
         input.addEventListener('blur', () => {
             let newValue = parseFloat(input.value);
-            //console.log('current value', currentValue, 'new value', newValue);
             if (isNaN(newValue)) {
-                //console.log('Invalid number input');
                 newValue = parseFloat(currentValue);
             }
             const newSpan = el('span', { class: `${priceOrTVA}-${meterType} editable`, text: `${priceOrTVA === 'price' ? newValue + ' DT' : (newValue * 100).toFixed(2) + ' %'}` });
             input.replaceWith(newSpan);
             meterSection.setAttribute(`data-${priceOrTVA}`, newValue);
-            //calculateInvoice(tab04);
         });
     }
 
@@ -198,19 +193,19 @@ export function createTab04() {
         billingStartDateInput.value = savedStartDate;
         billingEndDateInput.value = savedEndDate;
         datums.querySelectorAll('input').forEach(input => {
-            input.addEventListener('change', () => updateBillingPeriodFromDates());
+            input.addEventListener('change', () => updateBillingPeriodFromDates(billingStartDateInput, billingEndDateInput));
         });
         return datums;
     };
 
     // handle dates change
-    function updateBillingPeriodFromDates() {
-        const billingStartDateInput = tab04.querySelector('#billingStartDate');
-        const billingEndDateInput = tab04.querySelector('#billingEndDate');
+    function updateBillingPeriodFromDates(billingStartDateInput, billingEndDateInput) {
         const startDate = new Date(billingStartDateInput.value);
         const endDate = new Date(billingEndDateInput.value);
         if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()) || endDate <= startDate) {
             console.log('Invalid dates for billing period - 1');
+            localStorage.setItem('invoiceBillingStartDate', billingStartDateInput.value);
+            localStorage.setItem('invoiceBillingEndDate', billingEndDateInput.value);
             resetResultsInvoice(tab04);
             return;
         }
@@ -439,7 +434,7 @@ export function calculateInvoice(tab04Container) {
     tab04Container.querySelector('#grandTotalValue').textContent = createFmtCurrency('TND').format(grandTotal);
 }
 
-function exportInvoiceData(tab04Container) {
+/*function exportInvoiceData(tab04Container) {
     const billingPeriod = tab04Container.querySelector('#billingPeriod').value;
     const elecOld = tab04Container.querySelector('.meter-old').value;
     const elecNew = tab04Container.querySelectorAll('.meter-new')[0].value;
@@ -454,6 +449,6 @@ function exportInvoiceData(tab04Container) {
     const a = el('a', { href: url, download: 'invoice.csv' });
     a.click();
     window.URL.revokeObjectURL(url);
-}
+}*/
 
 

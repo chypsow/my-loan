@@ -13,7 +13,6 @@
     --bg-mid: #1a1a1a;
     --accent: rgb(0, 217, 255);
     --accent-plus: var(--accent);
-    /*--highlighted-text: rgb(0, 217, 255);*/
     --muted: #e0e0e0;
     --card-bg: linear-gradient(90deg, #0f3460 0%, #16213e 50%, #0f0f0f 100%);
     --glass: rgba(255, 255, 255, 0.212);
@@ -28,19 +27,16 @@
     --border: rgba(150, 150, 150, 0.5);
     --input-bg: rgba(27, 27, 27, 0.6);
     --input-color: #ebebeb;
-    --ht-top-header: 3.25rem;
+    --top-fixed-position: 3.25rem;
     --table-bg-header: linear-gradient(180deg,#e9e9e9 10%,#1b1b1b 360%);
-    /*--table-bg-row: #0e2b4e;*/
     --table-bg-row: #ffffff;
-    /*--table-color-row: #e4e4e4;*/
-    /*--table-tr-hover: #001731;*/
     --table-color-row: #333333;
     --table-tr-hover: #c0c0c0;
     --top-header-color: #000000;
     --output-fields-color: var(--accent);
     --import-export-bg: var(--accent);
     --select-bg-image: url('data:image/svg+xml;utf8,<svg width="12" height="8" viewBox="0 0 12 8" xmlns="http://www.w3.org/2000/svg"><polyline points="1,1 6,6 11,1" stroke="%23e4e4e4" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-    /* H1 styling variables */
+/* H1 styling variables */
     --h1-color: rgb(28, 148, 169);
     --h1-shadow-1: rgba(0, 217, 255, 0.8);
     --h1-shadow-2: rgba(0, 217, 255, 0.6);
@@ -53,13 +49,11 @@
     --bg-body: linear-gradient(90deg, #600f0f 0%, #3e1616 50%, #0f0f0f 100%);
     --accent: #fad0c4;
     --accent-plus: var(--accent);
-    /*--highlighted-text: #fad0c4;*/
     --card-bg: linear-gradient(90deg, #600f0f 0%, #3e1616 50%, #0f0f0f 100%);
     --bg-dark: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
     --output-fields-color: var(--accent);
     --top-header-color: #000000;
-    /*--table-bg-row: #4e2b2b;*/
-    /* H1 styling for roze theme */
+/* H1 styling for roze theme */
     --h1-color: rgb(185, 143, 143);
     --h1-shadow-1: rgba(250, 208, 196, 0.8);
     --h1-shadow-2: rgba(250, 208, 196, 0.6);
@@ -74,23 +68,18 @@
     --bg-mid: #ffffff;
     --accent: rgb(114, 68, 199);
     --accent-plus: rgb(188, 151, 255);
-    /*--highlighted-text: rgb(188, 151, 255);*/
     --card-bg: linear-gradient(90deg, #1e0f60 0%, #25163e 50%, #0f0f0f 100%);
     --glass: rgba(255, 255, 255, 0.212);
     /*--glass-plus: rgba(0, 0, 0, 0.075);*/
     --border: rgba(150, 150, 150, 0.856);
     --input-bg: #221f2e46;
     --input-color: rgb(214, 200, 240);
-    /*--table-bg-header: linear-gradient(180deg, #e0e0e0 10%, #f5f5f5 360%);*/
-    /*--table-bg-row: rgb(51, 26, 109);*/
-    /*--table-color-row: #e2e2e2;*/
-    /*--table-tr-hover: rgb(29, 15, 61);*/
     /*--text-color: #e2e2e2;*/
     --top-header-color: #ffffff;
     --output-fields-color: rgb(214, 200, 240);
     --import-export-bg: var(--accent);
     --end-date-color: #c1adff;
-    /* H1 styling for light theme */
+/* H1 styling for light theme */
     --h1-color: rgb(103, 88, 138);
     --h1-shadow-1: rgba(147, 133, 179, 0.8);
     --h1-shadow-2: rgba(147, 133, 179, 0.6);
@@ -104,7 +93,6 @@
     --bg-mid: #f9f9f9;
     --accent: rgb(204, 89, 13);
     --accent-plus: rgb(50, 54, 241);
-    /*--highlighted-text: rgb(150, 60, 0);*/
     --muted: #555555;
     --card-bg: linear-gradient(90deg, #fce8dd 0%, #f0f0f0 50%, #e9e9e9 100%);
     --glass: rgba(124, 135, 175, 0.342);
@@ -114,17 +102,13 @@
     --input-bg: rgba(255, 255, 255, 0.8);
     --calendar-accent: dark;
     --input-color: #333333;
-    /*--table-bg-header: linear-gradient(180deg, #c6c6c6 10%, #ffffff 360%);*/
-    /*--table-bg-row: #ffffff;*/
-    /*--table-color-row: #333333;*/
-    /*--table-tr-hover: #c0c0c0;*/
     --label-color: #333333;
     --text-color: #181818;
     --top-header-color: #ffffff;
     --output-fields-color: rgb(150, 60, 0);
     --import-export-bg: var(--accent);
     --select-bg-image: url('data:image/svg+xml;utf8,<svg width="12" height="8" viewBox="0 0 12 8" xmlns="http://www.w3.org/2000/svg"><polyline points="1,1 6,6 11,1" stroke="%23333333" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-    /* H1 styling for white theme */
+/* H1 styling for white theme */
     --h1-color: rgb(187, 90, 25);
     --h1-shadow-1: rgba(245, 127, 49, 0.8);
     --h1-shadow-2: rgba(245, 127, 49, 0.6);
@@ -147,10 +131,7 @@ header{
     text-align:center;
     padding:1.5rem;
     border-radius:var(--radius);
-    /*color: #1c94a9;*/
-    /* background: #cecece; */
     letter-spacing: 5px;
-    /* margin: 1.5rem 0 2.5rem; */
     max-width: var(--max-width);
     width: clamp(320px, 60%, 950px);
     margin: 1.5rem auto;
@@ -172,7 +153,6 @@ h1{
 
 /* topheader */
 .top-header {
-    /*height: var(--top-header-height);*/
     position: sticky;
     top: 0;
     display: flex;
@@ -260,7 +240,7 @@ h1{
 /* Hamburger menu button - absolute positioning */
 .theme-menu-btn {
     position: fixed;
-    top: var(--ht-top-header);
+    top: var(--top-fixed-position);
     left: 10px;
     width: 2.5rem;
     height: 2.5rem;
@@ -270,9 +250,6 @@ h1{
     color: var(--input-color);
     font-size: 1.5rem;
     cursor: pointer;
-    /*display: flex;
-    align-items: center;
-    justify-content: center;*/
     transition: all 0.3s ease;
     z-index: 1003;
 }
@@ -311,7 +288,7 @@ h1{
 /* Theme popup panel */
 .theme-popup {
     position: absolute;
-    top: var(--ht-top-header);
+    top: var(--top-fixed-position);
     padding-top: .3rem;
     left: 70px;
     background:transparent;
@@ -321,11 +298,7 @@ h1{
     justify-items: center;
     align-items: center;
     gap: 1.5rem;
-    /*padding: 2rem;*/
-    /*width: clamp(200px, 20%, 100px);*/
-    /*overflow-y: auto;*/
     animation: slideInRight 0.4s ease-out;
-    /*box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);*/
 }
 
 @keyframes slideInRight {

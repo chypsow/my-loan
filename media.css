@@ -14,7 +14,13 @@
 @media (max-width:950px){
     header, footer{ flex-direction:column; align-items:center; gap:.5rem; }
     header h1{ font-size: 2rem;}
-    .annual-report-table thead { top: 2.7rem; }
+    :root { --top-fixed-position: 11rem; --radius-wrapper: 0px; }
+    .theme-btn-popup{ width: 20px; height: 20px; }
+    .theme-popup{ gap: .75rem; padding-top: .7rem;}
+    .top-header {flex-direction: column; gap:0; }
+    .top-header a { text-align: center; padding: .75rem; }
+    /*.annual-report-table thead { top: 2.7rem; }*/
+    .annual-report-table thead { top: 7.7rem; }
     .table-header th, .table-inhoud td{ font-size:.75rem; }
     .summary-output{ flex-direction:column; }
     .datum-sectie{ flex-direction:column; gap: 0;}
@@ -31,15 +37,15 @@
     header h1{ font-size: 1.5rem; }
     label{ font-size:.65rem; }
     .interval-input-container label{ font-size: .9rem;}
-    :root { --top-fixed-position: 11rem; --radius-wrapper: 0px; }
+    /*:root { --top-fixed-position: 11rem; --radius-wrapper: 0px; }
     .theme-btn-popup{ width: 20px; height: 20px; }
-    .theme-popup{ gap: .75rem; padding-top: .7rem;}
+    .theme-popup{ gap: .75rem; padding-top: .7rem;}*/
     .table-header th, .table-inhoud td{ font-size:.65rem; }
     .calculator, .generator, .invoice-content{ width:100%; padding:.5rem; }
     .simulator{ width:100%; padding:.5rem .5rem 0 .5rem; }
-    .top-header {flex-direction: column; gap:0; }
-    .top-header a { text-align: center; padding: .75rem; }
-    .annual-report-table thead { top: 7.7rem; }
+    /*.top-header {flex-direction: column; gap:0; }
+    .top-header a { text-align: center; padding: .75rem; }*/
+    /*.annual-report-table thead { top: 7.7rem; }*/
     .datums { flex-direction:column; align-items: flex-start; gap:.5rem; }
     .datums p span:first-child { font-size:.65rem; }
     .datums p span:nth-child(2) { font-size:.75rem; }
@@ -56,6 +62,9 @@
     .invoer{ width:5rem; font-size:.9rem; }
     .rente-type, .periode-eenheid{ font-size:.7rem; }
     .select-columns-header { flex-direction: column; align-items: flex-start;}
+    .billing-period-result .grand-total span,
+    .billing-period-months .billing-period-months-label h3,
+    .billing-period-months .billing-period-months-label span { font-size: 1rem; }
 }
 /* Print styles */
 @media print{

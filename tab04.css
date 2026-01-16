@@ -21,69 +21,48 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    flex-wrap: wrap;
-    /*min-height: 8rem;*/
-    /*padding-left: 1rem;*/
-}
-/*.results-section .input-group {
-    flex-direction: row;
     align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    min-height: 7.5rem;
+}
+.billing-period-result {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
-    margin: 0;
-}*/
-/*.results-section .input-group label {
-    color: var(--text-color);
-    font-size: 1rem;
-    font-weight: 500;
-}*/
-.results-section .result-item {
-    flex: 1 1 20%;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    flex: 1 1 45%;
+}
+.billing-period-result .grand-total {
     display: flex;
     justify-content: flex-start;
     gap: 2rem;
     white-space: nowrap;
-    /*align-items: end;*/
-    /*padding: 12px 15px;*/
-    /*background: var(--card-bg);
-    border: 1px solid var(--border);*/
     border-radius: 4px;
 }
 
-.result-item span {
-    font-weight: 500;
-    font-size: 1.1rem;
-    color: var(--accent-plus);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.results-section .billing-period-container {
-    flex: 1 1 20%;
+.billing-period-container {
+    flex: 1 1 45%;
     display: flex;
     flex-direction: column;
-    /*align-items: last baseline;*/
     gap: .5rem;
-    /*min-height: 6rem;*/
-}
-.results-section .billing-period-months {
-    flex: 1 1 35%;
-    display: flex;
-    white-space: nowrap;
 }
 
-.billing-period-months .billing-period-header {
+.billing-period-months .billing-period-months-label {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-.billing-period-months .billing-period-header h3,
-.billing-period-months .billing-period-header span {
+.billing-period-months .billing-period-months-label h3,
+.billing-period-months .billing-period-months-label span {
     margin: 0;
     color: var(--accent-plus);
     font-size: 1.3rem;
-    padding-bottom: 8px;
 }
-.billing-period-header span:nth-child(2) {
+.billing-period-months-label span:nth-child(2) {
     padding-left: .5rem;
     padding-right: .5rem;
 }
@@ -266,13 +245,16 @@
 
 .result-row span.total-ht-all,
 .result-row span.tax-item-total,
-.result-item span{
-    margin-left: .5rem;
+.billing-period-result .grand-total span{
+    padding-left: 1rem;
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--output-fields-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
+.billing-period-result .grand-total span:first-child {
+    padding-left: 0;
+}
 
 
 

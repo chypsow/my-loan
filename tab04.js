@@ -9,41 +9,22 @@ export function createTab04() {
 
     // Billing period input + Grand total display
     const resultsSection = el('div', { class: 'results-section' });
-    //const billingPeriodContainer = el('div', { class: 'billing-period-container' });
-    //resultsSection.appendChild(billingPeriodContainer);
+    content.appendChild(resultsSection);
+
     const billingPeriodContainer = el('div', { class: 'billing-period-container' });
     resultsSection.appendChild(billingPeriodContainer);
+
     const billingPeriodSelect = el('select', { class: 'billing-period-select no-print', id: 'billingPeriodSelect' }, [
         el('option', { value: 'months', text: t('invoice.duration-months'), 'data-i18n': 'invoice.duration-months' }),
         el('option', { value: 'dates', text: t('invoice.period'), 'data-i18n': 'invoice.period' })
     ]);
     billingPeriodContainer.appendChild(billingPeriodSelect);
-    const billingPeriodGroup = el('div', { class: 'billing-period-group' });
-    billingPeriodContainer.appendChild(billingPeriodGroup);
+    const billingPeriodMonthOrDateInput = el('div', { class: 'billing-period-group' });
+    billingPeriodContainer.appendChild(billingPeriodMonthOrDateInput);
 
-    //billingPeriodGroup.appendChild(billingPeriodSelect);
-    //resultsSection.appendChild(billingPeriodSelect);
-    //billingPeriodContainer.appendChild(billingPeriodSelect);
-    const billingPeriodMonths = el('div', { class: 'billing-period-months' });
-    resultsSection.appendChild(billingPeriodMonths);
-    //billingPeriodContainer.appendChild(billingPeriodGroup);
-
-    const billingPeriodHeader = el('div', { class: 'billing-period-header' });
-    billingPeriodMonths.appendChild(billingPeriodHeader);
-    billingPeriodHeader.appendChild(el('h3', {
-        'data-i18n': 'invoice.billing-period',
-        text: t('invoice.billing-period')
-    }));
-    billingPeriodHeader.appendChild(el('span', {
-        class: 'billing-period-info number-of-months hidden',
-
-    }));
-    billingPeriodHeader.appendChild(el('span', {
-        'data-i18n': 'invoice.billing-period-months',
-        text: t('invoice.billing-period-months'),
-        class: 'billing-period-info hidden'
-    }));
-   
+    // Billing period + grand total display
+    const billingPeriodAndResult = el('div', { class: 'billing-period-result' });
+    resultsSection.appendChild(billingPeriodAndResult);
     
     // Grand total display
     const grandTotalDiv = el('div', { class: 'result-item grand-total' });
@@ -51,13 +32,29 @@ export function createTab04() {
         'data-i18n': 'invoice.grand-total',
         text: t('invoice.grand-total')
     }));
-    const grandTotalValue = el('span', {
+    grandTotalDiv.appendChild(el('span', {
         id: 'grandTotalValue',
         text: createFmtCurrency('TND').format(0)
-    });
-    grandTotalDiv.appendChild(grandTotalValue);
-    resultsSection.appendChild(grandTotalDiv);
-    content.appendChild(resultsSection);
+    }));
+    billingPeriodAndResult.appendChild(grandTotalDiv);
+    
+    const billingPeriodMonths = el('div', { class: 'billing-period-months' });
+    billingPeriodAndResult.appendChild(billingPeriodMonths);
+    const billingPeriodMonthsLabel = el('div', { class: 'billing-period-months-label' });
+    billingPeriodMonths.appendChild(billingPeriodMonthsLabel);
+    billingPeriodMonthsLabel.appendChild(el('h3', {
+        'data-i18n': 'invoice.billing-period',
+        text: t('invoice.billing-period')
+    }));
+    billingPeriodMonthsLabel.appendChild(el('span', {
+        class: 'billing-period-info number-of-months hidden',
+
+    }));
+    billingPeriodMonthsLabel.appendChild(el('span', {
+        'data-i18n': 'invoice.billing-period-months',
+        text: t('invoice.billing-period-months'),
+        class: 'billing-period-info hidden'
+    }));
     
     // 2 sections: Electricity and Gas
     const meterSectionsDiv = el('div', { class: 'meter-sections' });
@@ -238,20 +235,20 @@ export function createTab04() {
     const savedBillingPeriodType = localStorage.getItem('invoiceBillingPeriodType') || 'months';
     billingPeriodSelect.value = savedBillingPeriodType;
     if (savedBillingPeriodType === 'months') {
-        billingPeriodGroup.appendChild(createBillingPeriodInput());
+        billingPeriodMonthOrDateInput.appendChild(createBillingPeriodInput());
     } else {
-        billingPeriodGroup.appendChild(createBillingPeriodDatesGroup());
+        billingPeriodMonthOrDateInput.appendChild(createBillingPeriodDatesGroup());
     }
     calculateInvoice(tab04);
     // select change for billing period type
     billingPeriodSelect.addEventListener('change', () => {
-        const billingPeriodGroup = tab04.querySelector('.billing-period-group');
-        billingPeriodGroup.innerHTML = '';
+        const billingPeriodMonthOrDateInput = tab04.querySelector('.billing-period-group');
+        billingPeriodMonthOrDateInput.innerHTML = '';
         if (billingPeriodSelect.value === 'months') {
-            billingPeriodGroup.appendChild(createBillingPeriodInput());
+            billingPeriodMonthOrDateInput.appendChild(createBillingPeriodInput());
             localStorage.setItem('invoiceBillingPeriodType', 'months');
         } else {
-            billingPeriodGroup.appendChild(createBillingPeriodDatesGroup());
+            billingPeriodMonthOrDateInput.appendChild(createBillingPeriodDatesGroup());
             localStorage.setItem('invoiceBillingPeriodType', 'dates');
         }
         calculateInvoice(tab04);

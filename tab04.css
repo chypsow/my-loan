@@ -1,6 +1,5 @@
 /* Tab04 - Invoice Calculator */
 .invoice-content {
-    /*height: 100vh;*/
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -16,12 +15,11 @@
 .invoice-content button {
     margin: 1rem 0;
 }
-
 .results-section {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 2rem;
     flex-wrap: wrap;
     min-height: 7.5rem;
@@ -43,14 +41,12 @@
     white-space: nowrap;
     border-radius: 4px;
 }
-
 .billing-period-container {
     flex: 1 1 45%;
     display: flex;
     flex-direction: column;
     gap: .5rem;
 }
-
 .billing-period-months .billing-period-months-label {
     display: flex;
     flex-direction: row;
@@ -146,9 +142,7 @@
     font-size: 1rem;
 }
 .input-group span {
-    /*font-size: 1.2rem;*/
     font-weight: 600;
-    /*color: var(--accent);*/
 }
 .input-group input {
     border: 1px solid var(--border);
@@ -157,26 +151,23 @@
     color: var(--text-color);
     background-color: var(--input-bg);
 }
-
 .input-group input:focus {
     outline: none;
     border-color: var(--accent-plus);
     box-shadow: 0 0 14px rgba(76, 116, 175, 0.3);
 }
-
 .meter-sections {
     display: flex;
     flex-direction: row;
     gap: 20px;
     flex-wrap: wrap;
 }
+
 /* Invoice Sections */
 .invoice-section {
     flex: 1 1 30%;
     background: var(--card-bg);
-    /*border-left: 4px solid var(--accent);*/
     padding: 1rem;
-    /*margin: 1.25rem 0;*/
     border-radius: var(--radius);
     display: flex;
     flex-direction: column;
@@ -194,7 +185,6 @@
     justify-content: flex-end;
     flex: 1;
 }
-
 .invoice-section h3 {
     margin-top: 0;
     color: var(--accent-plus);
@@ -211,12 +201,6 @@
     margin-bottom: 15px;
 }
 
-/*@media (max-width: 768px) {
-    .readings {
-        grid-template-columns: 1fr;
-    }
-}*/
-
 /* Result Rows */
 .result-row {
     display: flex;
@@ -228,21 +212,17 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1rem;
 }
-
 .result-row:last-child {
     border-bottom: none;
 }
-
 .result-row span:first-child {
     font-weight: 500;
     color: var(--text-color);
 }
-
 .result-row span:last-child {
     font-weight: 600;
     color: var(--accent-plus);
 }
-
 .result-row span.total-ht-all,
 .result-row span.tax-item-total,
 .billing-period-result .grand-total span{

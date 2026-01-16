@@ -142,10 +142,8 @@
     border-radius:var(--radius);
 }
 .card-light{ 
-    /*background: linear-gradient(180deg,#8b8b8bc7 0%, #5e5e5e40 100%); color:var(--accent);
-    background: linear-gradient(180deg,#2b2b2b 0%, #444 100%); color:var(--accent);*/
     background: transparent;
-} /*color:#2e2e2ef5;}*/
+} 
 .card-dark{ 
     background: var(--card-bg);
 }
@@ -154,14 +152,9 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    /*height: 11rem;*/
-    /*font-size: 1.15rem;*/
-    /*background: var(--glass);*/
     border-top: 1px solid var(--border);
     padding-top: 1rem;
-    /*padding:.8rem;*/
     border-radius:4px;
-    /*color:#ffffff;*/
 }
 .info-box p{
     margin:0;
@@ -175,7 +168,6 @@
     /*font-weight: bold;*/
     color:var(--output-fields-color);
 }
-/* Fieldset variants */
 
 /* Form elements */
 label {
@@ -206,15 +198,12 @@ select, .rente-type, .periode-eenheid{
     background-size: .8rem;
     padding-right: 2rem; /* Ruimte voor de pijl */
 }
+
 /* Opties in dropdown (ondersteuning kan verschillen per browser) */
 select option {
     background-color: #e7e7e7; /* dropdown items achtergrond */
     color: #000000; 
 }
-
-/*.rente-type:focus{
-    outline: none;
-}*/
 
 .invoer {
     width: 8rem;
@@ -270,7 +259,6 @@ input[type="date"] {
 .eind-datum-hidden {
     display: none;
 }   
-/*input:disabled{ background:transparent; border:none; color:var(--accent); font-family:var(--font-mono); }*/
 
 /* Compact layout for rente + select */
 .label-select{ display:flex; align-items:center; gap:.5rem; }

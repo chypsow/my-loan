@@ -59,6 +59,7 @@
 .overzicht-inhoud p span.duration-label {
     color: var(--output-fields-color);
 }
+
 /* Input sectie */
 .input-sectie {
     margin-bottom: 1rem;

@@ -80,8 +80,8 @@
 .output-fields h2,
 .overzicht-header h2{
     font-family: 'cambria', serif;
-    letter-spacing: .1rem;
-    font-size: 1.5rem;
+    /*letter-spacing: .1rem;*/
+    font-size: 1.3rem;
 }
 .header-row-output span{
     font-family: var(--font-mono);

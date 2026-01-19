@@ -84,7 +84,7 @@ export function formatLocalDate(date) {
 // Translation function
 export function t(key) {
   if (!translations[currentLang] || !translations[currentLang][key]) {
-    // Fallback to NL or key itself
+    // Fallback to EN or key itself
     return translations['en']?.[key] || key;
   }
   return translations[currentLang][key];
@@ -116,7 +116,7 @@ export function createHeader(keyOrText) {
     // If it starts with "header.", it's a i18n key, otherwise it's direct text
     const isI18nKey = keyOrText && keyOrText.startsWith('header.');
     if (isI18nKey) {
-        return el("header", { class: "no-print" }, [
+        return el("header", {}, [
             el("h1", { "data-i18n": keyOrText , text: t(keyOrText) })
         ]);
     } else {

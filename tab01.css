@@ -188,7 +188,10 @@ input , select{
     color:var(--input-color); 
     /*outline:none;*/
 }
-select, .rente-type, .periode-eenheid{ 
+select, 
+.rente-type, 
+.periode-eenheid,
+.currency-select { 
     font-size: .9rem;
     width: fit-content;
     appearance: none; /* Verwijder standaard pijl */
@@ -216,9 +219,9 @@ input[type="date"] {
     background-color: var(--input-bg);
     border: 1px solid var(--border);
     border-radius: 4px;
-    padding: 0.25rem 0.5rem;
+    padding: 0.3rem 0.5rem;
     font-family: var(--font-mono);
-    font-size: 1rem;
+    font-size: .9rem;
 }
 
 input[type="date"]:focus {

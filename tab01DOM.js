@@ -13,7 +13,7 @@ function createTopRow() {
         const currencyOptions = ['EUR', 'USD', 'CAD', 'GBP', 'CHF', 'JPY', 'TND', 'TRY', 'EGP', 'ZAR', 'SEK', 'DKK', 'NOK', 'PLN', 'CZK', 'HUF', 'RON', 'BGN', 'HRK', 'RSD'];
         return el("label", { class: "currency-input" }, [
             el("span", { "data-i18n": "label.currency", text: t('label.currency') }),
-            el("select", { id: "currencySelect" }, currencyOptions.map(currency => el("option", { value: currency, text: currency })))
+            el("select", { id: "currencySelect", class: "currency-select"}, currencyOptions.map(currency => el("option", { value: currency, text: currency })))
         ]);
     }
     function createImportExportButtons() {

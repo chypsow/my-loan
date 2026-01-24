@@ -231,19 +231,6 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Meter Section Header with Info Button */
-/*.meter-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.meter-header h3 {
-    flex: 1;
-    margin: 0;
-}*/
-
 /* kVA Info Button */
 .kva-info-btn {
     background: none;
@@ -346,12 +333,13 @@
 }
 
 .kva-formula {
-    background: transparent;
+    background: var(--circle-bg);
     padding: 1rem;
-    border-radius: var(--radius);
+    /*border-radius: var(--radius);*/
     margin-bottom: 1rem;
     font-family: var(--font-mono);
-    border-left: 3px solid var(--accent-plus);
+    /*border: 1px solid var(--border);*/
+    /*box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);*/
 }
 
 .kva-formula p {
@@ -364,9 +352,10 @@
     width: 100%;
     border-collapse: collapse;
     background: var(--card-bg);
-    border-radius: var(--radius);
+    /*border-radius: var(--radius);*/
     overflow: hidden;
     margin-top: 1rem;
+    /*box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.25);*/
 }
 
 .kva-table thead {

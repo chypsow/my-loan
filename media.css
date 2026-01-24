@@ -38,6 +38,7 @@
     label{ font-size:.65rem; }
     .interval-input-container label{ font-size: .9rem;}
     .table-header th, .table-inhoud td{ font-size:.65rem; }
+    .lang-select button { font-size: .9rem; }
     .simulator, .calculator, .generator, .invoice-content{ width:100%; border-radius: 0; box-shadow: none; background: transparent;}
     .datums { flex-direction:column; align-items: flex-start; gap:.5rem; }
     .datums p span:first-child { font-size:.65rem; }
@@ -59,13 +60,11 @@
     .sectie-header p span:first-child { font-size: .8rem; }
     .sectie-header p span:nth-child(2) { font-size: .9rem; }
     .invoer{ width:5rem; font-size:.9rem; }
-    /*.rente-type, .periode-eenheid{ font-size:.7rem; }*/
     .select-columns-header { flex-direction: column; align-items: flex-start; }
     .billing-period-result .grand-total span,
     .billing-period-months .billing-period-months-label h3,
     .billing-period-months .billing-period-months-label span { font-size: 1rem; }
     .billing-period-result, .billing-period-container { flex: 1 1 100%; }
-    /*.billing-period-container { padding: .5rem; }*/
     .input-group.teller input,
     .input-group.inline input { font-size:.9rem; }
     .input-group.teller input { width:6.5rem; }

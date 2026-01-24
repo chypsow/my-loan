@@ -552,7 +552,7 @@ export function calculateInvoice(tab04Container) {
         const firstPrice = 0.010;
         const secondPrice = 0.004;
         if (averageConsumption <= 25) return 0;
-        if (averageConsumption <= 150) return averageConsumption * billingPeriodValue * firstPrice > floor ? floor * billingPeriodValue : elecConsumption * firstPrice;
+        if (averageConsumption <= 150) return averageConsumption * firstPrice > floor ? floor * billingPeriodValue : elecConsumption * firstPrice;
         return 150 * firstPrice + (averageConsumption - 150) * secondPrice > floor ? floor * billingPeriodValue : (150 * firstPrice + (averageConsumption - 150) * secondPrice - 25 * secondPrice) * billingPeriodValue;
     }
     const contibutionRTT = contributionRTTcalc();

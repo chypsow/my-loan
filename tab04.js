@@ -156,13 +156,13 @@ export function createTab04() {
         
         const meterSection = e.currentTarget;
         const meterType = meterSection.getAttribute('data-meter-type');
-        const powerOrFlow = meterType === 'electricity' ? 'power' : 'flow';
+        const quantityType = meterType === 'electricity' ? 'power' : 'flow';
 
-        const currentValue = meterSection.getAttribute(`data-${powerOrFlow}`);
+        const currentValue = localStorage.getItem(`invoice${quantityType === 'power' ? 'ElectricityPower' : 'GasFlow'}`) || (quantityType === 'power' ? '7' : '5');
         const input = el('input', {
             type: 'number',
             step: '1',
-            class: `${powerOrFlow}-${meterType}` // no editable class here otherwise infinite loop
+            class: `${quantityType}-${meterType}` // no editable class here otherwise infinite loop
         });
         elt.replaceWith(input);
         input.value = currentValue;
@@ -175,7 +175,7 @@ export function createTab04() {
         });
 
         input.addEventListener('change', () => {
-            meterSection.setAttribute(`data-${powerOrFlow}`, parseFloat(input.value) || 0);
+            localStorage.setItem(`invoice${quantityType === 'power' ? 'ElectricityPower' : 'GasFlow'}`, input.value);
             calculateInvoice(tab04);
         });
         
@@ -184,9 +184,9 @@ export function createTab04() {
             if (isNaN(newValue)) {
                 newValue = parseFloat(currentValue);
             }
-            const newSpan = el('span', { class: `${powerOrFlow}-${meterType} editable`, text: `${newValue} ${powerOrFlow === 'power' ? 'kVA' : 'm³'}` });
+            const newSpan = el('span', { class: `${quantityType}-${meterType} editable`, text: `${newValue} ${quantityType === 'power' ? 'kVA' : 'm³'}` });
             input.replaceWith(newSpan);
-            meterSection.setAttribute(`data-${powerOrFlow}`, newValue);
+            localStorage.setItem(`invoice${quantityType === 'power' ? 'ElectricityPower' : 'GasFlow'}`, newValue);
         });
     }
 
@@ -292,18 +292,19 @@ function resetResultsInvoice(tab04Container) {
     });
 }
 
-function createMeterSection(meterType, quantityType, defaultPower = 7, defaultFlow = 5) {
+function createMeterSection(meterType, quantityType) {
     const section = el('div', { 
         class: `invoice-section meter-${meterType}`,
         'data-meter-type': meterType
     });
 
+    let defaultQuantityValue = 0;
     switch (meterType) {
         case 'electricity':
-            section.setAttribute('data-power', defaultPower);
+            defaultQuantityValue = parseFloat(localStorage.getItem('invoiceElectricityPower')) || 7;
             break;
         case 'gas':
-            section.setAttribute('data-flow', defaultFlow);
+            defaultQuantityValue = parseFloat(localStorage.getItem('invoiceGasFlow')) || 5;
             break;
     }
     
@@ -318,7 +319,7 @@ function createMeterSection(meterType, quantityType, defaultPower = 7, defaultFl
     // Power - flow input
     const powerGroup = el('div', { class: 'input-group inline' });
     powerGroup.appendChild(el('label', { 'data-i18n': `invoice.${quantityType}`, text: t(`invoice.${quantityType}`) }));
-    const powerInput = el('span', { class: `${quantityType}-${meterType} editable`, text: `${quantityType === 'power' ? defaultPower : defaultFlow} ${unit}` });
+    const powerInput = el('span', { class: `${quantityType}-${meterType} editable`, text: `${defaultQuantityValue} ${unit}` });
     powerGroup.appendChild(powerInput);
     const powerEditableLabel = el('span', { text: 'Editable', class: 'editable-label no-print' });
     powerGroup.appendChild(powerEditableLabel);
@@ -436,7 +437,7 @@ export function calculateInvoice(tab04Container) {
     const elecOld = parseFloat(elecSection.querySelector('.meter-old').value) || 0;
     const elecNew = parseFloat(elecSection.querySelector('.meter-new').value) || 0;
     const elecConsumption = elecNew - elecOld;
-    const power = parseFloat(elecSection.getAttribute('data-power')) || 7;
+    const power = parseFloat(localStorage.getItem('invoiceElectricityPower')) || 7;
     const averageConsumption = elecConsumption / billingPeriodValue;
 
     const elecPriceCalc = () => {
@@ -462,7 +463,7 @@ export function calculateInvoice(tab04Container) {
     const gasOld = parseFloat(gasSection.querySelector('.meter-old').value) || 0;
     const gasNew = parseFloat(gasSection.querySelector('.meter-new').value) || 0;
     const gasConsumption = gasNew - gasOld;
-    const flow = parseFloat(gasSection.getAttribute('data-flow')) || 5;
+    const flow = parseFloat(localStorage.getItem('invoiceGasFlow')) || 5;
     const averageConsumptionGas = gasConsumption / billingPeriodValue;
 
     const gasPriceCalc = () => {
@@ -507,7 +508,6 @@ export function calculateInvoice(tab04Container) {
     gasSection.querySelector('.total-hf-gas').textContent = createFmtCurrency('TND').format(gasTotalHT);
     gasSection.querySelector('.fixed-gas').textContent = createFmtCurrency('TND').format(gasFixed);
     gasSection.querySelector('.total-ht-gas').textContent = createFmtCurrency('TND').format(gasTotalHT + gasFixed);
-    //gasSection.querySelector('.tva-gas').textContent = (gasTVAPercent * 100).toFixed(0) + ' %';
     gasSection.querySelector('.tva-amount-gas').textContent = createFmtCurrency('TND').format(gasTVAAmount);
     
 

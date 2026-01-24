@@ -70,6 +70,10 @@ export function createTab04() {
     meterSectionsDiv.appendChild(gasSection);
     gasSection.addEventListener('click', replaceSpanWithInput);
     
+    // kVA Information Modal
+    const kvaModal = createKvaInfoModal();
+    tab04.appendChild(kvaModal);
+
     // Totals section
     const totalsSection = el('div', { class: 'invoice-section' });
     meterSectionsDiv.appendChild(totalsSection);
@@ -323,6 +327,22 @@ function createMeterSection(meterType, quantityType) {
     powerGroup.appendChild(powerInput);
     const powerEditableLabel = el('span', { text: 'Editable', class: 'editable-label no-print' });
     powerGroup.appendChild(powerEditableLabel);
+    // Add info button for electricity kVA
+    if (meterType === 'electricity') {
+        const infoBtn = el('button', {
+            class: 'kva-info-btn no-print',
+            title: 'Informations sur kVA',
+            type: 'button'
+        }, [
+            el('i', { class: 'fa-solid fa-circle-info' })
+        ]);
+        infoBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const modal = document.querySelector('.kva-info-modal');
+            modal.classList.toggle('hidden');
+        });
+        powerGroup.appendChild(infoBtn);
+    }
     section.appendChild(powerGroup);
 
     // Old & New readings
@@ -539,5 +559,168 @@ export function calculateInvoice(tab04Container) {
     a.click();
     window.URL.revokeObjectURL(url);
 }*/
+
+function createKvaInfoModal() {
+    const modal = el('div', { class: 'kva-info-modal hidden' });
+    const overlay = el('div', { class: 'kva-modal-overlay' });
+    
+    const modalContent = el('div', { class: 'kva-modal-content' });
+    
+    // Close button
+    const closeBtn = el('button', { 
+        class: 'kva-modal-close',
+        innerHTML: '&times;'
+    });
+    closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+    
+    // Header
+    const header = el('h2', { class: 'kva-modal-header', text: 'Qu\'est-ce que kVA ?' });
+    
+    // Content sections
+    const description = el('div', { class: 'kva-description' });
+    description.innerHTML = `
+        <p><strong>kVA (kilovolt-ampères)</strong> est l'unité de mesure de la <strong>puissance apparente</strong> dans un circuit électrique.</p>
+        <p>La puissance apparente est le produit de la tension (U) par l'intensité (I).<br> <strong style="color:var(--accent-plus);">Remarque: Il faut différencier la puissance apparente (kVA) de la puissance active (kW) qui est la puissance réellement consommée.</strong></p>
+        <p>La formule pour calculer la puissance apparente dépend du type de circuit :</p>
+    `;
+
+    
+    // 1-Phase section
+    const sectionOnePhase = el('div', { class: 'kva-section' });
+    sectionOnePhase.innerHTML = `
+        <h3>Monophasé (2 fils : 1L + 1N)</h3>
+        <div class="kva-formula">
+            <p><strong>Formule :</strong> Puissance (VA) = U × I</p>
+            <p>U = 220V</p>
+            <p>V = 220V</p>
+        </div>
+        <table class="kva-table">
+            <thead>
+                <tr>
+                    <th>Intensité (A)</th>
+                    <th>Puissance Apparente (VA)</th>
+                    <th>Puissance Apparente (kVA)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>5A</td>
+                    <td>1 100 VA</td>
+                    <td>1,1 kVA ≈ 1kVA</td>
+                </tr>
+                <tr>
+                    <td>10A</td>
+                    <td>2 200 VA</td>
+                    <td>2,2 kVA ≈ 2kVA</td>
+                </tr>
+                <tr>
+                    <td>15A</td>
+                    <td>3 300 VA</td>
+                    <td>3,3 kVA ≈ 3kVA</td>
+                </tr>
+                <tr>
+                    <td>20A</td>
+                    <td>4 400 VA</td>
+                    <td>4,4 kVA ≈ 4kVA</td>
+                </tr>
+                <tr>
+                    <td>30A</td>
+                    <td>6 600 VA</td>
+                    <td>6,6 kVA ≈ 7kVA</td>
+                </tr>
+                <tr>
+                    <td>45A</td>
+                    <td>9 900 VA</td>
+                    <td>9,9 kVA ≈ 10kVA</td>
+                </tr>
+                <tr>
+                    <td>63A</td>
+                    <td>13 860 VA</td>
+                    <td>13,86 kVA ≈ 14kVA</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+    
+    // 3-Phase section
+    const sectionThreePhase = el('div', { class: 'kva-section' });
+    sectionThreePhase.innerHTML = `
+        <h3>Triphasé (4 fils: 3L + 1N)</h3>
+        <div class="kva-formula">
+            <p><strong>Formule :</strong> Puissance (VA) = √3 × U × I</p>
+            <p>U = 380V</p>
+            <p>V = √3 x U ≈ 660V</p>
+        </div>
+        <table class="kva-table">
+            <thead>
+                <tr>
+                    <th>Intensité (A)</th>
+                    <th>Puissance Apparente (VA)</th>
+                    <th>Puissance Apparente (kVA)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>5A</td>
+                    <td>3 300 VA</td>
+                    <td>3,3 kVA ≈ 3kVA</td>
+                </tr>
+                <tr>
+                    <td>10A</td>
+                    <td>6 600 VA</td>
+                    <td>6,6 kVA ≈ 7kVA</td>
+                </tr>
+                <tr>
+                    <td>15A</td>
+                    <td>9 900 VA</td>
+                    <td>9,9 kVA ≈ 10kVA</td>
+                </tr>
+                <tr>
+                    <td>20A</td>
+                    <td>13 200 VA</td>
+                    <td>13,2 kVA ≈ 13kVA</td>
+                </tr>
+                <tr>
+                    <td>30A</td>
+                    <td>19 800 VA</td>
+                    <td>19,8 kVA ≈ 20kVA</td>
+                </tr>
+                <tr>
+                    <td>50A</td>
+                    <td>33 000 VA</td>
+                    <td>33 kVA</td>
+                </tr>
+                <tr>
+                    <td>63A</td>
+                    <td>41 580 VA</td>
+                    <td>41,58 kVA ≈ 42kVA</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+    
+    modalContent.appendChild(closeBtn);
+    modalContent.appendChild(header);
+    modalContent.appendChild(description);
+    modalContent.appendChild(sectionOnePhase);
+    modalContent.appendChild(sectionThreePhase);
+    
+    modal.appendChild(overlay);
+    modal.appendChild(modalContent);
+    
+    // Close modal when clicking overlay
+    overlay.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+    
+    // Expose toggle function globally
+    /*window.toggleKvaInfo = () => {
+        modal.classList.toggle('hidden');
+    };*/
+    
+    return modal;
+}
 
 

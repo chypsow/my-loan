@@ -274,6 +274,17 @@ export function createTab04() {
         billingPeriodMonthOrDateInput.appendChild(createBillingPeriodDatesGroup());
     }
     calculateInvoice(tab04);
+    
+    // Update kVA button titles when language changes
+    const updateKvaButtonTitles = () => {
+        const kvaButtons = tab04.querySelectorAll('[data-i18n-title="kva.info-button-title"]');
+        kvaButtons.forEach(btn => {
+            btn.title = t('kva.info-button-title');
+        });
+    };
+    
+    // Listen for language changes (custom event from main.js)
+    window.addEventListener('languageChanged', updateKvaButtonTitles);
 }
 
 function resetResultsInvoice(tab04Container) {
@@ -331,8 +342,9 @@ function createMeterSection(meterType, quantityType) {
     if (meterType === 'electricity') {
         const infoBtn = el('button', {
             class: 'kva-info-btn no-print',
-            title: 'Informations sur kVA',
-            type: 'button'
+            title: t('kva.info-button-title'),
+            type: 'button',
+            'data-i18n-title': 'kva.info-button-title'
         }, [
             el('i', { class: 'fa-solid fa-circle-info' })
         ]);

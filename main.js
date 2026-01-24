@@ -109,6 +109,9 @@ function applyLang(lang) {
       el.textContent = text;
     }
   });
+  
+  // Dispatch custom event to notify about language change
+  window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
 }
 
 // Create Elements

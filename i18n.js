@@ -133,6 +133,7 @@ export const translations = {
     "invoice.flow": "FLOW:",
     
     // kVA Information Modal
+    "kva.info-button-title": "Informations about kVA",
     "kva.title": "What is kVA?",
     "kva.description.line1": "kVA (kilovolt-amperes) is the unit of measurement of apparent power in an electrical circuit.",
     "kva.description.line2": "Apparent power is the product of voltage (U) and current (I).",
@@ -281,6 +282,7 @@ export const translations = {
     "invoice.flow": "DÉBIT:",
     
     // kVA Information Modal
+    "kva.info-button-title": "Informations sur kVA",
     "kva.title": "Qu'est-ce que kVA ?",
     "kva.description.line1": "kVA (kilovolt-ampères) est l'unité de mesure de la puissance apparente dans un circuit électrique.",
     "kva.description.line2": "La puissance apparente est le produit de la tension (U) par l'intensité (I).",
@@ -429,6 +431,7 @@ export const translations = {
     "invoice.flow": "DEBIET:",
     
     // kVA Information Modal
+    "kva.info-button-title": "Informaties over kVA",
     "kva.title": "Wat is kVA?",
     "kva.description.line1": "kVA (kilovolt-ampères) is de meeteenheid van schijnbaar vermogen in een elektrisch circuit.",
     "kva.description.line2": "Schijnbaar vermogen is het product van spanning (U) en stroom (I).",

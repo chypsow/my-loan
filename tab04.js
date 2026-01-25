@@ -301,6 +301,9 @@ export function createTab04() {
     
     // Listen for language changes (custom event from main.js)
     window.addEventListener('languageChanged', updateKvaButtonTitles);
+
+    // Listen for exportInvoiceData event (custom event from main.js)
+    window.addEventListener('exportInvoiceData', exportInvoiceData);
 }
 
 function resetResultsInvoice(tab04Container) {
@@ -592,24 +595,6 @@ export function calculateInvoice(tab04Container) {
     // Update grand total
     tab04Container.querySelector('#grandTotalValue').textContent = createFmtCurrency('TND').format(grandTotal);
 }
-
-/*function exportInvoiceData(tab04Container) {
-    const billingPeriod = tab04Container.querySelector('#billingPeriod').value;
-    const elecOld = tab04Container.querySelector('.meter-old').value;
-    const elecNew = tab04Container.querySelectorAll('.meter-new')[0].value;
-    const gasOld = tab04Container.querySelectorAll('.meter-old')[1].value;
-    const gasNew = tab04Container.querySelectorAll('.meter-new')[1].value;
-    const grandTotal = tab04Container.querySelector('#grandTotalValue').textContent;
-    
-    const csv = `Invoice STEG Export\n\nBilling Period (months),${billingPeriod}\n\nElectricity\nOld Reading,${elecOld}\nNew Reading,${elecNew}\nConsumption,${(elecNew - elecOld).toFixed(2)}\n\nGas\nOld Reading,${gasOld}\nNew Reading,${gasNew}\nConsumption,${(gasNew - gasOld).toFixed(2)}\n\nGrand Total,${grandTotal}`;
-    
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = el('a', { href: url, download: 'invoice.csv' });
-    a.click();
-    window.URL.revokeObjectURL(url);
-}*/
-
 // Helper function to create kVA table sections
 function createKvaTableSection(title, formula, voltage, factor, data) {
     const section = el('div', { class: 'kva-section' });
@@ -726,6 +711,61 @@ function createKvaInfoModal() {
     });
     
     return modal;
+}
+
+// Export invoice data as CSV
+function exportInvoiceData() {
+    const tab04Container = document.querySelector('#tab04');
+
+    // Billing period
+    const billingPeriod = tab04Container.querySelector('.number-of-months').textContent;
+    const billingPeriodType = localStorage.getItem('invoiceBillingPeriodType') || 'months';
+    let billingPeriodInfo = 'Non specifié';
+    if (billingPeriodType !== 'months') {
+        const startDate = localStorage.getItem('invoiceBillingStartDate') || '';
+        const endDate = localStorage.getItem('invoiceBillingEndDate') || '';
+        billingPeriodInfo = `From ${startDate} to ${endDate}`;
+    }
+
+    // Electricity
+    const elecOld = tab04Container.querySelector('.meter-old').value;
+    const elecNew = tab04Container.querySelectorAll('.meter-new')[0].value;
+    const elecConsumption = tab04Container.querySelector('.consumption-electricity').textContent;
+    const elecPrice = tab04Container.querySelector('.price-electricity').textContent;
+    const elecFixed = tab04Container.querySelector('.fixed-electricity').textContent;
+    const elecTotalHT = tab04Container.querySelector('.total-hf-electricity').textContent;
+    const elecTVAPer = tab04Container.querySelector('.tva-electricity').textContent;
+
+    // Gas
+    const gasOld = tab04Container.querySelectorAll('.meter-old')[1].value;
+    const gasNew = tab04Container.querySelectorAll('.meter-new')[1].value;
+    const gasConsumption = tab04Container.querySelector('.consumption-gas').textContent;
+    const gasPrice = tab04Container.querySelector('.price-gas').textContent;
+    const gasFixed = tab04Container.querySelector('.fixed-gas').textContent;
+    const gasTotalHT = tab04Container.querySelector('.total-hf-gas').textContent;
+    const gasTVAPer = tab04Container.querySelector('.tva-gas').textContent;
+
+    // Taxes and contributions
+    const taxCL = tab04Container.querySelector('.tax-item-cl').textContent;
+    const taxFTE = tab04Container.querySelector('.tax-item-fte').textContent;
+    const taxRTT = tab04Container.querySelector('.tax-item-rtt').textContent;
+    const taxTVA = tab04Container.querySelector('.tax-item-tva').textContent;
+    const taxTotal = tab04Container.querySelector('.tax-item-total').textContent;
+
+
+    // Grand total
+    const grandTotalValue = tab04Container.querySelector('#grandTotalValue').textContent;
+    
+    const csvPayload = `
+        **Facture-STEG**\n\nDurée de facturation (mois);${billingPeriod}\nPeriode de facturation;${billingPeriodInfo}\n\n**Electricité**\nAncien indexe;${elecOld}\nNouveau indexe;${elecNew}\nConsommation;${(elecConsumption)}\nPrix unitaire;${elecPrice}\nRedevances fixes;${elecFixed}\nTotal excl. TVA;${elecTotalHT}\nTVA %;${elecTVAPer}\n\n**Gaz**\nAncien indexe;${gasOld}\nNouveau indexe;${gasNew}\nConsommation;${(gasConsumption)}\nPrix unitaire;${gasPrice}\nRedevances fixes;${gasFixed}\nTotal excl. TVA;${gasTotalHT}\nTVA %;${gasTVAPer}\n\n**Taxes et contributions**\nContribution CL;${taxCL}\nContribution FTE;${taxFTE}\nContribution RTT;${taxRTT}\nTVA;${taxTVA}\nTotal des taxes et contributions;${taxTotal}\n\n**Montant total de la facture**;${grandTotalValue}
+    `;
+    
+    const BOM = '\uFEFF';
+    const blob = new Blob([BOM + csvPayload], { type: 'text/csv;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const a = el('a', { href: url, download: 'invoice.csv' });
+    a.click();
+    window.URL.revokeObjectURL(url);
 }
 
 

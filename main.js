@@ -283,7 +283,6 @@ function openThemePopup() {
             btn.innerHTML = '✕';
             btn.classList.add('open');
             toggleTopHeader();
-            //toggleLangSelect(true);
         }
     }
 }
@@ -298,20 +297,10 @@ function closeThemePopup() {
             btn.innerHTML = '☰';
             btn.classList.remove('open');
             closeTopHeader();
-            //toggleLangSelect(false);
         }
     }
 }
-function toggleLangSelect(visible) {
-    const langSelect = document.getElementById('lang-select');
-    if (langSelect) {
-        if (visible) {
-            langSelect.classList.add("visible");
-        } else {
-            langSelect.classList.remove("visible");
-        }
-    }
-}
+
 function toggleTopHeader() {
     const topHeader = document.getElementById('topHeader');
     if (topHeader) {
@@ -346,6 +335,14 @@ function createMainContent() {
     main.appendChild(createThemeMenuButton());
     main.appendChild(createThemeSelector());
 }
+
+// Event listener for exportInvoiceData
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'e' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        window.dispatchEvent(new Event('exportInvoiceData'));
+    }
+});
 
 /* Initialize */
 document.addEventListener("DOMContentLoaded", () => {

@@ -293,18 +293,7 @@ function importData() {
             $("#periodeEenheid").value = "months";
             $("#startDatum").value = data["start-date"] || "";
             $("#startDatum").dispatchEvent(new Event('change'));
-            /*if (data["start-date"]) {
-                const dateStr = data["start-date"].includes('-') ? data["start-date"] : data["start-date"].split('/').reverse().join('-');
-                $("#startDatum").value = dateStr;
-                const startDate = new Date(dateStr);
-                const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + (parseInt(data["period-months"] || "0", 10)), startDate.getDate());
-                $("#eindDatum").textContent = fmtDate(endDate);
-                $("#eindDatum").setAttribute("data-prev-date", formatLocalDate(endDate));
-                $("#eindDatum-container").classList.remove("eind-datum-hidden");
-            } else {
-                $("#startDatum").value = "";
-                $("#eindDatum-container").classList.add("eind-datum-hidden");
-            }*/
+            
             resetOutputs();
         };
         reader.readAsText(file);

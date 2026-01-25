@@ -422,7 +422,7 @@ export const translations = {
     "invoice.tva-amount": "BTW bedrag:",
     "invoice.cl-rtt-fte": "CL + RTT + FTE:",
     "invoice.total-taxes": "Totale belastingen:",
-    "invoice.grand-total": "Totaal te betalen bedrag:",
+    "invoice.grand-total": "TOTAAL TE BETALEN BEDRAG:",
     "invoice.taxes": "Totale taxen",
     "invoice.tax-totals": "TOTALE TAXEN:",
     "invoice.tax-info": "BTW elektriciteit + gas:",

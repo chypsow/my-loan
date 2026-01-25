@@ -54,7 +54,8 @@
 }
 .billing-period-months .billing-period-months-label h3,
 .billing-period-months .billing-period-months-label span {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: var(--font-sans);
+    font-weight: 700;
     margin: 0;
     color: var(--accent-plus);
     font-size: 1.3rem;
@@ -219,6 +220,7 @@
     color: var(--text-color);
 }
 .result-row span:last-child {
+    font-family: var(--font-mono);
     font-weight: 600;
     color: var(--accent-plus);
 }
@@ -389,7 +391,7 @@
 }
 
 .kva-table td:first-child {
-    text-align: left;
+    /*text-align: left;*/
     font-weight: 500;
 }
 .kva-table td:last-child {

@@ -113,14 +113,6 @@ export function createTab04() {
     totalsSection.appendChild(taxItemsDiv);
     taxItemsDiv.appendChild(el('div', { class: 'result-row'}, [
         el('span', {
-            'data-i18n': 'invoice.tax-info',
-            text: t('invoice.tax-info')}),
-        el('span', {
-            text: '0,00 DT',
-            class: 'tax-item-tva' }),
-    ]));
-    taxItemsDiv.appendChild(el('div', { class: 'result-row'}, [
-        el('span', {
             'data-i18n': 'invoice.cl',
             text: t('invoice.cl')}),
         el('span', {
@@ -145,12 +137,20 @@ export function createTab04() {
     ]));
     taxItemsDiv.appendChild(el('div', { class: 'result-row'}, [
         el('span', {
+            'data-i18n': 'invoice.tax-info',
+            text: t('invoice.tax-info')}),
+        el('span', {
+            text: '0,00 DT',
+            class: 'tax-item-tva' }),
+    ]));
+    taxItemsDiv.appendChild(el('div', { class: 'result-row'}, [
+        el('span', {
             'data-i18n': 'invoice.tax-totals',
             text: t('invoice.tax-totals')}),
         el('span', {
             text: '0,00 DT', 
             class: 'tax-item-total' }),
-        ]));
+    ]));
     
     // Append to main    
     tab04.appendChild(content);
@@ -620,7 +620,7 @@ function createKvaTableSection(title, formula, voltage, factor, data) {
     const formulaDiv = el('div', { class: 'kva-formula' });
     formulaDiv.innerHTML = `
         <p data-i18n=${formula}>${t(formula)}</p>
-        <p>Voltage (U): ${voltage}</p>
+        <p>Voltage (U) = ${voltage}</p>
         <p><span data-i18n="kva.factor">${t('kva.factor')}</span> ${factor}</p>
     `;
     section.appendChild(formulaDiv);

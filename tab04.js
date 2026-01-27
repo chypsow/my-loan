@@ -671,7 +671,7 @@ function createKvaInfoModal() {
         ['20A', '4 400 VA', '4,4 kVA ≈ 4kVA'],
         ['30A', '6 600 VA', '6,6 kVA ≈ 7kVA'],
         ['45A', '9 900 VA', '9,9 kVA ≈ 10kVA'],
-        ['63A', '13 860 VA', '13,86 kVA ≈ 14kVA']
+        ['63A', '13 860 VA', '13,9 kVA ≈ 14kVA']
     ];
     
     // 3-Phase data
@@ -681,8 +681,8 @@ function createKvaInfoModal() {
         ['15A', '9 900 VA', '9,9 kVA ≈ 10kVA'],
         ['20A', '13 200 VA', '13,2 kVA ≈ 13kVA'],
         ['30A', '19 800 VA', '19,8 kVA ≈ 20kVA'],
-        ['50A', '33 000 VA', '33 kVA'],
-        ['63A', '41 580 VA', '41,58 kVA ≈ 42kVA']
+        ['50A', '33 000 VA', '33.0 kVA = 33 kVA'],
+        ['63A', '41 580 VA', '41,6 kVA ≈ 42kVA']
     ];
     
     // Add sections

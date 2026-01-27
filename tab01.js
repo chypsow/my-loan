@@ -14,19 +14,19 @@ export function createTab01() {
 
     function handlePeriodAndUnitChange() {
         // Update end date preview
-            const startDate = $("#startDatum").valueAsDate;
-            if (startDate) {
-                const periode = parseInt($("#periode").value || "0", 10);
-                const periodeEenheid = $("#periodeEenheid").value;
-                let adjustedPeriode = periode;
-                if (periodeEenheid === "years") {
-                    adjustedPeriode = periode * 12;
-                }
-                const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + adjustedPeriode, startDate.getDate());
-                $("#eindDatum").textContent = fmtDate(endDate);
-                $("#eindDatum").setAttribute("data-prev-date", fmtDate(endDate));
-                $("#eindDatum-container").classList.remove("eind-datum-hidden");
+        const startDate = $("#startDatum").valueAsDate;
+        if (startDate) {
+            const periode = parseInt($("#periode").value || "0", 10);
+            const periodeEenheid = $("#periodeEenheid").value;
+            let adjustedPeriode = periode;
+            if (periodeEenheid === "years") {
+                adjustedPeriode = periode * 12;
             }
+            const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + adjustedPeriode, startDate.getDate());
+            $("#eindDatum").textContent = fmtDate(endDate);
+            $("#eindDatum").setAttribute("data-prev-date", fmtDate(endDate));
+            $("#eindDatum-container").classList.remove("eind-datum-hidden");
+        }
     }
 
     $all(".invoer").forEach(inp => inp.addEventListener("input", () => {
@@ -40,18 +40,22 @@ export function createTab01() {
             return;
         }
         resetOutputs();
+        updateSummary();
     }));
 
     $("#renteType").addEventListener("change", () => {
         resetOutputs();
+        updateSummary();
     });
 
     $("#periodeEenheid").addEventListener("change", () => {
         handlePeriodAndUnitChange();
         resetOutputs();
+        updateSummary();
     });
 
-    $("#startDatum").addEventListener("change", () => {
+    $("#startDatum").addEventListener("change", (event) => {
+        const shouldRecalculate = event.detail?.shouldRecalculate ?? true;
         const startDate = $("#startDatum").valueAsDate;
         if (startDate) {
             $("#eindDatum-container").classList.remove("eind-datum-hidden");
@@ -76,14 +80,22 @@ export function createTab01() {
             $("#eindDatum-container").classList.add("eind-datum-hidden");
            
         }
+        
         resetOutputs();
+        if (shouldRecalculate) {
+            console.log("startDatum changed + recalculation needed");
+            updateSummary();
+        }
     });
 
     $("#currentDate").addEventListener("change", function() {
-        if (hasMonthYearChanged(this)) resetOutputsTab01();
+        if (hasMonthYearChanged(this)) {
+            resetOutputsTab01();
+            updateSummary();
+        }
     });
 
-    $("#berekenBtn-1").addEventListener("click", updateSummary);
+    $("#berekenBtn-1").addEventListener("click", calculateRemainingCapitalAndInterest);
     $("#importBtn").addEventListener("click", importData);
     $("#exportBtn").addEventListener("click", exportData);
 
@@ -96,6 +108,7 @@ export function createTab01() {
         localStorage.setItem('currency', currency);
         $all(".currency-symbol").forEach(elm => elm.textContent = `(${currency}):`);
         resetOutputs();
+        updateSummary();
     });
 
     // Initialize currency on page load
@@ -147,17 +160,19 @@ function formatDuration(remainingMonths) {
     return html;
 }
 
-export function updateSummary() {
+export function updateSummary(tab = '01') {
     const inputs = parseInputs();
     if (!inputs) {
         resetOutputs();
-        alert(t('message.invalid-input'));
+        if(tab !== '01') alert(t('message.invalid-input'));
         return;
     }
 
     const { bedrag, jkp, periode, renteType: type, startDate } = inputs;
     const i = monthlyRate(jkp, type);
     const betaling = computePayment(bedrag, i, periode);
+
+    // Update output fields for all overviews (tabs 1, 2 and 3)
     $all('.loan-amount').forEach(elm => elm.textContent = fmtCurrency.format(bedrag));
     $all('.monthly-payment').forEach(elm => elm.textContent = fmtCurrency.format(betaling));
     $all('.monthly-rate').forEach(elm => elm.textContent = fmtDecimal(4).format(i * 100) + " %");
@@ -177,7 +192,21 @@ export function updateSummary() {
     $all('.startDateDisplay').forEach(elm => elm.textContent = fmtDate(startDate));
     $all('.endDateDisplay').forEach(elm => elm.textContent = fmtDate(endDate));
 
-    // Calculate remaining capital and interest up to currentDate
+    console.log(`calculation within updateSummary called from tab${tab} complete`);
+    return inputs;
+}
+
+// Calculate remaining capital and interest up to currentDate
+function calculateRemainingCapitalAndInterest() {
+    const inputs = parseInputs();
+    if (!inputs) {
+        alert(t('message.invalid-input'));
+        return;
+    }
+    const { bedrag, jkp, periode, renteType: type, startDate } = inputs;
+    const i = monthlyRate(jkp, type);
+    const betaling = computePayment(bedrag, i, periode);
+
     const currentDateInput = $("#currentDate").value;
     const currentDate = currentDateInput ? new Date(currentDateInput) : new Date();
     if (!currentDateInput) {
@@ -191,14 +220,14 @@ export function updateSummary() {
     $("#afbetaaldKapitaal-1").textContent = fmtCurrency.format(bedrag - remaining.capital);
     $("#afbetaaldeRente-1").textContent = fmtCurrency.format((betaling * periode - bedrag) - remaining.interest);
     $("#totaalBetaald-1").textContent = fmtCurrency.format(betaling * (periode - remaining.period));
-
-    return inputs;
 }
+
 
 export function computeRemaining(bedrag, jkp, periode, type, startDate, currentDate = new Date()) {
     const i = monthlyRate(jkp, type);
     const betaling = computePayment(bedrag, i, periode);
-    //const today = new Date();
+
+    
     let monthsElapsed = 0;
     if (currentDate > startDate) {
         monthsElapsed = (currentDate.getFullYear() - startDate.getFullYear()) * 12 + (currentDate.getMonth() - startDate.getMonth());
@@ -245,7 +274,6 @@ function resetOutputs() {
     resetOutputsTab01();
     resetOutputsTab02();
     setTableVisibility(false);
-    //$("#aflossingBtn").disabled = true;
 }
 function resetOutputsOverview() {
     $all(".output-overview").forEach(o => o.textContent = "");
@@ -292,9 +320,10 @@ function importData() {
             $("#periode").value = data["period-months"] || "";
             $("#periodeEenheid").value = "months";
             $("#startDatum").value = data["start-date"] || "";
-            $("#startDatum").dispatchEvent(new Event('change'));
+            $("#startDatum").dispatchEvent(new CustomEvent('change', { detail: { shouldRecalculate: false } }));
             
             resetOutputs();
+            updateSummary();
         };
         reader.readAsText(file);
     };

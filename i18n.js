@@ -29,7 +29,7 @@ export const translations = {
     // Tab01 - Section titles
     "section.input-fields": "Input Fields:",
     "section.loan-overview": "Loan Overview:",
-    "section.loan-status-on": "Loan status on:",
+    /*"section.loan-status-on": "Loan status on:",*/
     "section.report-header": "Select the report to generate:",
 
     // Tab01 - Output labels
@@ -80,6 +80,7 @@ export const translations = {
     // Buttons
     "button.import": "Import",
     "button.export": "Export",
+    "button.calculate-status": "Calculate Loan status on:",
     "button.calculate": "Calculate",
     "button.generate": "Generate Table",    "button.select-all": "Select all",
     "button.deselect-all": "Deselect all",    "button.amortization-table": "Amortization Table",
@@ -181,7 +182,7 @@ export const translations = {
     // Tab01 - Section titles
     "section.input-fields": "À remplir:",
     "section.loan-overview": "Aperçu du crédit:",
-    "section.loan-status-on": "Statut du crédit le:",
+    /*"section.loan-status-on": "Statut du crédit le:",*/
     "section.report-header": "Veuillez sélectionner le rapport à générer:",
 
     // Tab01 - Output labels
@@ -232,6 +233,7 @@ export const translations = {
     // Buttons
     "button.import": "Importer",
     "button.export": "Exporter",
+    "button.calculate-status": "Calculer le statut du crédit le:",
     "button.calculate": "Calculer",
     "button.generate": "Générer le tableau",    "button.select-all": "Tout sélectionner",
     "button.deselect-all": "Tout désélectionner",    "button.amortization-table": "Tableau d'amortissement",
@@ -333,7 +335,7 @@ export const translations = {
     // Tab01 - Section titles
     "section.input-fields": "In te vullen:",
     "section.loan-overview": "Overzicht lening:",
-    "section.loan-status-on": "Lening status op:",
+    /*"section.loan-status-on": "Lening status op:",*/
     "section.report-header": "Selecteer het rapport om te genereren:",
 
     // Tab01 - Output labels
@@ -384,7 +386,8 @@ export const translations = {
     // Buttons
     "button.import": "Importeren",
     "button.export": "Exporteren",
-    "button.calculate": "Bereken",
+    "button.calculate-status": "Bereken lening status op:",
+    "button.calculate": "Berekenen",
     "button.generate": "Genereer tabel",    "button.select-all": "Alles selecteren",
     "button.deselect-all": "Alles deselecteren",    "button.amortization-table": "Aflossingstabel",
     "button.print": "Afdrukken",

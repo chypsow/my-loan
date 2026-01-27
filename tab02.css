@@ -2,9 +2,8 @@
     max-width:var(--max-width);
     width:clamp(320px, 60%, 950px);
     margin:3rem auto;
-    padding:1.25rem;
+    padding:2rem;
     background: var(--glass);
-    /*opacity: .98;*/
     border-radius:var(--radius-wrapper);
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
@@ -31,14 +30,17 @@
 .overzicht-inhoud {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin-top: 1rem;
-    display: flex;
+    /*display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: .5rem;
+    gap: .5rem;*/
+    /*display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));*/
+    column-count: 2;
 }
-.overzicht-inhoud > * {
+/*.overzicht-inhoud > * {
     flex: 1;
-}
+}*/
 .overzicht-inhoud p {
     margin: 0;
     padding: .25rem 0;

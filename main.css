@@ -245,6 +245,7 @@ h1{
     background-color: var(--accent);
     color: var(--button-color);
     cursor: pointer;
+    white-space: nowrap;
     transition: background-color 0.3s, filter 0.3s;
 }
 .accented-btn:hover {

@@ -21,6 +21,10 @@ export function createTab02() {
 }
 
 function calculteTotals() {
+    const inputs = updateSummary('02');
+    if (!inputs) return;
+    const { bedrag, jkp, periode, renteType: type, startDate } = inputs;
+
     const datum1Input = $('#startdatum-status').value;
     const datum2Input = $('#einddatum-status').value;
     const datum1 = new Date(datum1Input);
@@ -29,10 +33,6 @@ function calculteTotals() {
         alert(t('message.valid-dates'));
         return;
     }
-
-    const inputs = updateSummary();
-    if (!inputs) return;
-    const { bedrag, jkp, periode, renteType: type, startDate } = inputs;
 
     // ensure datum1 en datum2 are between startDate and endDate of the loan
     const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + periode, startDate.getDate());

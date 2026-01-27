@@ -56,7 +56,7 @@ function printData() {
 }
 
 export function generateTable() {
-    const inputs = updateSummary();
+    const inputs = updateSummary('03');
     if (!inputs) return;
 
     const interval = parseInt($('#intervalInput').value);

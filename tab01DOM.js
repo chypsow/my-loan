@@ -31,7 +31,7 @@ function createTopRow() {
 function createMainSection() {
     return el("section", { class: "main-section" }, [
         createInputFieldset(),
-        createBerekenButton(),
+        //createBerekenButton(),
         createSummaryFieldset()
     ]);
 }
@@ -91,41 +91,51 @@ function createInputFieldset() {
 function createSummaryFieldset() {
     return el("div", { class: "summary-output" }, [
         createLeftSummaryFieldset(),
+        //  createBerekenButton(),
         createRightSummaryFieldset()
     ]);
 }
 
 function createLeftSummaryFieldset() {
-    return el("div", { class: "output-fields card-dark" }, [
-        el("h2", { "data-i18n": "section.loan-overview", text: t('section.loan-overview') }),
-        el("div", { class: "info-box", html: `
-            <p> <span data-i18n="output.loan-amount">${t('output.loan-amount')}</span>
-                <span class="output-overview loan-amount"></span>
-            </p>
-            <p> <span data-i18n="output.monthly-payment">${t('output.monthly-payment')}</span>
-                <span class="output-overview monthly-payment"></span>
-            </p>
-            <p> <span data-i18n="output.monthly-rate">${t('output.monthly-rate')}</span>
-                <span class="output-overview monthly-rate"></span>
-            </p>
-            <p> <span data-i18n="output.total-interest">${t('output.total-interest')}</span>
-                <span class="output-overview total-interest"></span>
-            </p>
-            <p> <span data-i18n="output.loan-period">${t('output.loan-period')}</span>
-                <span class="output-overview loan-period"></span>
-            </p>
-            <p> <span data-i18n="output.remaining-duration">${t('output.remaining-duration')}</span>
-                <span class="output-overview remaining-duration"></span>
-            </p>
-        `})
+    return el("div", { class: "overzicht" }, [
+        el("div", { class: 'overzicht-header' }, [
+            el("h2", { "data-i18n": "section.loan-overview", text: t('section.loan-overview') }),
+        ]),
+        el("div", { class: "overzicht-inhoud" }, [
+            el("div", { html: `
+                <p> <span data-i18n="output.loan-amount">${t('output.loan-amount')}</span>
+                    <span class="output-overview loan-amount"></span>
+                </p>
+                <p> <span data-i18n="output.monthly-payment">${t('output.monthly-payment')}</span>
+                    <span class="output-overview monthly-payment"></span>
+                </p>
+                <p> <span data-i18n="output.monthly-rate">${t('output.monthly-rate')}</span>
+                    <span class="output-overview monthly-rate"></span>
+                </p>
+            `}),
+            el("div", { html: `
+                <p> <span data-i18n="output.total-interest">${t('output.total-interest')}</span>
+                    <span class="output-overview total-interest"></span>
+                </p>
+                <p> <span data-i18n="output.loan-period">${t('output.loan-period')}</span>
+                    <span class="output-overview loan-period"></span>
+                </p>
+                <p> <span data-i18n="output.remaining-duration">${t('output.remaining-duration')}</span>
+                    <span class="output-overview remaining-duration"></span>
+                </p>
+            `})
+        ])
     ]);
 }
 
 function createRightSummaryFieldset() {
-    return el("div", { class: "output-fields card-dark" }, [
-        el("div", { class: "header-row-output", html: `<h2 data-i18n="section.loan-status-on">${t('section.loan-status-on')}</h2><input type="date" id="currentDate" class="invoer" }>` }),
+    return el("div", { class: "output-fields" }, [
+        el("div", { class: "header-row-output", html: `
+            <button id="berekenBtn-1" class="accented-btn no-print" data-i18n="button.calculate-status">${t('button.calculate-status')}</button>
+            <input type="date" id="currentDate" class="invoer" }>
+            ` 
+        }),
         el("div", { class: "info-box", html: `
-            
             <p> <span data-i18n="output.outstanding-capital">${t('output.outstanding-capital')}</span>
                 <span id="uitstaandKapitaal" class="output-tab01"></span>
             </p>

@@ -725,7 +725,7 @@ function exportInvoiceData() {
     if (billingPeriodType !== 'months') {
         const startDate = localStorage.getItem('invoiceBillingStartDate') || '';
         const endDate = localStorage.getItem('invoiceBillingEndDate') || '';
-        billingPeriodInfo = `From ${startDate} to ${endDate}`;
+        billingPeriodInfo = `${startDate};${endDate}`;
     }
 
     // Electricity
@@ -768,8 +768,10 @@ function exportInvoiceData() {
     const BOM = '\uFEFF';
     const blob = new Blob([BOM + csvPayload], { type: 'text/csv;charset=utf-8' });
     const url = window.URL.createObjectURL(blob);
-    const a = el('a', { href: url, download: 'invoice.csv' });
+    const a = el('a', { href: url, download: `${billingPeriodType === 'months' ? `invoice_${billingPeriod}_months` : `invoice_${localStorage.getItem('invoiceBillingEndDate')}`}.csv` });
+    //document.body.appendChild(a);
     a.click();
+    //document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 }
 

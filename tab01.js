@@ -62,7 +62,6 @@ export function createTab01() {
         let periode = parseInt($("#periode").value || "0", 10);
         if (startDate && periode > 0) {
             $("#eindDatum").classList.remove("eind-datum-hidden");
-            //let periode = parseInt($("#periode").value || "0", 10);
             const periodeEenheid = $("#periodeEenheid").value;
             if (periodeEenheid === "years") {
                 periode = periode * 12;
@@ -196,11 +195,6 @@ export function updateSummary(tab = '01') {
     $all('.endDateDisplay').forEach(elm => elm.textContent = fmtDate(endDate));
 
     console.log(`calculation within updateSummary called from tab${tab} complete`);
-
-    //const overzichtSimulator = $('.overzicht-inhoud-simulator');
-    /*if (overzichtSimulator.classList.contains('hidden')) {
-        overzichtSimulator.classList.remove('hidden');
-    }*/
     return inputs;
 }
 
@@ -229,7 +223,6 @@ function calculateRemainingCapitalAndInterest() {
     $("#afbetaaldeRente-1").textContent = fmtCurrency.format((betaling * periode - bedrag) - remaining.interest);
     $("#totaalBetaald-1").textContent = fmtCurrency.format(betaling * (periode - remaining.period));
 }
-
 
 export function computeRemaining(bedrag, jkp, periode, type, startDate, currentDate = new Date()) {
     const i = monthlyRate(jkp, type);
@@ -278,7 +271,6 @@ export function parseInputs() {
 }
 
 function resetOutputs() {
-    //$('.overzicht-inhoud-simulator').classList.add('hidden');
     resetOutputsOverview();
     resetOutputsTab01();
     resetOutputsTab02();

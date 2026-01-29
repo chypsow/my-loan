@@ -3,20 +3,19 @@ import { el, fmtDate, t } from './main.js';
 // Create Elements
 export function createSimulatorDOM() {
     const container = el("div", { class: "simulator" }, [
-        //createTopRow(),
         createMainSection(),
     ]);
     return container;
 }
 function createTopRow() {
-    function createCurrecyInput() {
+    const createCurrencyInput = () => {
         const currencyOptions = ['EUR', 'USD', 'CAD', 'GBP', 'CHF', 'JPY', 'TND', 'TRY', 'EGP', 'ZAR', 'SEK', 'DKK', 'NOK', 'PLN', 'CZK', 'HUF', 'RON', 'BGN', 'HRK', 'RSD'];
         return el("label", { class: "currency-input" }, [
             el("span", { "data-i18n": "label.currency", text: t('label.currency') }),
             el("select", { id: "currencySelect", class: "currency-select"}, currencyOptions.map(currency => el("option", { value: currency, text: currency })))
         ]);
     }
-    function createImportExportButtons() {
+    const createImportExportButtons = () => {
         return el("div", { class: "import-export-buttons no-print" }, [
             el("button", { id: "importBtn", "data-i18n": "button.import", text: t('button.import') }),
             el("button", { id: "exportBtn", "data-i18n": "button.export", text: t('button.export') })
@@ -24,7 +23,7 @@ function createTopRow() {
     }
     return el("div", { class: "top-row" }, [
         createImportExportButtons(),
-        createCurrecyInput()
+        createCurrencyInput()
     ]);
 }
 
@@ -38,10 +37,6 @@ function createMainSection() {
         createOutputFieldset()
     ]);
 }
-
-/*function createBerekenButton() {
-    return el('button', { id: 'berekenBtn-1', class: 'accented-btn no-print', "data-i18n": "button.calculate", text: t('button.calculate') });
-}*/
 
 function createInputFieldset() {
     const bedragInput = () => {

@@ -84,12 +84,9 @@
     margin-bottom: 0;
 }
 .overzicht-inhoud.overzicht-inhoud-simulator {
-    min-width: 400px;
+    min-width: 365px;
     column-count: 1;
 }
-/*.overzicht-inhoud.overzicht-inhoud-simulator.hidden {
-    visibility: hidden;
-}*/
 .header-row-output {
     display: flex;
     justify-content: flex-start;
@@ -104,12 +101,6 @@
     font-family: 'cambria', serif;
     font-size: 1.3rem;
 }
-/*.header-row-output span{
-    font-family: var(--font-mono);
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--accent-plus);
-}*/
 .header-row-inputs{
     display: flex;
     justify-content: space-between;
@@ -134,7 +125,7 @@
     /*padding: 1rem;*/
     margin:0;
     width:100%;
-    min-width: 475px;
+    min-width: 455px;
 }
 .form-inhoud{
     border-top: 1px solid var(--border);
